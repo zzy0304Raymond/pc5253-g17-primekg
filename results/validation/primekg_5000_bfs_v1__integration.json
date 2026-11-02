@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "structural_states": 10,
+  "metrics_per_state": 6,
+  "queries_per_state": 200,
+  "reference": "Independent NetworkX projection and PPI shortest paths. Not an execution of B/C/D/E modules.",
+  "manifest_sha256": "b067933d08ac95e3d432c8e2695a912d248cfdaccb7c112bfcbc4e8c51e16c96"
+}

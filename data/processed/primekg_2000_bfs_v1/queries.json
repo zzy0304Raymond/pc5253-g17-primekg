@@ -1,0 +1,2282 @@
+[
+  {
+    "query_id": 0,
+    "drug_nid": 1730,
+    "disease_nid": 1746,
+    "drug_x_index": 14249,
+    "disease_x_index": 28482,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 1,
+    "drug_nid": 1730,
+    "disease_nid": 1758,
+    "drug_x_index": 14249,
+    "disease_x_index": 31864,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 2,
+    "drug_nid": 1730,
+    "disease_nid": 1767,
+    "drug_x_index": 14249,
+    "disease_x_index": 33327,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 3,
+    "drug_nid": 1730,
+    "disease_nid": 1769,
+    "drug_x_index": 14249,
+    "disease_x_index": 33711,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 4,
+    "drug_nid": 1730,
+    "disease_nid": 1954,
+    "drug_x_index": 14249,
+    "disease_x_index": 35641,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 5,
+    "drug_nid": 1730,
+    "disease_nid": 1960,
+    "drug_x_index": 14249,
+    "disease_x_index": 36743,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 6,
+    "drug_nid": 1730,
+    "disease_nid": 1962,
+    "drug_x_index": 14249,
+    "disease_x_index": 36824,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 7,
+    "drug_nid": 1730,
+    "disease_nid": 1966,
+    "drug_x_index": 14249,
+    "disease_x_index": 37761,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 8,
+    "drug_nid": 1730,
+    "disease_nid": 1967,
+    "drug_x_index": 14249,
+    "disease_x_index": 38425,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 9,
+    "drug_nid": 1730,
+    "disease_nid": 1968,
+    "drug_x_index": 14249,
+    "disease_x_index": 39227,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 10,
+    "drug_nid": 1730,
+    "disease_nid": 1969,
+    "drug_x_index": 14249,
+    "disease_x_index": 39815,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 11,
+    "drug_nid": 1731,
+    "disease_nid": 1743,
+    "drug_x_index": 15242,
+    "disease_x_index": 27248,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      358
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 12,
+    "drug_nid": 1731,
+    "disease_nid": 1750,
+    "drug_x_index": 15242,
+    "disease_x_index": 29061,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      744
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 13,
+    "drug_nid": 1731,
+    "disease_nid": 1768,
+    "drug_x_index": 15242,
+    "disease_x_index": 33680,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      744
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 14,
+    "drug_nid": 1731,
+    "disease_nid": 1954,
+    "drug_x_index": 15242,
+    "disease_x_index": 35641,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      619
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 15,
+    "drug_nid": 1731,
+    "disease_nid": 1961,
+    "drug_x_index": 15242,
+    "disease_x_index": 36812,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      192
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 16,
+    "drug_nid": 1732,
+    "disease_nid": 1743,
+    "drug_x_index": 16830,
+    "disease_x_index": 27248,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 17,
+    "drug_nid": 1732,
+    "disease_nid": 1744,
+    "drug_x_index": 16830,
+    "disease_x_index": 27933,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 18,
+    "drug_nid": 1732,
+    "disease_nid": 1745,
+    "drug_x_index": 16830,
+    "disease_x_index": 28347,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 19,
+    "drug_nid": 1732,
+    "disease_nid": 1746,
+    "drug_x_index": 16830,
+    "disease_x_index": 28482,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 20,
+    "drug_nid": 1732,
+    "disease_nid": 1750,
+    "drug_x_index": 16830,
+    "disease_x_index": 29061,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 21,
+    "drug_nid": 1732,
+    "disease_nid": 1752,
+    "drug_x_index": 16830,
+    "disease_x_index": 30035,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 22,
+    "drug_nid": 1732,
+    "disease_nid": 1754,
+    "drug_x_index": 16830,
+    "disease_x_index": 30449,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 23,
+    "drug_nid": 1732,
+    "disease_nid": 1755,
+    "drug_x_index": 16830,
+    "disease_x_index": 30800,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 24,
+    "drug_nid": 1732,
+    "disease_nid": 1758,
+    "drug_x_index": 16830,
+    "disease_x_index": 31864,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 25,
+    "drug_nid": 1732,
+    "disease_nid": 1759,
+    "drug_x_index": 16830,
+    "disease_x_index": 32325,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 26,
+    "drug_nid": 1732,
+    "disease_nid": 1762,
+    "drug_x_index": 16830,
+    "disease_x_index": 32692,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 27,
+    "drug_nid": 1732,
+    "disease_nid": 1763,
+    "drug_x_index": 16830,
+    "disease_x_index": 32727,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 28,
+    "drug_nid": 1732,
+    "disease_nid": 1767,
+    "drug_x_index": 16830,
+    "disease_x_index": 33327,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 29,
+    "drug_nid": 1732,
+    "disease_nid": 1768,
+    "drug_x_index": 16830,
+    "disease_x_index": 33680,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 30,
+    "drug_nid": 1732,
+    "disease_nid": 1769,
+    "drug_x_index": 16830,
+    "disease_x_index": 33711,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 31,
+    "drug_nid": 1732,
+    "disease_nid": 1954,
+    "drug_x_index": 16830,
+    "disease_x_index": 35641,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 32,
+    "drug_nid": 1732,
+    "disease_nid": 1955,
+    "drug_x_index": 16830,
+    "disease_x_index": 35771,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 33,
+    "drug_nid": 1732,
+    "disease_nid": 1956,
+    "drug_x_index": 16830,
+    "disease_x_index": 36105,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 34,
+    "drug_nid": 1732,
+    "disease_nid": 1957,
+    "drug_x_index": 16830,
+    "disease_x_index": 36265,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 35,
+    "drug_nid": 1732,
+    "disease_nid": 1959,
+    "drug_x_index": 16830,
+    "disease_x_index": 36691,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 36,
+    "drug_nid": 1732,
+    "disease_nid": 1960,
+    "drug_x_index": 16830,
+    "disease_x_index": 36743,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 37,
+    "drug_nid": 1732,
+    "disease_nid": 1962,
+    "drug_x_index": 16830,
+    "disease_x_index": 36824,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 38,
+    "drug_nid": 1732,
+    "disease_nid": 1965,
+    "drug_x_index": 16830,
+    "disease_x_index": 37334,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 39,
+    "drug_nid": 1732,
+    "disease_nid": 1966,
+    "drug_x_index": 16830,
+    "disease_x_index": 37761,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 40,
+    "drug_nid": 1732,
+    "disease_nid": 1967,
+    "drug_x_index": 16830,
+    "disease_x_index": 38425,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 41,
+    "drug_nid": 1732,
+    "disease_nid": 1968,
+    "drug_x_index": 16830,
+    "disease_x_index": 39227,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 42,
+    "drug_nid": 1732,
+    "disease_nid": 1969,
+    "drug_x_index": 16830,
+    "disease_x_index": 39815,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 43,
+    "drug_nid": 1732,
+    "disease_nid": 1970,
+    "drug_x_index": 16830,
+    "disease_x_index": 39819,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 44,
+    "drug_nid": 1732,
+    "disease_nid": 1998,
+    "drug_x_index": 16830,
+    "disease_x_index": 84243,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 45,
+    "drug_nid": 1732,
+    "disease_nid": 1999,
+    "drug_x_index": 16830,
+    "disease_x_index": 84244,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 1,
+    "group": "single",
+    "intermediates": [
+      3
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 46,
+    "drug_nid": 1730,
+    "disease_nid": 1743,
+    "drug_x_index": 14249,
+    "disease_x_index": 27248,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 47,
+    "drug_nid": 1730,
+    "disease_nid": 1744,
+    "drug_x_index": 14249,
+    "disease_x_index": 27933,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 8,
+    "group": "multi",
+    "intermediates": [
+      3,
+      216,
+      297,
+      363,
+      364,
+      425,
+      497,
+      550
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 48,
+    "drug_nid": 1730,
+    "disease_nid": 1745,
+    "drug_x_index": 14249,
+    "disease_x_index": 28347,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 7,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      297,
+      363,
+      364,
+      497,
+      646
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 49,
+    "drug_nid": 1730,
+    "disease_nid": 1747,
+    "drug_x_index": 14249,
+    "disease_x_index": 28547,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 50,
+    "drug_nid": 1730,
+    "disease_nid": 1748,
+    "drug_x_index": 14249,
+    "disease_x_index": 28801,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 51,
+    "drug_nid": 1730,
+    "disease_nid": 1749,
+    "drug_x_index": 14249,
+    "disease_x_index": 28974,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 52,
+    "drug_nid": 1730,
+    "disease_nid": 1750,
+    "drug_x_index": 14249,
+    "disease_x_index": 29061,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      363
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 53,
+    "drug_nid": 1730,
+    "disease_nid": 1751,
+    "drug_x_index": 14249,
+    "disease_x_index": 29646,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 6,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      216,
+      364,
+      497,
+      550
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 54,
+    "drug_nid": 1730,
+    "disease_nid": 1752,
+    "drug_x_index": 14249,
+    "disease_x_index": 30035,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      3,
+      297,
+      363,
+      364
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 55,
+    "drug_nid": 1730,
+    "disease_nid": 1753,
+    "drug_x_index": 14249,
+    "disease_x_index": 30093,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 56,
+    "drug_nid": 1730,
+    "disease_nid": 1754,
+    "drug_x_index": 14249,
+    "disease_x_index": 30449,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 57,
+    "drug_nid": 1730,
+    "disease_nid": 1755,
+    "drug_x_index": 14249,
+    "disease_x_index": 30800,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 58,
+    "drug_nid": 1730,
+    "disease_nid": 1756,
+    "drug_x_index": 14249,
+    "disease_x_index": 31116,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 5,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      216,
+      497,
+      550
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 59,
+    "drug_nid": 1730,
+    "disease_nid": 1757,
+    "drug_x_index": 14249,
+    "disease_x_index": 31408,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 60,
+    "drug_nid": 1730,
+    "disease_nid": 1759,
+    "drug_x_index": 14249,
+    "disease_x_index": 32325,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 61,
+    "drug_nid": 1730,
+    "disease_nid": 1760,
+    "drug_x_index": 14249,
+    "disease_x_index": 32617,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 8,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      216,
+      297,
+      363,
+      364,
+      497,
+      646
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 62,
+    "drug_nid": 1730,
+    "disease_nid": 1761,
+    "drug_x_index": 14249,
+    "disease_x_index": 32621,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      364,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 63,
+    "drug_nid": 1730,
+    "disease_nid": 1762,
+    "drug_x_index": 14249,
+    "disease_x_index": 32692,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 64,
+    "drug_nid": 1730,
+    "disease_nid": 1763,
+    "drug_x_index": 14249,
+    "disease_x_index": 32727,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 65,
+    "drug_nid": 1730,
+    "disease_nid": 1764,
+    "drug_x_index": 14249,
+    "disease_x_index": 32759,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 66,
+    "drug_nid": 1730,
+    "disease_nid": 1765,
+    "drug_x_index": 14249,
+    "disease_x_index": 32974,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 67,
+    "drug_nid": 1730,
+    "disease_nid": 1766,
+    "drug_x_index": 14249,
+    "disease_x_index": 33241,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      297,
+      363,
+      497
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 68,
+    "drug_nid": 1730,
+    "disease_nid": 1768,
+    "drug_x_index": 14249,
+    "disease_x_index": 33680,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      363
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 69,
+    "drug_nid": 1730,
+    "disease_nid": 1955,
+    "drug_x_index": 14249,
+    "disease_x_index": 35771,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 7,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      297,
+      363,
+      364,
+      497,
+      646
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 70,
+    "drug_nid": 1730,
+    "disease_nid": 1956,
+    "drug_x_index": 14249,
+    "disease_x_index": 36105,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      3,
+      297,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 71,
+    "drug_nid": 1730,
+    "disease_nid": 1957,
+    "drug_x_index": 14249,
+    "disease_x_index": 36265,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 72,
+    "drug_nid": 1730,
+    "disease_nid": 1958,
+    "drug_x_index": 14249,
+    "disease_x_index": 36634,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 6,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      216,
+      364,
+      497,
+      550
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 73,
+    "drug_nid": 1730,
+    "disease_nid": 1959,
+    "drug_x_index": 14249,
+    "disease_x_index": 36691,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 7,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      297,
+      363,
+      364,
+      497,
+      646
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 74,
+    "drug_nid": 1730,
+    "disease_nid": 1961,
+    "drug_x_index": 14249,
+    "disease_x_index": 36812,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      497,
+      550
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 75,
+    "drug_nid": 1730,
+    "disease_nid": 1963,
+    "drug_x_index": 14249,
+    "disease_x_index": 36999,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      364,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 76,
+    "drug_nid": 1730,
+    "disease_nid": 1964,
+    "drug_x_index": 14249,
+    "disease_x_index": 37115,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      364,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 77,
+    "drug_nid": 1730,
+    "disease_nid": 1965,
+    "drug_x_index": 14249,
+    "disease_x_index": 37334,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      497
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 78,
+    "drug_nid": 1730,
+    "disease_nid": 1970,
+    "drug_x_index": 14249,
+    "disease_x_index": 39819,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      497
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 79,
+    "drug_nid": 1730,
+    "disease_nid": 1998,
+    "drug_x_index": 14249,
+    "disease_x_index": 84243,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 7,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      297,
+      363,
+      364,
+      497,
+      646
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 80,
+    "drug_nid": 1730,
+    "disease_nid": 1999,
+    "drug_x_index": 14249,
+    "disease_x_index": 84244,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 7,
+    "group": "multi",
+    "intermediates": [
+      3,
+      74,
+      297,
+      363,
+      364,
+      497,
+      646
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 81,
+    "drug_nid": 1731,
+    "disease_nid": 1744,
+    "drug_x_index": 15242,
+    "disease_x_index": 27933,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      287,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 82,
+    "drug_nid": 1731,
+    "disease_nid": 1745,
+    "drug_x_index": 15242,
+    "disease_x_index": 28347,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 17,
+    "group": "multi",
+    "intermediates": [
+      0,
+      54,
+      158,
+      233,
+      278,
+      287,
+      335,
+      358,
+      537,
+      558,
+      619,
+      689,
+      824,
+      864,
+      1352,
+      1382,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 83,
+    "drug_nid": 1731,
+    "disease_nid": 1747,
+    "drug_x_index": 15242,
+    "disease_x_index": 28547,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 84,
+    "drug_nid": 1731,
+    "disease_nid": 1748,
+    "drug_x_index": 15242,
+    "disease_x_index": 28801,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 85,
+    "drug_nid": 1731,
+    "disease_nid": 1749,
+    "drug_x_index": 15242,
+    "disease_x_index": 28974,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 86,
+    "drug_nid": 1731,
+    "disease_nid": 1751,
+    "drug_x_index": 15242,
+    "disease_x_index": 29646,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      192,
+      537,
+      689,
+      958
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 87,
+    "drug_nid": 1731,
+    "disease_nid": 1752,
+    "drug_x_index": 15242,
+    "disease_x_index": 30035,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      287,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 88,
+    "drug_nid": 1731,
+    "disease_nid": 1753,
+    "drug_x_index": 15242,
+    "disease_x_index": 30093,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 89,
+    "drug_nid": 1731,
+    "disease_nid": 1756,
+    "drug_x_index": 15242,
+    "disease_x_index": 31116,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 5,
+    "group": "multi",
+    "intermediates": [
+      158,
+      192,
+      230,
+      689,
+      788
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 90,
+    "drug_nid": 1731,
+    "disease_nid": 1757,
+    "drug_x_index": 15242,
+    "disease_x_index": 31408,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 91,
+    "drug_nid": 1731,
+    "disease_nid": 1760,
+    "drug_x_index": 15242,
+    "disease_x_index": 32617,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 17,
+    "group": "multi",
+    "intermediates": [
+      0,
+      54,
+      158,
+      233,
+      278,
+      287,
+      335,
+      358,
+      537,
+      558,
+      619,
+      689,
+      824,
+      864,
+      1352,
+      1382,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 92,
+    "drug_nid": 1731,
+    "disease_nid": 1761,
+    "drug_x_index": 15242,
+    "disease_x_index": 32621,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      537,
+      689,
+      958
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 93,
+    "drug_nid": 1731,
+    "disease_nid": 1764,
+    "drug_x_index": 15242,
+    "disease_x_index": 32759,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 94,
+    "drug_nid": 1731,
+    "disease_nid": 1765,
+    "drug_x_index": 15242,
+    "disease_x_index": 32974,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 95,
+    "drug_nid": 1731,
+    "disease_nid": 1766,
+    "drug_x_index": 15242,
+    "disease_x_index": 33241,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      0,
+      388,
+      824,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 96,
+    "drug_nid": 1731,
+    "disease_nid": 1955,
+    "drug_x_index": 15242,
+    "disease_x_index": 35771,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 17,
+    "group": "multi",
+    "intermediates": [
+      0,
+      54,
+      158,
+      233,
+      278,
+      287,
+      335,
+      358,
+      537,
+      558,
+      619,
+      689,
+      824,
+      864,
+      1352,
+      1382,
+      1717
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 97,
+    "drug_nid": 1731,
+    "disease_nid": 1958,
+    "drug_x_index": 15242,
+    "disease_x_index": 36634,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 4,
+    "group": "multi",
+    "intermediates": [
+      192,
+      537,
+      689,
+      958
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 98,
+    "drug_nid": 1731,
+    "disease_nid": 1959,
+    "drug_x_index": 15242,
+    "disease_x_index": 36691,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 17,
+    "group": "multi",
+    "intermediates": [
+      0,
+      54,
+      158,
+      233,
+      278,
+      287,
+      335,
+      358,
+      537,
+      558,
+      619,
+      689,
+      824,
+      864,
+      1352,
+      1382,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 99,
+    "drug_nid": 1731,
+    "disease_nid": 1963,
+    "drug_x_index": 15242,
+    "disease_x_index": 36999,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      537,
+      689,
+      958
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 100,
+    "drug_nid": 1731,
+    "disease_nid": 1964,
+    "drug_x_index": 15242,
+    "disease_x_index": 37115,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 3,
+    "group": "multi",
+    "intermediates": [
+      537,
+      689,
+      958
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 101,
+    "drug_nid": 1731,
+    "disease_nid": 1965,
+    "drug_x_index": 15242,
+    "disease_x_index": 37334,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 15,
+    "group": "multi",
+    "intermediates": [
+      0,
+      54,
+      158,
+      233,
+      287,
+      335,
+      358,
+      537,
+      558,
+      619,
+      689,
+      824,
+      864,
+      1382,
+      1717
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 102,
+    "drug_nid": 1731,
+    "disease_nid": 1998,
+    "drug_x_index": 15242,
+    "disease_x_index": 84243,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 17,
+    "group": "multi",
+    "intermediates": [
+      0,
+      54,
+      158,
+      233,
+      278,
+      287,
+      335,
+      358,
+      537,
+      558,
+      619,
+      689,
+      824,
+      864,
+      1352,
+      1382,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 103,
+    "drug_nid": 1731,
+    "disease_nid": 1999,
+    "drug_x_index": 15242,
+    "disease_x_index": 84244,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 17,
+    "group": "multi",
+    "intermediates": [
+      0,
+      54,
+      158,
+      233,
+      278,
+      287,
+      335,
+      358,
+      537,
+      558,
+      619,
+      689,
+      824,
+      864,
+      1352,
+      1382,
+      1717
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 104,
+    "drug_nid": 1732,
+    "disease_nid": 1751,
+    "drug_x_index": 16830,
+    "disease_x_index": 29646,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 105,
+    "drug_nid": 1732,
+    "disease_nid": 1756,
+    "drug_x_index": 16830,
+    "disease_x_index": 31116,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 106,
+    "drug_nid": 1732,
+    "disease_nid": 1760,
+    "drug_x_index": 16830,
+    "disease_x_index": 32617,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 107,
+    "drug_nid": 1732,
+    "disease_nid": 1761,
+    "drug_x_index": 16830,
+    "disease_x_index": 32621,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 108,
+    "drug_nid": 1732,
+    "disease_nid": 1958,
+    "drug_x_index": 16830,
+    "disease_x_index": 36634,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 109,
+    "drug_nid": 1732,
+    "disease_nid": 1961,
+    "drug_x_index": 16830,
+    "disease_x_index": 36812,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "train"
+  },
+  {
+    "query_id": 110,
+    "drug_nid": 1732,
+    "disease_nid": 1963,
+    "drug_x_index": 16830,
+    "disease_x_index": 36999,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "test"
+  },
+  {
+    "query_id": 111,
+    "drug_nid": 1732,
+    "disease_nid": 1964,
+    "drug_x_index": 16830,
+    "disease_x_index": 37115,
+    "relation_pattern": [
+      "drug_protein",
+      "disease_protein"
+    ],
+    "max_hops": 2,
+    "redundancy_m": 2,
+    "group": "multi",
+    "intermediates": [
+      3,
+      4
+    ],
+    "split": "train"
+  }
+]

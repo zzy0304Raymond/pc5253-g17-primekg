@@ -1,0 +1,22 @@
+{
+  "candidate_counts": {
+    "single": 916,
+    "multi": 198
+  },
+  "selected_counts": {
+    "single": 100,
+    "multi": 100
+  },
+  "sampling_seed": 42,
+  "split_seed": 42,
+  "sampling": "Separate default_rng(42) permutation per sorted group; chosen indices sorted; single then multi",
+  "split": "default_rng(42).permutation(query_id)[:round(0.7*n)]",
+  "unique_drugs": 51,
+  "unique_diseases": 53,
+  "m_distribution": {
+    "1": 100,
+    "2": 84,
+    "3": 15,
+    "5": 1
+  }
+}

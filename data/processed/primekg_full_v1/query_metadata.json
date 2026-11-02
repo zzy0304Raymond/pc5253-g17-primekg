@@ -1,0 +1,7 @@
+{
+  "scope": "Structural full-graph comparison only; no functional benchmark defined",
+  "candidate_counts": {},
+  "selected_counts": {},
+  "sampling_seed": null,
+  "split_seed": null
+}

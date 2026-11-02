@@ -1,0 +1,13 @@
+data/raw/
+.venv/
+.tools/
+.build/
+node_modules/
+.chart-data-*/
+.codex-finalizer/
+__pycache__/
+*.pyc
+.pytest_cache/
+dist/
+*.part
+

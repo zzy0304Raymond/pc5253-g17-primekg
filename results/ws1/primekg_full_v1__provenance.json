@@ -1,0 +1,154 @@
+{
+  "gid": "primekg_full_v1",
+  "manifest_sha256": "55b3b75b0d8e02f669b43787dd4ac933a4ac2b875e7f6aef64f9f8b65858821f",
+  "theory_module": "src.ws1_theory_reference",
+  "theory_source_sha256": "44effa43748a184164e5d977b9704040f8ff48279f03b3af0a0502162d1c5da2",
+  "percolation_source_sha256": "3c005fc6813bad4fdc34ea226f259ecac7555e2c4359690a5722bebaaafcd6c7",
+  "edge_levels": [
+    0,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.85,
+    0.9,
+    0.95,
+    0.97,
+    0.99
+  ],
+  "node_levels": [
+    0,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "timings": [
+    {
+      "strategy": "edge_random",
+      "seed": 0,
+      "seconds": 1.8079436000261921
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 1,
+      "seconds": 1.8136208999785595
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 2,
+      "seconds": 1.759501900000032
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 3,
+      "seconds": 1.7715192000032403
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 4,
+      "seconds": 1.7502335999743082
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 5,
+      "seconds": 1.7889660999935586
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 6,
+      "seconds": 1.769700799981365
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 7,
+      "seconds": 1.8595542999973986
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 8,
+      "seconds": 1.7323976999905426
+    },
+    {
+      "strategy": "edge_random",
+      "seed": 9,
+      "seconds": 1.7392501999856904
+    },
+    {
+      "strategy": "node_random",
+      "seed": 0,
+      "seconds": 1.7147936999972444
+    },
+    {
+      "strategy": "node_random",
+      "seed": 1,
+      "seconds": 1.512800700002117
+    },
+    {
+      "strategy": "node_random",
+      "seed": 2,
+      "seconds": 1.501736800011713
+    },
+    {
+      "strategy": "node_random",
+      "seed": 3,
+      "seconds": 1.5174168999947142
+    },
+    {
+      "strategy": "node_random",
+      "seed": 4,
+      "seconds": 1.5516984999994747
+    },
+    {
+      "strategy": "node_random",
+      "seed": 5,
+      "seconds": 1.492104200005997
+    },
+    {
+      "strategy": "node_random",
+      "seed": 6,
+      "seconds": 1.4841110999986995
+    },
+    {
+      "strategy": "node_random",
+      "seed": 7,
+      "seconds": 1.5524652000167407
+    },
+    {
+      "strategy": "node_random",
+      "seed": 8,
+      "seconds": 1.454014199989615
+    },
+    {
+      "strategy": "node_random",
+      "seed": 9,
+      "seconds": 1.5363616999820806
+    }
+  ],
+  "theory_note": "GF assumes uncorrelated locally tree-like infinite configuration model; evaluated at actual retained fraction. Fallback is A reference, not D-approved.",
+  "run_python": "3.11.9",
+  "requirements_lock_sha256": "487ea90d2bc375256fabf48d0f102ba934ee341df4ea51b1bf41863dad35c34b"
+}

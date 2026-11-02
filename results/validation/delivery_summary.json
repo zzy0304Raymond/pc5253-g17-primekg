@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "run_python": "3.11.9",
+  "graphs": [
+    {
+      "gid": "primekg_2000_bfs_v1",
+      "nodes": 2000,
+      "edges": 32468,
+      "queries": 112,
+      "results_rows": 1846,
+      "mean_degree": 32.468
+    },
+    {
+      "gid": "primekg_5000_bfs_v1",
+      "nodes": 5000,
+      "edges": 117891,
+      "queries": 200,
+      "results_rows": 1846,
+      "mean_degree": 47.1564
+    },
+    {
+      "gid": "primekg_full_v1",
+      "nodes": 30968,
+      "edges": 426954,
+      "queries": 0,
+      "results_rows": 1846,
+      "mean_degree": 27.573882717644018
+    }
+  ],
+  "formal_random_trajectories": 60,
+  "formal_result_rows": 5538,
+  "limitations": [
+    "D/E reference integration pending actual modules",
+    "2000 graph has 112 queries / 3 drugs",
+    "Full graph structural only",
+    "Course submission, rehearsal and peer grading not performed"
+  ],
+  "raw_sha256": "0a5a010fcd88dcec572a573d98c26c1c244a11567092b6161d3ded611cfb5c69"
+}

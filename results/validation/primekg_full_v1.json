@@ -1,0 +1,44 @@
+{
+  "gid": "primekg_full_v1",
+  "n_nodes": 30968,
+  "n_edges": 426954,
+  "n_structural_edges": 426954,
+  "node_type_counts": {
+    "gene/protein": 19093,
+    "drug": 6282,
+    "disease": 5593
+  },
+  "relation_counts": {
+    "disease_protein": 80411,
+    "drug_protein": 25468,
+    "protein_protein": 321075
+  },
+  "query_counts": {},
+  "query_split_counts": {},
+  "pairs_with_multiple_relations": 0,
+  "gcc_size": 30921,
+  "n_components": 23,
+  "n_isolated": 0,
+  "n_proteins": 19093,
+  "ppi_zero_degree_count": 739,
+  "ppi_gcc_size": 18345,
+  "unique_query_drugs": 0,
+  "unique_query_diseases": 0,
+  "max_queries_per_disease": 0,
+  "warnings": [
+    "single: only 0 selected queries; no padding",
+    "multi: only 0 selected queries; no padding"
+  ],
+  "metrics": {
+    "gcc_frac": "gcc_size/N_original",
+    "isolated_frac": "alive isolated/N_original",
+    "avg_degree": "2*alive_structural_edges/N_alive; 0 for empty graph",
+    "n_components": "alive nodes only"
+  },
+  "environment": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "pandas": "3.1.0",
+    "networkx": "3.6.1"
+  }
+}

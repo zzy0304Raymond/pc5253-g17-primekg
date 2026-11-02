@@ -1,0 +1,104 @@
+{
+  "gid": "toy_v1",
+  "n_nodes": 720,
+  "n_edges": 3060,
+  "n_structural_edges": 3060,
+  "node_type_counts": {
+    "drug": 60,
+    "disease": 60,
+    "gene/protein": 600
+  },
+  "relation_counts": {
+    "disease_protein": 864,
+    "drug_protein": 405,
+    "protein_protein": 1791
+  },
+  "query_counts": {
+    "single": 100,
+    "multi": 100
+  },
+  "query_split_counts": {
+    "single_train": 68,
+    "single_test": 32,
+    "multi_train": 72,
+    "multi_test": 28
+  },
+  "pairs_with_multiple_relations": 0,
+  "gcc_size": 720,
+  "n_components": 1,
+  "n_isolated": 0,
+  "n_proteins": 600,
+  "ppi_zero_degree_count": 0,
+  "ppi_gcc_size": 600,
+  "unique_query_drugs": 51,
+  "unique_query_diseases": 53,
+  "max_queries_per_disease": 8,
+  "warnings": [],
+  "metrics": {
+    "gcc_frac": "gcc_size/N_original",
+    "isolated_frac": "alive isolated/N_original",
+    "avg_degree": "2*alive_structural_edges/N_alive; 0 for empty graph",
+    "n_components": "alive nodes only"
+  },
+  "environment": {
+    "python": "3.14.3",
+    "numpy": "2.4.4",
+    "pandas": "3.0.5",
+    "networkx": "3.6.1"
+  },
+  "build": {
+    "source": "G17_Work_Plan Appendix A",
+    "seed": 42,
+    "synthetic": true
+  },
+  "queries": {
+    "candidate_counts": {
+      "single": 916,
+      "multi": 198
+    },
+    "selected_counts": {
+      "single": 100,
+      "multi": 100
+    },
+    "sampling_seed": 42,
+    "split_seed": 42,
+    "sampling": "Separate default_rng(42) permutation per sorted group; chosen indices sorted; single then multi",
+    "split": "default_rng(42).permutation(query_id)[:round(0.7*n)]",
+    "unique_drugs": 51,
+    "unique_diseases": 53,
+    "m_distribution": {
+      "1": 100,
+      "2": 84,
+      "3": 15,
+      "5": 1
+    }
+  },
+  "sha256": {
+    "build_metadata.json": "1bcd9e7b0ccf1f93b25f7e8f21de1e5400a7d8e7877efb539832ffea727f4579",
+    "edges.csv": "226d0c758eb44f43346b5b6a82d92be5f45db04c4acd87297996c0bad86919ce",
+    "node_features.csv": "6c151794809e219c83c3b4e63001f4b37701dcb1705257ffc0e7349e050e92c9",
+    "nodes.csv": "9a1f4792d4730bf2f111ed7c4004869a4ce1345d940cb8e81b526ef376be54f4",
+    "orders/edge_random_s0.npy": "e665bdb27286ee75b419e036a29ffddf5c72f71d0364fd0bf7c130fcac684541",
+    "orders/edge_random_s1.npy": "c892905608192ca40339f40ec22744e651815b656cfa6641594a86ebcd7fc8b2",
+    "orders/edge_random_s2.npy": "a2499bb888f16928d27e22f0d2524c4c60cb41e6fba0f6e07ca6f330392714a2",
+    "orders/edge_random_s3.npy": "78e5900d8869705d5f160b33d1f8b4837f8c9bbe6a103f95b4c8c96ed7b30083",
+    "orders/edge_random_s4.npy": "550dee6a971af5b2af53705d3af261ccdb24131a6616a04f7b1d2628d3e348ae",
+    "orders/edge_random_s5.npy": "9c1abd3cbf90e12f5a70bf333d37ccc71843cf63b7dc656a6611195138f0f16f",
+    "orders/edge_random_s6.npy": "21e832215f28205e28006b96ccd99dab83a7dd13e95f8f8212aaf6959b01f262",
+    "orders/edge_random_s7.npy": "6d6131dd43240d0d2e778c6e73fefba3fe03153cb83d43479cf9bdcc80cf1413",
+    "orders/edge_random_s8.npy": "989276656233751f3696ea9fbb2272f1a3ae038d2c7e0e59a9d1cb68da57b58c",
+    "orders/edge_random_s9.npy": "54937bbd3274b9ed30a39695d0b1aa0084d4e0b907bc11fecae435f465b3a69d",
+    "orders/node_random_s0.npy": "5f5aea2d5ef5fce9bd4d9f0046c827be68380c9fff49c66ebc99aed357d35fd0",
+    "orders/node_random_s1.npy": "ee1dfe117cab54546337083d4ff9f8a6748f9bd628e8aabe8a7e7908220ff120",
+    "orders/node_random_s2.npy": "063480dd808e8154b40c25e2be4a3f9cf53f825a2fc436a876b0884327360126",
+    "orders/node_random_s3.npy": "a6df2395cc95495e0a748836677860d11686e7e18c939b91a5fb32c2e12cb4c5",
+    "orders/node_random_s4.npy": "b63dd4cdee6d105615bce8a6dcff3f9d51f6e40f036e09b956760a3dcde1b91e",
+    "orders/node_random_s5.npy": "cc9a12c6d80de57260d467c667a0506a5508503f34d02358f85304c96b2ced02",
+    "orders/node_random_s6.npy": "354ffccd8bb733dc295d4468e7e2dcdad2048783fe2b6d1daae2fb92fa5c6403",
+    "orders/node_random_s7.npy": "463879e1110e735f6287bdd39b3c82cdfefa28c6c1642beed5a66d6cefe8dbd1",
+    "orders/node_random_s8.npy": "28e3b3116d2fc1cfa41724f9500d056fcccb93021a32e0d2cab3afdbbb090f13",
+    "orders/node_random_s9.npy": "27bdbc6ab4c7f09d96967c5f535da4c06ee362491ac962f4929a3305cea33fc1",
+    "queries.json": "57a3358d06898614f49026b8752ce1863282ed7deed77ca38e61eeaa24151790",
+    "query_metadata.json": "cd0bed65f1f08ef14af1e22cf6932966c347c63d339a2ce1b017c4cfba609c7e"
+  }
+}

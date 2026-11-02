@@ -1,0 +1,32 @@
+{
+  "candidate_counts": {
+    "single": 3175,
+    "multi": 1264
+  },
+  "selected_counts": {
+    "single": 100,
+    "multi": 100
+  },
+  "sampling_seed": 42,
+  "split_seed": 42,
+  "sampling": "Separate default_rng(42) permutation per sorted group; chosen indices sorted; single then multi",
+  "split": "default_rng(42).permutation(query_id)[:round(0.7*n)]",
+  "unique_drugs": 39,
+  "unique_diseases": 127,
+  "m_distribution": {
+    "1": 100,
+    "2": 46,
+    "3": 28,
+    "4": 5,
+    "5": 9,
+    "6": 1,
+    "7": 2,
+    "8": 2,
+    "9": 1,
+    "10": 2,
+    "11": 1,
+    "13": 1,
+    "15": 1,
+    "17": 1
+  }
+}

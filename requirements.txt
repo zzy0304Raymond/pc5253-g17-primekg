@@ -1,0 +1,8 @@
+# Compatible Python >=3.11. Exact tested environment: requirements-lock.txt.
+numpy>=1.26
+pandas>=2.1
+scipy>=1.11
+networkx>=3.2
+matplotlib>=3.8
+scikit-learn>=1.3
+

@@ -1,0 +1,8 @@
+# Frozen data is hashed byte-for-byte by manifest.json.
+data/processed/** -text
+results/** -text
+figures/** -text
+slides/** -text
+*.md text eol=lf
+*.py text eol=lf
+*.mjs text eol=lf

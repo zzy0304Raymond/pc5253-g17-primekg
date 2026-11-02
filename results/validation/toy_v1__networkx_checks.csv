@@ -1,0 +1,11 @@
+strategy,seed,frac_removed,n_removed,gcc_size,n_components,n_isolated,n_alive,n_structural_edges,n_semantic_edges
+edge_random,0,0.0,0,720,1,0,720,3060,3060
+edge_random,0,0.3,918,713,8,7,720,2142,2142
+edge_random,0,0.5,1530,693,28,27,720,1530,1530
+edge_random,0,0.9,2754,128,418,353,720,306,306
+edge_random,0,1.0,3060,1,720,720,720,0,0
+node_random,0,0.0,0,720,1,0,720,3060,3060
+node_random,0,0.3,216,502,3,2,504,1467,1467
+node_random,0,0.5,360,344,17,16,360,731,731
+node_random,0,0.9,648,28,40,36,72,32,32
+node_random,0,1.0,720,0,0,0,0,0,0
