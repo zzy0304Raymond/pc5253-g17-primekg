@@ -1,0 +1,1 @@
+Recovery gains are paired within damage seed; mean ± sample SD. Budgets are fractions of removed edges. See summary CSV for actual restored counts. Relation-type strategy stops at candidate exhaustion; equal budget limits may mean unequal spend. Only test queries are evaluated. Local check; B/C integration pending.

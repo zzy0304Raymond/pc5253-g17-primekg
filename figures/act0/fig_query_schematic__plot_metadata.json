@@ -1,0 +1,18 @@
+{
+  "template": "fig_query_schematic",
+  "inputs": [],
+  "filters": {
+    "gid": null,
+    "frac_removed": null
+  },
+  "rows_before_filter": 0,
+  "rows_after_filter": 0,
+  "uncertainty": "sample SD across equal seed sets (ddof=1); seed=-1 is deterministic",
+  "recovery": "paired gain relative to each seed's zero budget; efficiency per 1000 restored edges",
+  "demo_only": false,
+  "outputs": [
+    "figures\\act0\\fig_query_schematic.png",
+    "figures\\act0\\fig_query_schematic.pdf",
+    "figures\\act0\\fig_query_schematic.svg"
+  ]
+}

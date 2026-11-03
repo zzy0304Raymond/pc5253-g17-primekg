@@ -1,0 +1,20 @@
+{
+  "template": "fig_degree_dist",
+  "inputs": [
+    "data\\processed\\primekg_5000_bfs_v1\\node_features.csv"
+  ],
+  "filters": {
+    "gid": null,
+    "frac_removed": null
+  },
+  "rows_before_filter": 5000,
+  "rows_after_filter": 5000,
+  "uncertainty": "sample SD across equal seed sets (ddof=1); seed=-1 is deterministic",
+  "recovery": "paired gain relative to each seed's zero budget; efficiency per 1000 restored edges",
+  "demo_only": false,
+  "outputs": [
+    "figures\\act0\\e_deck_assets\\fig_degree_dist.png",
+    "figures\\act0\\e_deck_assets\\fig_degree_dist.pdf",
+    "figures\\act0\\e_deck_assets\\fig_degree_dist.svg"
+  ]
+}
