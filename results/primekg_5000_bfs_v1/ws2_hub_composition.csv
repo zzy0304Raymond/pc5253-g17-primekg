@@ -1,0 +1,17 @@
+node_type,count,fraction,ranking,top_fraction,top_n
+gene/protein,42,0.84,degree,0.01,50
+disease,8,0.16,degree,0.01,50
+gene/protein,43,0.86,betweenness,0.01,50
+disease,7,0.14,betweenness,0.01,50
+gene/protein,218,0.872,degree,0.05,250
+disease,31,0.124,degree,0.05,250
+drug,1,0.004,degree,0.05,250
+gene/protein,217,0.868,betweenness,0.05,250
+disease,32,0.128,betweenness,0.05,250
+drug,1,0.004,betweenness,0.05,250
+gene/protein,421,0.842,degree,0.1,500
+disease,78,0.156,degree,0.1,500
+drug,1,0.002,degree,0.1,500
+gene/protein,441,0.882,betweenness,0.1,500
+disease,58,0.116,betweenness,0.1,500
+drug,1,0.002,betweenness,0.1,500

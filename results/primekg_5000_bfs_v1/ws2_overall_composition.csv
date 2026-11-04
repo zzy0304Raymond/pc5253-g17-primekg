@@ -1,0 +1,4 @@
+node_type,count,fraction
+gene/protein,4643,0.9286
+disease,283,0.0566
+drug,74,0.0148
