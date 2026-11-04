@@ -1,112 +1,100 @@
-# E 工作说明与当前交付
+# E 工作说明与正式交付
 
-2026-11-04 接入更新：B 的边介数排序和 C 的 `src/retrieval.py` 均已到位。
-已使用 C 的正式接口在 2000/5000 节点图上核对全部四种恢复策略，
-两个图的 640 个策略/预算状态均与此前 E 独立评估结果一致。
-接入记录见 `C_INTEGRATION_REVIEW.md`；下面的三策略结果和 PPT 保留为此前工作版。
+## 当前完成情况
 
-## 已经完成
+E 的恢复策略、正式四策略实验、绘图、讲稿及报告第 1/7 节草稿已完成。
+B 的原图边介数排序和 C 的 Retriever 已接入。
 
-- 全组绘图工具及 20 个模板，详见 FIGURE_TEMPLATES.md。
-- restoration.py 的四种排序和恢复函数。
-- run_ws5.py 批量入口：损坏、排序、恢复、GCC、测试查询评价、实际预算统计与可复现记录。
-- E 独立的 edge-only L2/L3 核对工具，以及接入 C 的适配器。
-- toy、2000、5000 三个图的本地三策略试跑；每图 240 个策略/预算状态，共 720 个状态。
-- 主图、每条边收益、GCC、恢复边类型组成，以及按 L 拆分的两张汇报图。
-- 14 页英文工作版 PPT：含 A 已有材料、E 本地结果及每页讲稿备注；B/C/D 的页面保留明确的待交付说明。
-- 17 项测试，包括小图全部 256 种删边状态与 NetworkX 路径枚举的对照、四种策略端到端测试。
+- 主图与开发图：primekg_5000_bfs_v1 / primekg_2000_bfs_v1。
+- 两个图各 320 个策略/预算状态、960 行指标，共 640 个状态。
+- 四种策略：random、edge_betweenness、relation_type、静态 task_aware。
+- 损坏：随机删边 30% / 50%，每种使用种子 0–9。
+- 预算：被删边的 0% / 5% / 10% / 20%，记录实际恢复数量。
+- 评价：GCC，以及测试查询 L=2 / L=3 成功率。
+- 正式结果由 C 检索器产生，与此前 E 独立评估器逐查询对照一致。
 
-以上本地试跑是实际计算结果，不是此前模板演示数值。评估器明确标记为 reference，
-边介数策略未纳入真实图试跑，不能称为全组最终四策略结果。
+## 文件位置
 
-## 四种策略如何工作
+| 内容 | 位置 |
+|---|---|
+| 策略与恢复函数 | src/restoration.py |
+| 实验与正式 C 适配 | src/run_ws5.py、src/restoration_evaluation.py |
+| 统一绘图与结果图 | src/plotting.py、src/figure_templates.py、src/plot_ws5.py |
+| 正式结果 | results/ws5/final/{gid}/ |
+| 正式图：PNG/PDF/SVG | figures/act3/final/{gid}/ |
+| 引言草稿 | report/E_section_1.md |
+| 恢复实验章节草稿 | report/E_section_7.md |
+| 报告数值、机制诊断 | report/E_results_table.csv、E_static_score_diagnostics.csv、E_edge_type_composition.csv |
+| 个人贡献事实草稿 | report/E_individual_contribution_draft.md |
+| E 英文讲稿、问答 | slides/E_speaker_notes.md |
+| E 独立五页 PPT | slides/E_slides.pptx |
+| 全组 14 页工作版 | slides/G17_working_draft.pptx |
+| 报告数值和演示资产生成 | scripts/prepare_e_delivery.py |
+| 两份 PPT 的生成 | scripts/build_e_deck.mjs |
 
-1. random：使用损坏种子 + 100，随机排列被删边。
-2. edge_betweenness：过滤 B 提供的原始全边排序，只保留被删边，保持高分优先顺序。
-3. relation_type：只随机排列被删的 drug_protein / disease_protein 边，排除 PPI。
-4. task_aware：只读取训练查询。对于当前没有完整两跳路径的查询，每条只缺一边的路径给该缺边加 1 分。
-   已经成功的查询不再贡献分数，两条边都断的路径也不贡献分数。分数同高时随机，零分边也随机。
+旧 local_reference/ 数据为早期独立核对结果，保留用于追溯，不作为当前正式图的来源。
+A/B/C 的实验代码和提交材料未被替换。演示中 B 的固定攻击曲线不加随机误差带。
 
-任务感知策略在每个最初损坏状态下**只评分一次**。不同预算取同一个排序前缀，恢复集合自然嵌套。
-这实现的是工作计划中的静态排序版本，没有额外加入逐条恢复后重评分的贪心算法。
+## 方法的两个明确约定
 
-四种方法都调用 restore(edge_alive, ranked_removed_eids, budget_frac)，不会修改原始 mask。
-恢复目标数量为 round(预算比例 × 实际被删边数)。候选不足时停止，记录 shortfall，
-不会拿 PPI 边来凑 relation_type 的预算。本轮三个图的 5%/10%/20% 预算未发生候选不足。
-以上两个未完全指定的细节已明确写入 provenance，供团队复核；若团队改定义，应另开一次实验。
+**静态评分。** task_aware 在每个最初损坏状态下评分一次。
+仅当前失败的训练查询贡献分数；只缺一条边的路径给该缺边加 1。
+两条边都缺的路径不加分，已成功的查询不加分。同分与零分候选随机排序。
+所有预算都取同一排序的前缀，恢复集合嵌套。
 
-## B、C 接口约定（现已到位）
+**候选不足。** relation_type 只允许 drug_protein / disease_protein。
+候选用尽后停止并记录未花预算，不用 PPI 边凑数。
+本次两个正式图的所有预算都足额恢复，无候选不足。
+随机排名与同分打破使用损坏种子 + 100。
 
-**B**：每个 gid 的 orders/edge_betweenness.npy。
-必须是原图全部 eid 的排列，高介数边在前，不是仅包含被删边的短列表。
+## 主图上应该讲什么
 
-**C**：src/retrieval.py，提供 Retriever(gid).evaluate(queries, edge_alive=..., compute_dist=True)。
-返回 query_id、drug_alive、disease_alive、s_alive、d_ppi。只允许蛋白作为中间节点，
-d_ppi 是药物相连蛋白集合到疾病相连蛋白集合之间的最短 PPI 距离。
+在删边 50%、恢复预算 20% 时，测试成功率提升为 10 种子的均值 ± 样本 SD：
 
-E 只用测试查询报告成功率：L2 对应 s_alive>0，L3 对应有限 d_ppi<=1。
-reference 模式不生成完整 d_ppi，只独立判断 L2/L3；不会冒充 C 的检索器。
-它保留在 E 自己的 restoration_evaluation.py 中，没有创建 retrieval.py。
+| 策略 | L=2，百分点 | L=3，百分点 |
+|---|---:|---:|
+| Random | 13.17 ± 2.77 | 8.33 ± 5.77 |
+| Edge betweenness | 42.00 ± 3.99 | 16.50 ± 7.13 |
+| Relation type | 48.50 ± 6.69 | 15.67 ± 7.34 |
+| Static task-aware | 24.83 ± 6.31 | 12.33 ± 6.63 |
 
-## 运行命令
+不能只看这一种预算。在删边 30%、恢复 5% 时，L2 的 task-aware 均值为
+12.67 个百分点，超过介数的 11.00 和关系类型的 7.00；到 20% 预算时排序不同。
+静态评分只给 31–87 条候选正分，5% 预算就足以把它们全部恢复，后续主要在随机补零分边。
 
-从仓库根目录启动：
+结构与功能的最佳均值也不同：删边 50%、预算 20% 时，介数的 GCC 增量为
+1.782 个百分点，高于关系类型的 0.610；L2 检索增量则是关系类型更高。
+L3 下介数与关系类型的均值差较小，不能表述为经过检验的显著优势。
+所有结论限定在当前 BFS 图、正查询集和固定查询划分上；训练/测试可能共享实体。
+
+## 如何运行
+
+先激活项目的 Python 环境，从仓库根目录运行：
 
 ```powershell
-conda activate D:/CondaEnvs/pc5253-g17-primekg
 python -m unittest discover -s tests -v
 
-# B/C 到位后，默认正式入口即要求全部四种策略和 C 的检索器
-python -m src.run_ws5 primekg_5000_bfs_v1 --output-dir results/ws5/final/primekg_5000_bfs_v1
-python -m src.plot_ws5 results/ws5/final/primekg_5000_bfs_v1 --output-dir figures/act3/final/primekg_5000_bfs_v1
+# 如需重算，请选择新的空目录，程序会默认使用 C 和全部四策略。
+python -m src.run_ws5 primekg_5000_bfs_v1 --output-dir results/ws5/reproduction/primekg_5000_bfs_v1
+python -m src.plot_ws5 results/ws5/reproduction/primekg_5000_bfs_v1 --output-dir figures/act3/reproduction/primekg_5000_bfs_v1
 
-# 明确选择 E 独立评估器，仅运行不依赖 B 的三种策略
-python -m src.run_ws5 primekg_5000_bfs_v1 --evaluator reference --strategies random relation_type task_aware --output-dir results/ws5/local_reference_new/primekg_5000_bfs_v1
-python -m src.plot_ws5 results/ws5/local_reference_new/primekg_5000_bfs_v1 --allow-partial --output-dir figures/act3/local_reference_new/primekg_5000_bfs_v1
+# 正式结果已就位时，更新报告用数值与演示资产。
+python -m scripts.prepare_e_delivery
+
+# 设置 G17_ARTIFACT_RUNTIME 和 G17_PRESENTATION_SKILL 为本机已安装的运行时与演示 skill 目录。
+node scripts/build_e_deck.mjs
 ```
 
-输出目录必须为空，避免覆盖已有实验。固定损坏比例为 0.3/0.5，种子默认 0–9，
-预算默认 0/0.05/0.10/0.20。不指定 reference 时不会自动切换评估器。
-不提供 B 排序时，默认的四策略正式运行也不会自动跳过该策略。
+正式输出包含逐测试查询结果、原始指标、逐种子配对收益、样本 SD 汇总、实际预算、边类型、
+候选排序 NPZ 与 provenance。报告收益先在同一种子内减零预算基线，再跨种子汇总。
+每条边收益按实际恢复数量计算，零预算不参与除法。
 
-## 输出文件
+## 全组 PPT 仍需完成的工作
 
-每次运行保存：
+全组工作版已经接入 A、B、C 的现有实测图和 E 正式结果。
+第 9–11 页等待 D 的理论材料，均有明确状态说明，没有填入演示曲线。
+E 独立五页 PPT 对应全组第 1、2、12、13、14 页。
 
-- gid__restoration.csv：统一长表加 damage_frac、budget_frac、实际恢复数、预算缺口、评估器。
-- gid__test_perquery.csv：逐测试查询的 s_alive 和 L2/L3 成功指示，便于 C 接入后逐行对照。
-- gid__paired_gains.csv：先按同一种子减零预算基线，再计算收益。
-- gid__summary.csv：均值、样本标准差、种子数、实际恢复数范围、发生预算不足的种子数。
-- gid__restored_edge_types.csv：各类恢复边的计数。
-- rankings/*.npz：每个损坏比例和种子的候选边排序，可直接重建恢复状态。
-- provenance.json：评估方式、具体策略、种子、训练/测试查询 ID、算法定义、代码版本指纹、运行耗时和状态。
-
-所有随机结果的不确定性单位为损坏种子，使用 ddof=1；不能把依赖的查询行当作独立重复。
-训练/测试划分是查询级，可能共享药物、疾病或蛋白，不能宣称实体完全独立的泛化。
-
-## 5000 节点图上的本地读数
-
-恢复预算为被删边的 20%，表中为测试成功率提升的百分点（10 种子均值）：
-
-| 初始损坏 | 检索尺度 | Random | Relation type | Static task-aware |
-|---|---|---:|---:|---:|
-| 30% | L=2 | 6.00 | 27.50 | 15.50 |
-| 50% | L=2 | 13.17 | 48.50 | 24.83 |
-| 30% | L=3 | 2.17 | 5.83 | 5.50 |
-| 50% | L=3 | 8.33 | 15.67 | 12.33 |
-
-这是同一冻结查询划分上的有限样本描述。不同预算下策略排序可能不同，
-不能把这张 20% 预算表概括为所有预算均如此，也不能从误差带重叠与否直接断言显著性。
-静态 task-aware 优先补一条边就能补全的训练路径，之后零分边在所有剩余候选中随机选择。
-relation_type 始终把预算用于两种终端关系。这个机制差别可以解释当前观察，但最终解释仍需结合完整四策略结果。
-
-## 汇报与报告后续
-
-slides/G17_working_draft.pptx 是工作版，正文 14 页并按任务卡分工。
-第 1/2/12/13/14 页属于 E。第 12/13 页已放入本地结果，明确标明独立评估和三策略。
-第 5–11 页保留待 B/C/D 交付的位置；不包含模板 DEMO 数值。
-图表是高分辨率嵌入图，标题、文字、布局可编辑；图形本身用源 CSV 和 Python 重新导出。
-
-最终还需：接 B/C 跑正式四策略、收齐所有人的结果、更新结论、实际排练并压到 14 分钟、
-完成报告第 1/7 节及个人报告。工作版不代表这些步骤已经完成。
-英文恢复方法与讲稿提纲见 slides/E_speaker_notes.md。
+D 交付后需整合其内容、全组确认结论，并进行实际排练，确认总时长在 14 分钟以内。
+报告引言与恢复章节已成稿，仍需 B 统稿时统一图号、参考文献和术语。
+个人贡献草稿的身份、实际贡献及课程要求需本人核对；peer grading 尚需本人完成。

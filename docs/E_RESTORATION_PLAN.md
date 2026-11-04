@@ -24,5 +24,9 @@ Steps:
    render labelled preliminary figures and document B/C handoff requirements.
 6. [x] Deliver E code, available results, figure previews and a 14-slide working deck.
 
-Pending member integration: B's edge ranking, C's Retriever, then the final
-four-policy experiment and complete group presentation rehearsal.
+Formal-delivery update (2026-11-04): B's ranking and C's Retriever are integrated.
+Verified C-evaluator runs are released under results/ws5/final for both real
+graphs (640 strategy/budget states). Report Sections 1 and 7, diagnostics,
+speaking notes, a five-slide E deck and the updated group deck are prepared.
+The group deck's theory pages still await D. Timed rehearsal, personal identity
+and contribution confirmation, peer grading and final report assembly remain.

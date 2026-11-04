@@ -1,72 +1,69 @@
-# E speaker notes — working version
+# E speaker notes
 
-These notes describe the implemented methods and explicitly local results.
-Replace the local-evaluator qualification after B/C integration; do not remove
-it while presenting the current three-strategy figures.
+Source: formal C-Retriever runs in results/ws5/final/primekg_5000_bfs_v1.
+All gains use sixty test query IDs and ten damage seeds. Rankings see only the
+140 training query IDs. The static task-aware definition is unchanged.
 
-## Slides 1–2: opening, about 1 minute total
+## Slide 1 · When AI forgets
 
-We study what happens when a knowledge graph loses some of its relations.
-Our question is whether a network that remains connected can still answer the
-semantic queries we care about. In the example, a two-hop drug–protein–disease
-path breaks, while a longer protein route keeps the graph connected. Allowing
-that extra step changes which relations matter. We compare structural failure,
-retrieval reliability and the limited-budget restoration of existing relations.
+Knowledge graphs connect facts that a retrieval task may need to combine.
+We ask what happens when some of those connections disappear. Our experiments
+compare how the graph fragments, which semantic queries still work, and how a
+limited restoration budget can recover the lost function. We use one shared
+PrimeKG graph and fixed damage orders throughout the group project.
 
-## Slide 12: two-hop restoration, about 1 minute
+## Slide 2 · Connectivity and retrieval
 
-We begin with the same damaged graph for every policy. The budget is a fraction
-of the deleted edges, and the task-aware ranking only sees training queries.
-The figure reports gains on sixty held-out query IDs across ten damage seeds.
-At fifty-percent damage and twenty-percent budget, relation-type restoration
-gains 48.5 percentage points, compared with 13.2 for random and 24.8 for static
-task-aware restoration. These are independent local checks; B and C integration
-is still pending.
+The upper route answers a two-hop drug–protein–disease query. Delete one edge
+and that query fails, even though a longer route still connects the endpoints.
+Restoring the upper edge repairs the two-hop query. If we allow an extra hop,
+the lower route can also become useful. This small example shows why a
+connectivity measure and a retrieval metric can respond differently to damage.
 
-## Slide 13: three-hop restoration, about 55 seconds
+## Slide 12 · Restoration for two-hop queries
 
-With a three-hop limit, a path can include a protein–protein relation. We use the
-same damaged states and the same rankings to evaluate this larger task horizon.
-At fifty-percent damage and twenty-percent budget, the mean gains are 8.3,
-15.7 and 12.3 percentage points for random, relation-type and static task-aware
-restoration. The differences between policies and their dependence on budget
-should be described from the curves rather than a predetermined ranking.
+All policies start from matching damaged masks. At fifty-percent damage and a
+twenty-percent restoration budget, relation-type selection gains 48.5 percentage
+points, edge betweenness 42.0, static task-aware 24.8 and random selection 13.2.
+Task-aware selection starts well at the smaller budget, but its positive-score
+set contains only a few dozen edges. After selecting those edges, the static
+rule spends most additional budget on randomly ordered zero-score candidates.
 
-## Slide 14: closing, about 35 seconds
+## Slide 13 · Restoration for three-hop queries
 
-The scientific question combines a network, a semantic task and a damage budget.
-Global connectivity and bounded retrieval inspect different properties. Our
-restoration comparison shows why a type-matched control matters when explaining
-an apparent task-aware advantage. The final four-policy comparison awaits B's
-edge ranking and C's evaluator. Conclusions also need to retain the BFS sampling
-scope, the selected positive queries and entity overlap between the query splits.
+The same restored graphs give a different comparison when a query can use one
+protein–protein interaction. At fifty-percent damage and twenty-percent budget,
+the mean gains are 16.5 points for edge betweenness and 15.7 for relation-type
+selection, followed by 12.3 for static task-aware and 8.3 for random restoration.
+The first two means are close relative to their seed variation. These curves
+describe the horizon and budget dependence without establishing significance.
 
-## Methods paragraph for later report integration
+## Slide 14 · Robustness depends on the task
 
-For each graph, we generated damaged states by deleting the prescribed prefix
-of A's fixed random edge order at deletion fractions 0.3 and 0.5 for seeds 0–9.
-Each policy started from a fresh copy of the same damaged mask. Restoration
-budgets were 0, 0.05, 0.10 and 0.20 of the actual deleted-edge count, rounded
-using the shared protocol. The static task-aware score counted two-hop paths
-that a single missing edge could complete among currently unsuccessful training
-queries. Ties were randomized with the damage seed plus 100. We evaluated the
-GCC fraction and test-query success at L=2 and L=3, then subtracted each seed's
-zero-budget baseline before aggregating gains as mean ± sample SD. The current
-local runs use E's independent edge-only evaluator and exclude edge-betweenness
-restoration until B's ranking is supplied.
+The policy with the largest structural gain can differ from the policy with
+the largest two-hop retrieval gain. We therefore need to specify the task and
+the damage budget when discussing robustness. Our measurements concern a BFS
+subgraph and selected positive queries. The query split may share entities.
+D's theory pages still need integration before the complete group presentation
+and the fourteen-minute rehearsal can be finalized.
 
-## Likely questions
+## Q&A
 
-- Why can relation type beat task-aware? The static score prioritizes immediately
-  completable training paths, then randomly orders zero-score candidates,
-  including PPI edges. Relation-type restoration continues spending on the two
-  endpoint relation types. Compare the edge-type composition and full curves.
-- Is the score recomputed? No. It is fixed for each original damaged state.
-- Does a two-edge break get a score? No. One restored edge cannot complete it.
-- Did you use test queries to choose edges? No. Test query IDs only enter evaluation.
-- Is this entity-disjoint generalization? No. Query IDs are split; entities may overlap.
-- Does restoring every candidate recover the graph? It does for full rankings.
-  Relation-type candidates intentionally exclude PPI edges, so that policy can
-  exhaust its candidate set before the entire graph is restored.
-- Do the current plots compare all four policies? No. Three policies have real
-  local runs. The edge-betweenness implementation is tested but awaits B's ranking.
+- Why did static task-aware not win at every budget? Its positive-score candidates
+  are exhausted before even the 5% budget. The remaining candidates include PPI
+  edges in random tie order. Relation type keeps spending on endpoint relations.
+- Are scores recomputed? No. They are fixed at the initial damaged state.
+- Do paths with two missing edges get a score? No. One edge cannot complete them.
+- Were test queries used for ranking? No. Only training IDs enter scoring.
+- Is the split entity-disjoint? No. Query IDs may share drugs, diseases and proteins.
+- Does betweenness significantly beat relation type at L=3? We report means and
+  sample SD, without a significance claim.
+- Is C integrated? Yes. All formal runs use C's Retriever. Across 640 states,
+  metrics and per-query L2/L3 outputs matched the earlier independent evaluator.
+- What happens at candidate exhaustion? The policy stops and records unspent
+  budget. No shortage occurred at the reported budgets.
+- Can all policies reconstruct the original graph? Complete candidate rankings
+  can. Relation-type selection excludes PPI and cannot fully reconstruct it.
+
+E's speaking allocation is about 3.5 minutes across opening and closing.
+The scripts are prepared for rehearsal; actual timing remains to be measured.
