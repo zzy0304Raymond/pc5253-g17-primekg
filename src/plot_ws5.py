@@ -25,12 +25,14 @@ def main():
     preliminary = meta["evaluator"] != "c" or bool(meta["missing_strategies"])
     if preliminary and not a.allow_partial:
         p.error("This is a local/reference or incomplete strategy run; use --allow-partial to label it explicitly")
+    status_label = ("Local check · " + ("independent evaluator" if meta["evaluator"] == "reference" else "C Retriever")
+                    + f" · {len(meta['strategies'])}/4 strategies")
     table = pd.read_csv(a.run_dir / f"{meta['gid']}__restoration.csv")
     paired = pd.read_csv(a.run_dir / f"{meta['gid']}__paired_gains.csv")
     for name in ("fig_restoration", "fig_gain_per_edge"):
         fig = render(name, table, restoration_strategies=tuple("restore_"+s for s in meta["strategies"]))
         if preliminary:
-            fig.suptitle("Local check · independent evaluator · " + str(len(meta["strategies"])) + "/4 strategies", fontsize=10)
+            fig.suptitle(status_label, fontsize=10)
         save(fig, "act3", name, output_dir=a.output_dir, formats=("png", "pdf", "svg"))
         plt.close(fig)
     for metric in ("R_L2", "R_L3"):
@@ -45,7 +47,7 @@ def main():
             ax.set(title=f"{damage:.0%} edges removed", xlabel="Removed edges restored", ylabel="Success gain (pp)")
             ax.set_xticks([0,.05,.1,.2],["0%","5%","10%","20%"])
         if preliminary:
-            fig.suptitle("Independent local evaluation · 3 strategies", fontsize=10)
+            fig.suptitle(status_label, fontsize=10)
         legend(fig, axes)
         save(fig, "act3", "fig_restoration_"+metric[2:], output_dir=a.output_dir, formats=("png","pdf","svg"))
         plt.close(fig)
@@ -59,7 +61,7 @@ def main():
         ax.set(title=f"{damage:.0%} edges removed", xlabel="Removed edges restored", ylabel="GCC fraction")
         ax.set_xticks([0,.05,.1,.2],["0%","5%","10%","20%"])
     if preliminary:
-        fig.suptitle("Local check · " + str(len(meta["strategies"])) + "/4 strategies", fontsize=10)
+        fig.suptitle(status_label, fontsize=10)
     legend(fig, axes)
     save(fig, "act3", "fig_restoration_gcc", output_dir=a.output_dir, formats=("png","pdf","svg"))
     plt.close(fig)
@@ -92,7 +94,9 @@ def main():
     note = ("Recovery gains are paired within damage seed; mean ± sample SD. "
             "Budgets are fractions of removed edges. See summary CSV for actual restored counts. "
             "Relation-type strategy stops at candidate exhaustion; equal budget limits may mean unequal spend. "
-            "Only test queries are evaluated. " + ("Local check; B/C integration pending." if preliminary else "C Retriever integrated."))
+            "Only test queries are evaluated. "
+            + ("Independent local evaluator; C integration pending. " if meta["evaluator"] == "reference" else "C Retriever integrated. ")
+            + ("Missing strategies: " + ", ".join(meta["missing_strategies"]) + "." if meta["missing_strategies"] else "All four restoration strategies included."))
     (a.output_dir / "caption.txt").write_text(note+"\n", encoding="utf-8")
 
 

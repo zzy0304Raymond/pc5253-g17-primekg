@@ -1,0 +1,160 @@
+{
+  "gid": "primekg_5000_bfs_v1",
+  "n_queries": 200,
+  "strategies": {
+    "edge_random": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "levels": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.85,
+        0.9,
+        0.95,
+        0.97,
+        0.99
+      ]
+    },
+    "node_random": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "levels": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ]
+    },
+    "node_degree": {
+      "seeds": [
+        -1
+      ],
+      "levels": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ]
+    },
+    "node_betweenness": {
+      "seeds": [
+        -1
+      ],
+      "levels": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ]
+    }
+  },
+  "hop_scan": {
+    "strategy": "edge_random",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "L": [
+      2,
+      3,
+      4,
+      "inf"
+    ]
+  },
+  "distance_encoding": {
+    "blank": "not computed",
+    "inf": "computed, no path"
+  },
+  "independent_edge_model_check": {
+    "single": {
+      "max_abs_error": 0.02099847316517145,
+      "within_0_05": true
+    },
+    "multi": {
+      "max_abs_error": 0.032526099363827554,
+      "within_0_05": true
+    }
+  },
+  "input_sha256": {
+    "nodes.csv": "aa310a1968126d7600c43486d50f977cececa9f0e599d0a4d0245234e856511f",
+    "edges.csv": "fb8a2a444f0df9aff26f36ec4696e50421800c337bf22d27e75a3a0e408118a4",
+    "queries.json": "fc8c68e0ca1d50284539140bf1d0bd3183a29ab2b1773eddfa94ba889c98b068",
+    "orders/edge_random_s0.npy": "613562709b60c97345d543fa9c04ba41ef0225de1465aff24470c27a49f4a52a",
+    "orders/edge_random_s1.npy": "44d76801201d761ad5a3b0d6da5ec2681a363f5e098950f2e97e347fc42b739c",
+    "orders/edge_random_s2.npy": "ed0c1b683fe4c3bd8e52f6ed1a6ec34f6543f5f42dfecc922f0e68eb48c740a4",
+    "orders/edge_random_s3.npy": "0c7ee7ca0d5e3bd5da31e7d6134e743b82d759f1c8fac941cab25d91c70aa524",
+    "orders/edge_random_s4.npy": "1822de3f6937ddca6b20fd5b34e53807ba42f7c20d85f7d5492b7ba412a7aa9f",
+    "orders/edge_random_s5.npy": "bb6592aceeed06e503bf1b519fd4060a41a66193cd85e3f150c378b103fbca71",
+    "orders/edge_random_s6.npy": "0578940e1cfa688f77bd475c2634b838b7e73c6364ef807135f61cbc9bfd9f6e",
+    "orders/edge_random_s7.npy": "cfc388c62a71d33672c0d449e6cebc601ddf617823b8b93814dbf8627dc6f256",
+    "orders/edge_random_s8.npy": "87b1779c44403186bb742bc5ac785b67c016768b0796143ad9fab943c61d3eac",
+    "orders/edge_random_s9.npy": "088b0ad0bb08cac35187009a4ec674caad79a157cadc3ed92d5fd8769bdd9a61",
+    "orders/node_random_s0.npy": "e822dcc753c93c3838a2fd4f5c639ed9920c496bc370d281ad25ef183b9cd70e",
+    "orders/node_random_s1.npy": "00c2e2a39a4bc3398fba1d42591328be3307543dafceba2bb2691e844a050421",
+    "orders/node_random_s2.npy": "27daf4856f038f84e429db98217581ad96add0aef049a0ce0dc5a6be68339739",
+    "orders/node_random_s3.npy": "9830bdf4576c02212c8c73770bacd6338197aed17064bffc0ee9ad6bd9296b06",
+    "orders/node_random_s4.npy": "c76a5ad958c22d55b954fc3f93d2eb739647646831c6d695314a817fff7248ad",
+    "orders/node_random_s5.npy": "83eef40391611206fc27b1ae90511c9758cc670080885d30a7e32ae734b79ce6",
+    "orders/node_random_s6.npy": "fa48b40f52b410d08ce59314ea5975cece8b325c51b23f96d8bd1a9ea5d21552",
+    "orders/node_random_s7.npy": "c25dc1b59dcdecd96eb4ee439a22bd1c30754f927a84481295d48c24cfbc5aeb",
+    "orders/node_random_s8.npy": "1c59c37308c3fb359d1778bb9ae73e9c1640ad479fe2227099b60ceda1c01db4",
+    "orders/node_random_s9.npy": "6a0b2ea711597abc85fd11da2283b6bb60e224474e062aaf40ead05b9838a6f8",
+    "orders/node_degree.npy": "ea7aca64c24665592a5b8fa6ef2d0dd5e7bc8aaba4aabf23a06dc4a3266ae71b",
+    "orders/node_betweenness.npy": "3963f998418bd6517bcfc7922eddc9ff400854af08d3fc7cb5a2ae313c1dfe09"
+  },
+  "source_sha256": {
+    "retrieval.py": "aea4293bf04a8332e1d616a2399081cc4bbf1d89ae9b4a1c8b16f3ac7216f70a",
+    "run_ws3.py": "7bd70e573a7de8123f391e2cbdcf66897ecf4f4c9d14b1f292ab0563dc467616",
+    "common.py": "8a632c60de58bee0e93e07d968e766ece79b19687c36f2c68c19cbce134fe9a9"
+  }
+}

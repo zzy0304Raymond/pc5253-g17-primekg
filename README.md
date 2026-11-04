@@ -1,6 +1,8 @@
-# G17 — A: shared data foundation and random failure
+# G17 — PrimeKG structural and functional robustness
 
-The governing specification is `G17_Work_Plan.md`. This repository supplies A's modules and reference fixtures for B–E. It does not claim to run the other members' implementations.
+The governing specification is `G17_Work_Plan.md`. The repository includes A's shared data and random-failure analysis, B's centrality and targeted attacks, C's retrieval experiments, and E's restoration and plotting tools. D's final theory module is pending.
+
+Member entry points: `docs/WS2_targeted_attack.md` (B), `C_README.md` (C), and `docs/E_HANDOFF.md` (E). C's integration checks are recorded in `docs/C_INTEGRATION_REVIEW.md`.
 
 ## Start here
 
