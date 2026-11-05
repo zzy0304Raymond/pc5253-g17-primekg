@@ -1,0 +1,29 @@
+{
+  "gid": "primekg_5000_bfs_v1",
+  "python": "3.13.18",
+  "manifest_sha256": "43ac58dc15f9bb423fb21f4e7c6b5c80b1fdebcb7b1fa09134fa7b9eae3bfbef",
+  "pc_bond_full_graph": 0.005313806001885982,
+  "pc_bond_ppi": 0.006161784786615057,
+  "max_abs_difference_from_A_reference_gcc": 1.780797731498751e-13,
+  "pairs_with_multiple_relations": 0,
+  "hub_exposure": {
+    "median_degree_all_proteins": 25.0,
+    "median_degree_query_intermediate_proteins": 106.0,
+    "median_degree_query_path_weighted": 188.0,
+    "node_degree_top5pct_all_intermediates_single": 0.84,
+    "node_degree_top5pct_all_intermediates_multi": 0.22,
+    "node_degree_top5pct_disease_endpoint": 0.275,
+    "node_degree_top5pct_drug_endpoint": 0.075,
+    "node_betweenness_top5pct_all_intermediates_single": 0.9,
+    "node_betweenness_top5pct_all_intermediates_multi": 0.29,
+    "node_betweenness_top5pct_disease_endpoint": 0.285,
+    "node_betweenness_top5pct_drug_endpoint": 0.075
+  },
+  "hop_scan_note": "Ten official seeds through C's Retriever; slide 8 uses seeds 0-2.",
+  "source_sha256": {
+    "theory.py": "286d400c481099bbf17d97ff3f3f34c0a9372e7ed3920ebc73269ff4298b3439",
+    "prediction.py": "97e6d8fc6b4d14be9fece39f6c82e130cbe9bfb32794361f325dda5a14b192bc",
+    "run_ws4.py": "f32770706639c4ad708e1dc4c8748427ce8c79dbcb2e2806ec4811ca83d64fc0",
+    "retrieval.py": "64d7aab809e459ecd0ad207bd2332186256f5f0f3341b790710a864c6b93db06"
+  }
+}
