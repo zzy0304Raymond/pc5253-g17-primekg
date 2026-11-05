@@ -97,8 +97,8 @@ def table(slide, x, y, widths, rows, size=13, row_h=.46):
 
 NOTES = {
     9: """Why do the curves on the last slides look the way they do? A two-hop query with m shared proteins has m routes. Each route needs two edges, so it survives with probability p squared. Routes through different proteins share no edge, so they fail independently. The query fails only if all m routes fail. Averaging over the query set gives one line: R equals one minus G of one minus p squared, where G is the generating function of path counts. There are no fitted parameters. The dashed lines match both query groups, and over five thousand fresh damage orders the difference is below 0.001. A logistic regression with degree features does no better at predicting which query fails.""",
-    10: """That formula assumes damage ignores the graph. A targeted attack does not. This plot shows the gap between the random-removal formula and measured success under attack. Removing the top five percent of nodes by degree leaves 30 percent of queries working, while the formula predicts 88 percent. That is a penalty of 57 points. It has two channels. About 24 points come from lost endpoints, mostly hub diseases. About 34 come from lost paths, because query paths run through hubs: their median degree is 188, against 25 for all proteins. So path count is not effective redundancy. Twenty-two percent of multi-path queries lose every path. The giant component hides this: compared with random removal it falls 7 points, while retrieval falls 56.""",
-    11: """Finally, the hop limit. We have two analytic limits. At L equals two, retrieval is local, and our formula applies. At L equals infinity, a query only needs both endpoints to reach the protein–protein giant component. Generating functions give that probability with no fit, and it stays within about six points of simulation. In between, each extra hop delays the damage at which the limit matters: about ten, fifty and eighty percent edge loss for two, three and four hops. We expected a sharp percolation collapse at L infinity, and we did not see one. The protein giant component is too robust: its threshold is near p equals 0.006. At every damage level, over 92 percent of L-infinity failures have lost a terminal link. So longer horizons move the bottleneck from shared proteins to the last link.""",
+    10: """That formula assumes damage ignores the graph. A targeted attack does not. This plot shows the gap between the random-removal formula and measured success under attack. Removing the top five percent of nodes by degree leaves 30 percent of queries working, while the formula predicts 88 percent. That is a penalty of 57 points. It has two channels. About 17 points come from lost endpoints, mostly hub diseases. About 40 come from lost paths, because query paths run through hubs: the median path protein has degree 188, against 25 for all proteins. So path count is not effective redundancy: 53 percent of multi-path queries fail. The giant component hides this: compared with random removal it falls 7 points, while retrieval falls 56.""",
+    11: """Finally, the hop limit. We have two analytic limits. At L equals two, retrieval is local, and our formula applies. At L equals infinity, a query only needs both endpoints to reach the protein–protein giant component. Generating functions give that probability with no fit, and it matches the mean over 600 fresh damage orders to within 0.01. In between, each extra hop delays the damage at which the limit matters: about ten, fifty and eighty-five percent edge loss for two, three and four hops. We expected a sharp percolation collapse at L infinity, and we did not see one. The protein giant component still holds 75 percent of proteins at 90 percent edge loss. Up to that point, over 90 percent of L-infinity failures are drugs that have lost every target. So on this benchmark, longer horizons move the bottleneck from shared proteins to the drug's own target links.""",
 }
 
 QA = [
@@ -109,23 +109,25 @@ QA = [
     ("Why is the per-query AUC only 0.72?",
      "That is close to the ceiling. If the formula is true, failure is still random given m, and the expected AUC is 0.72 at 30% and 0.71 at 50% damage. Formula and regression both reach it."),
     ("Why is there no phase transition at L = 2?",
-     "R is a polynomial in p on a finite query set, so it has no singularity. It depends on a few local edges, not on a collective variable."),
+     "Each query depends on a fixed handful of edges, so R(p) stays the same smooth function as the graph grows. A giant component depends on an unbounded number of edges, which is why it can become singular as N → ∞."),
     ("Why no sharp collapse at L = ∞?",
-     "The PPI network is hub-heavy, so p_c = ⟨k⟩/(⟨k²⟩ − ⟨k⟩) ≈ 0.006, or 0.0054 on the filtered full graph. Long before that, endpoints lose all their terminal edges: 31.5% of queries have a drug with at most three targets. PPI disconnection is the failure mode in under 8% of failures."),
+     "The PPI network is hub-heavy. The Molloy–Reed estimate is p_c = ⟨k⟩/(⟨k²⟩ − ⟨k⟩) ≈ 0.006, or 0.0054 on the filtered full graph. Our scan stops at p = 0.01, so we did not measure the threshold itself. Drug links fail long before that: at p = 0.01 only 8% of queries keep a terminal link at both ends, whatever the PPI network does."),
+    ("Is the drug bottleneck a sampling artefact?",
+     "It is specific to this benchmark, so we do not generalise it. The BFS graph keeps 78% of its drugs' target links, yet the median query drug has 2 targets in both the BFS graph and the full graph. Also, 31.5% of queries use a drug with at most three targets."),
     ("GF assumes a configuration model. Why use it on a real graph?",
-     "Because the difference is informative. On stub-matched graphs with the same degrees, our code agrees with simulation to about 0.001. On the real PPI network it also tracks closely (largest gap 0.020). For the degree attack, theory sits above simulation by up to 0.11, so the real graph is more fragile. Our null-model test of the cause is planned for the report."),
-    ("Is the 24 + 34 split unique?",
-     "No. It is an exact identity with endpoints counted first: Δ = (φ² − E)·C_th + E·(C_th − C). Counting paths first would change the split but not the total."),
+     "Because the difference is informative. On stub-matched graphs with the same degrees, our code agrees with simulation to about 0.001. On the real PPI network the gap stays within 0.009 up to f = 0.97 and reaches 0.020 at f = 0.99. For the degree attack, theory sits up to 0.11 above simulation below f ≈ 0.58, so the real graph is more fragile there; above that a small remnant survives where theory gives zero. Our null-model test of the cause is planned for the report."),
+    ("How unique is the 17 + 40 split?",
+     "R is a product of an endpoint factor and a path factor, so a sequential split depends on which factor changes first. We average both orders: Δ = (φ² − E)(C_th + C)/2 + (C_th − C)(φ² + E)/2. At 5% degree attack, endpoints give 11–24 points and paths 34–46, depending on order."),
     ("Why do slides 8 and 11 differ slightly?",
-     "Slide 8 uses seeds 0–2. Slide 11 uses all ten. Two-hop success at 50% is 40.3% on slide 8 and 43.3% on slides 6 and 11."),
+     "Slide 8 uses seeds 0–2, and the heatmap on slide 11 uses all ten. Damage-order noise is visible at this size: L = 3 at 50% loss is 84.5% with three seeds, 81.9% with ten, and 79.2% over 600 fresh orders."),
     ("Does the logistic regression beat theory under attack?",
-     "Yes, AUC 0.88 against 0.66 at 5% degree attack, in cross-validation over queries. Treat it as exploratory: the features include the degree that defines the attack."),
+     "Yes. At a 5% degree attack the AUC is 0.88 against 0.66 in cross-validation over queries, and 0.83 when folds are split by drug. Treat it as exploratory: the features include the degree that defines the attack."),
 ]
 
 CHINESE = {
     9: "把一个查询想成 m 根并联的“保险丝”，每根由两条边串联。串联存活 p²，并联全断 (1 − p²)^m，对查询集取平均就是 PGF。这和课上求 giant component 是同一个工具，但这里没有自洽方程，因为路径之间互不共享边。",
-    10: "公式假设破坏是“盲”的。攻击专挑 hub，而查询恰好挂在 hub 上，因为一个蛋白要同时连到药物和疾病，天然偏向高度节点。损失拆成两路：端点本身被删（多为 hub 疾病），以及端点还在但路径没了。",
-    11: "原先预期 L = ∞ 会在渗流阈值附近塌缩，数据不支持。PPI 骨架极其耐打（p_c ≈ 0.006），先断的是药物、疾病接入骨架的末端边。所以结论应说瓶颈转移，不要说出现了相变。",
+    10: "公式假设破坏是“盲”的。攻击专挑 hub，而查询恰好挂在 hub 上，因为一个蛋白要同时连到药物和疾病，天然偏向高度节点。R 可以写成“端点存活 × 路径存活”，所以损失分成两路，17 和 40 是两种拆分顺序的平均。",
+    11: "原先预期 L = ∞ 会在渗流阈值附近塌缩，数据不支持。PPI 骨架极其耐打，先断的主要是药物到靶点的那几条边，因为查询里的药物靶点很少。所以结论应说这个查询集上瓶颈转移，不要说出现了相变；0.006 只是 Molloy–Reed 估计，我们没有测到阈值本身。",
 }
 
 
@@ -153,10 +155,10 @@ def fill_slide_10(slide):
             "Stacked bars splitting the penalty into lost endpoints and lost paths for both attacks at 5 and 10 percent removal.")
     x, w = 10.05, 2.75
     stat(slide, x, 1.6, w, "57 pp", "above the formula after a 5% degree attack", RED, label_h=.55)
-    stat(slide, x, 3.0, w, "188 vs 25", "median degree: query-path proteins vs all proteins", RED, 28, label_h=.8)
-    stat(slide, x, 4.55, w, "22%", "of multi-path queries lose every path in that attack", RED, label_h=.55)
+    stat(slide, x, 3.0, w, "188 vs 25", "median degree: per query path vs all proteins", RED, 28, label_h=.8)
+    stat(slide, x, 4.45, w, "53%", "of multi-path queries fail; only 22% lose every shared protein", RED, label_h=.85)
     text(slide, .73, 6.35, 11.9, .4, "At 5% node loss, the degree attack costs 7 pp more GCC than random removal, but 56 pp more retrieval.", 16.5, MUTED)
-    slide.notes_slide.notes_text_frame.text = NOTES[10] + "\n\nSource: results/ws4/primekg_5000_bfs_v1__corr_penalty.csv, __provenance.json, __equal_damage_summary.csv. The split counts endpoints first."
+    slide.notes_slide.notes_text_frame.text = NOTES[10] + "\n\nSource: results/ws4/primekg_5000_bfs_v1__corr_penalty.csv, __provenance.json, __equal_damage_summary.csv. The split averages both orders of the two factors. 188 is per query path; the median over the 133 unique proteins is 106."
 
 
 def fill_slide_11(slide):
@@ -165,10 +167,10 @@ def fill_slide_11(slide):
     picture(slide, ACT2 / "fig_phase_diagram.png", .55, 1.5, 8.75, 4.6,
             "Heatmap of retrieval success by edge survival and hop limit, with panels comparing the L = 2 and L = infinity theory limits with simulation.")
     x, w = 9.6, 3.2
-    stat(slide, x, 1.7, w, "10 → 50 → 80%", "edge loss where L = 2, 3, 4 first fall 5 pp below L = ∞", PURPLE, 25, label_h=.8)
-    stat(slide, x, 3.55, w, "> 92%", "of L = ∞ failures have lost a terminal link, at every damage level", PURPLE, label_h=.8)
-    text(slide, .73, 6.35, 11.9, .4, ["PPI giant at 90% edge loss: 75.0% simulated, 75.1% GF; p", ("c", -25000), " ≈ 0.006. All ten seeds (slide 8: seeds 0–2)."], 16.5, MUTED)
-    slide.notes_slide.notes_text_frame.text = NOTES[11] + "\n\nSource: results/ws4/primekg_5000_bfs_v1__hop_scan_10seeds.csv, __theory.csv, __hop_boundary.csv, __failure_channels.csv. The 5 pp marker is a display choice, not a phase boundary."
+    stat(slide, x, 1.7, w, "10 → 50 → 85%", "edge loss where L = 2, 3, 4 first fall 5 pp below L = ∞", PURPLE, 25, label_h=.8)
+    stat(slide, x, 3.55, w, "> 90%", "of L = ∞ failures, up to 90% edge loss, are a drug with no surviving target", PURPLE, label_h=1.1)
+    text(slide, .73, 6.35, 11.9, .4, ["PPI giant at 90% edge loss: 75.0% simulated, 75.1% GF. Molloy–Reed p", ("c", -25000), " ≈ 0.006. Markers use 600 fresh orders."], 16.5, MUTED)
+    slide.notes_slide.notes_text_frame.text = NOTES[11] + "\n\nSource: results/ws4/primekg_5000_bfs_v1__hop_scan_10seeds.csv, __theory.csv, __hop_boundary.csv, __hop_fresh_orders.csv. The heatmap uses all ten seeds; slide 8 uses seeds 0–2. The 5 pp marker is a display choice, not a phase boundary. p_c is an estimate: the scan stops at p = 0.01."
 
 
 def update_structural_slides(slides):
@@ -184,7 +186,13 @@ def update_structural_slides(slides):
     old._element.getparent().remove(old._element)
     frame = slide5.notes_slide.notes_text_frame
     frame.text = frame.text.replace("D’s degree-attack theory overlay remains pending.",
-                                    "The dashed line is the Callaway degree-attack theory. It sits up to 11 points above the measured curve for f below about 0.55, so the real graph is more fragile than its degree sequence alone implies.")
+                                    "The dashed line is the Callaway degree-attack theory. It sits up to 11 points above the measured curve for f below about 0.58, so the real graph is more fragile there than its degree sequence alone implies.")
+
+
+def update_conclusion_note(slide):
+    frame = slide.notes_slide.notes_text_frame
+    value = frame.text.replace("D's theory pages still need integration before the complete group presentation\nand the fourteen-minute rehearsal can be finalized.\n", "")
+    frame.text = value.replace(" Full-group theory narrative awaits D.", "")
 
 
 def backup(prs, source, title, footer):
@@ -211,7 +219,7 @@ def add_backups(prs, source):
            ["Random edges, 50%", "0.720", "0.712", "0.204", "0.204"],
            ["Degree attack, 5%", "0.658", "0.884", "0.535", "0.138"],
            ["Betweenness, 5%", "0.686", "0.874", "0.585", "0.129"]], row_h=.66)
-    text(one, .73, 6.35, 11.9, .4, "Random: test seeds 7–9. Attacks: 5-fold CV over 200 queries, 20 repeats; exploratory.", 16.5, MUTED)
+    text(one, .73, 6.35, 11.9, .4, "Random: test seeds 7–9. Attacks: 5-fold CV over queries, exploratory; degree-attack AUC is 0.83 with folds split by drug.", 16.5, MUTED)
     one.notes_slide.notes_text_frame.text = "Under random damage the formula sits at the AUC ceiling of about 0.72, so degree features add nothing. Under attack, degree features help a great deal, but they include the quantity that defines the attack, so this is exploratory. Source: results/ws4/primekg_5000_bfs_v1__prediction_detail.csv."
     two = backup(prs, source, "Backup: how the theory was checked", "D / B2")
     picture(two, ACT2 / "fig_ppi_giant.png", .55, 1.5, 5.6, 4.6,
@@ -220,12 +228,12 @@ def add_backups(prs, source):
           [["Check", "Largest gap"],
            ["Configuration model, bond and site", "0.0012"],
            ["Configuration model, degree attack, f ≤ 0.5", "0.0009"],
-           ["Formulas vs 5,000 fresh orders", "0.0010"],
+           ["Two-hop formulas vs 5,000 fresh orders", "0.0010"],
            [["GF vs A’s separate solver"], ["< 10", ("−12", 30000)]],
-           ["PPI giant, GF vs ten seeds", "0.020"],
-           ["L = ∞ formula vs ten seeds", "0.062"]], row_h=.58)
+           ["PPI giant, GF vs ten seeds, f ≤ 0.97", "0.009"],
+           ["L = ∞ formula vs 600 fresh orders", "0.009"]], row_h=.58)
     text(two, .73, 6.35, 11.9, .4, "Largest absolute difference in fraction units. Configuration-model graphs share the real degree sequence.", 16.5, MUTED)
-    two.notes_slide.notes_text_frame.text = "The configuration-model check tests the code; the other rows test the assumptions. The attack check excludes f = 0.6, where the theory is at its threshold and the finite graph gives 0.025. Source: results/ws4/primekg_5000_bfs_v1__configuration_model_check.csv and __monte_carlo_check.csv."
+    two.notes_slide.notes_text_frame.text = "The configuration-model check tests the code; the other rows test the assumptions. The attack check excludes f = 0.6, where the theory is at its threshold and the finite graph gives 0.025. The PPI gap reaches 0.020 at f = 0.99. Source: results/ws4/primekg_5000_bfs_v1__configuration_model_check.csv and __monte_carlo_check.csv."
     three = backup(prs, source, "Backup: equal damage, different outcomes", "D / B3")
     picture(three, ACT2 / "fig_equal_damage.png", .55, 1.5, 7.4, 4.6,
             "Bars for random, degree and betweenness removal at five percent: GCC stays near 0.9 while retrieval falls from 0.87 to about 0.3.")
@@ -262,6 +270,7 @@ def main():
     prs = Presentation(ROOT / "slides/G17_working_draft.pptx")
     slides = list(prs.slides)
     update_structural_slides(slides)
+    update_conclusion_note(slides[13])
     add_backups(prs, slides[8])
     fill_slide_9(slides[8])
     fill_slide_10(slides[9])

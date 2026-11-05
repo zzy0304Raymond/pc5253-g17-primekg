@@ -10,15 +10,15 @@ Target 3:00 in total, about 130 words per minute. Every number comes from `resul
 
 ## Slide 10 · Targeted attacks break independence
 
-**Script:** That formula assumes damage ignores the graph. A targeted attack does not. This plot shows the gap between the random-removal formula and measured success under attack. Removing the top five percent of nodes by degree leaves 30 percent of queries working, while the formula predicts 88 percent. That is a penalty of 57 points. It has two channels. About 24 points come from lost endpoints, mostly hub diseases. About 34 come from lost paths, because query paths run through hubs: their median degree is 188, against 25 for all proteins. So path count is not effective redundancy. Twenty-two percent of multi-path queries lose every path. The giant component hides this: compared with random removal it falls 7 points, while retrieval falls 56.
+**Script:** That formula assumes damage ignores the graph. A targeted attack does not. This plot shows the gap between the random-removal formula and measured success under attack. Removing the top five percent of nodes by degree leaves 30 percent of queries working, while the formula predicts 88 percent. That is a penalty of 57 points. It has two channels. About 17 points come from lost endpoints, mostly hub diseases. About 40 come from lost paths, because query paths run through hubs: the median path protein has degree 188, against 25 for all proteins. So path count is not effective redundancy: 53 percent of multi-path queries fail. The giant component hides this: compared with random removal it falls 7 points, while retrieval falls 56.
 
-**中文要点：** 公式假设破坏是“盲”的。攻击专挑 hub，而查询恰好挂在 hub 上，因为一个蛋白要同时连到药物和疾病，天然偏向高度节点。损失拆成两路：端点本身被删（多为 hub 疾病），以及端点还在但路径没了。
+**中文要点：** 公式假设破坏是“盲”的。攻击专挑 hub，而查询恰好挂在 hub 上，因为一个蛋白要同时连到药物和疾病，天然偏向高度节点。R 可以写成“端点存活 × 路径存活”，所以损失分成两路，17 和 40 是两种拆分顺序的平均。
 
 ## Slide 11 · Longer horizons move the bottleneck
 
-**Script:** Finally, the hop limit. We have two analytic limits. At L equals two, retrieval is local, and our formula applies. At L equals infinity, a query only needs both endpoints to reach the protein–protein giant component. Generating functions give that probability with no fit, and it stays within about six points of simulation. In between, each extra hop delays the damage at which the limit matters: about ten, fifty and eighty percent edge loss for two, three and four hops. We expected a sharp percolation collapse at L infinity, and we did not see one. The protein giant component is too robust: its threshold is near p equals 0.006. At every damage level, over 92 percent of L-infinity failures have lost a terminal link. So longer horizons move the bottleneck from shared proteins to the last link.
+**Script:** Finally, the hop limit. We have two analytic limits. At L equals two, retrieval is local, and our formula applies. At L equals infinity, a query only needs both endpoints to reach the protein–protein giant component. Generating functions give that probability with no fit, and it matches the mean over 600 fresh damage orders to within 0.01. In between, each extra hop delays the damage at which the limit matters: about ten, fifty and eighty-five percent edge loss for two, three and four hops. We expected a sharp percolation collapse at L infinity, and we did not see one. The protein giant component still holds 75 percent of proteins at 90 percent edge loss. Up to that point, over 90 percent of L-infinity failures are drugs that have lost every target. So on this benchmark, longer horizons move the bottleneck from shared proteins to the drug's own target links.
 
-**中文要点：** 原先预期 L = ∞ 会在渗流阈值附近塌缩，数据不支持。PPI 骨架极其耐打（p_c ≈ 0.006），先断的是药物、疾病接入骨架的末端边。所以结论应说瓶颈转移，不要说出现了相变。
+**中文要点：** 原先预期 L = ∞ 会在渗流阈值附近塌缩，数据不支持。PPI 骨架极其耐打，先断的主要是药物到靶点的那几条边，因为查询里的药物靶点很少。所以结论应说这个查询集上瓶颈转移，不要说出现了相变；0.006 只是 Molloy–Reed 估计，我们没有测到阈值本身。
 
 ## Theory Q&A
 
@@ -32,19 +32,22 @@ Sampling. The seed SD is about 0.05 and the ten seeds are nested across damage l
 That is close to the ceiling. If the formula is true, failure is still random given m, and the expected AUC is 0.72 at 30% and 0.71 at 50% damage. Formula and regression both reach it.
 
 **Why is there no phase transition at L = 2?**  
-R is a polynomial in p on a finite query set, so it has no singularity. It depends on a few local edges, not on a collective variable.
+Each query depends on a fixed handful of edges, so R(p) stays the same smooth function as the graph grows. A giant component depends on an unbounded number of edges, which is why it can become singular as N → ∞.
 
 **Why no sharp collapse at L = ∞?**  
-The PPI network is hub-heavy, so p_c = ⟨k⟩/(⟨k²⟩ − ⟨k⟩) ≈ 0.006, or 0.0054 on the filtered full graph. Long before that, endpoints lose all their terminal edges: 31.5% of queries have a drug with at most three targets. PPI disconnection is the failure mode in under 8% of failures.
+The PPI network is hub-heavy. The Molloy–Reed estimate is p_c = ⟨k⟩/(⟨k²⟩ − ⟨k⟩) ≈ 0.006, or 0.0054 on the filtered full graph. Our scan stops at p = 0.01, so we did not measure the threshold itself. Drug links fail long before that: at p = 0.01 only 8% of queries keep a terminal link at both ends, whatever the PPI network does.
+
+**Is the drug bottleneck a sampling artefact?**  
+It is specific to this benchmark, so we do not generalise it. The BFS graph keeps 78% of its drugs' target links, yet the median query drug has 2 targets in both the BFS graph and the full graph. Also, 31.5% of queries use a drug with at most three targets.
 
 **GF assumes a configuration model. Why use it on a real graph?**  
-Because the difference is informative. On stub-matched graphs with the same degrees, our code agrees with simulation to about 0.001. On the real PPI network it also tracks closely (largest gap 0.020). For the degree attack, theory sits above simulation by up to 0.11, so the real graph is more fragile. Our null-model test of the cause is planned for the report.
+Because the difference is informative. On stub-matched graphs with the same degrees, our code agrees with simulation to about 0.001. On the real PPI network the gap stays within 0.009 up to f = 0.97 and reaches 0.020 at f = 0.99. For the degree attack, theory sits up to 0.11 above simulation below f ≈ 0.58, so the real graph is more fragile there; above that a small remnant survives where theory gives zero. Our null-model test of the cause is planned for the report.
 
-**Is the 24 + 34 split unique?**  
-No. It is an exact identity with endpoints counted first: Δ = (φ² − E)·C_th + E·(C_th − C). Counting paths first would change the split but not the total.
+**How unique is the 17 + 40 split?**  
+R is a product of an endpoint factor and a path factor, so a sequential split depends on which factor changes first. We average both orders: Δ = (φ² − E)(C_th + C)/2 + (C_th − C)(φ² + E)/2. At 5% degree attack, endpoints give 11–24 points and paths 34–46, depending on order.
 
 **Why do slides 8 and 11 differ slightly?**  
-Slide 8 uses seeds 0–2. Slide 11 uses all ten. Two-hop success at 50% is 40.3% on slide 8 and 43.3% on slides 6 and 11.
+Slide 8 uses seeds 0–2, and the heatmap on slide 11 uses all ten. Damage-order noise is visible at this size: L = 3 at 50% loss is 84.5% with three seeds, 81.9% with ten, and 79.2% over 600 fresh orders.
 
 **Does the logistic regression beat theory under attack?**  
-Yes, AUC 0.88 against 0.66 at 5% degree attack, in cross-validation over queries. Treat it as exploratory: the features include the degree that defines the attack.
+Yes. At a 5% degree attack the AUC is 0.88 against 0.66 in cross-validation over queries, and 0.83 when folds are split by drug. Treat it as exploratory: the features include the degree that defines the attack.

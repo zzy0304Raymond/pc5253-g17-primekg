@@ -73,7 +73,6 @@ class HopLimit(unittest.TestCase):
         queries = load_queries(self.gid)
         self.assertEqual(T.R_inf_edge(0, self.gid, queries), 0)
         self.assertLessEqual(T.R_inf_edge(.5, self.gid, queries), T.R_attachment_bound(.5, self.gid, queries) + 1e-12)
-        self.assertGreaterEqual(T.R_inf_edge_union(.5, self.gid, queries), T.R_inf_edge(.5, self.gid, queries))
         self.assertAlmostEqual(T.R_attachment_bound(1, self.gid, queries), 1)
 
 

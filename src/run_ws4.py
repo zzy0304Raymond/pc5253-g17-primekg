@@ -64,11 +64,46 @@ def failure_channels(gid, queries):
             alive[order[:removed]] = False
             distance = retriever.evaluate(queries, edge_alive=alive, compute_dist=True).d_ppi.to_numpy()
             attached = set(entity[alive[retriever.terminal_ids]].tolist())
-            ends = np.array([q["drug_nid"] in attached and q["disease_nid"] in attached for q in queries])
+            drug = np.array([q["drug_nid"] in attached for q in queries])
+            disease = np.array([q["disease_nid"] in attached for q in queries])
+            ends = drug & disease
             success = np.isfinite(distance)
             rows.append(long_row(gid, "edge_random", seed, frac, removed, "fail_terminal", (~ends).mean()))
+            rows.append(long_row(gid, "edge_random", seed, frac, removed, "fail_drug_only", (~drug & disease).mean()))
+            rows.append(long_row(gid, "edge_random", seed, frac, removed, "fail_disease_only", (drug & ~disease).mean()))
             rows.append(long_row(gid, "edge_random", seed, frac, removed, "fail_disconnected", (ends & ~success).mean()))
     return frame(rows)
+
+
+def fresh_hop_check(gid, queries, n_orders=600, seed=20261105):
+    """Mean of every hop limit over fresh orders; the ten official seeds are a small sample."""
+    retriever = Retriever(gid)
+    total = len(retriever.edges)
+    entity = retriever.terminal_edges[:, 0]
+    rng = np.random.default_rng(seed)
+    levels = (.05, .1, .2, .3, .4, .5, .6, .7, .8, .85, .9, .95, .97, .99)
+    rows = []
+    for order_id in range(n_orders):
+        order = rng.permutation(total)
+        for frac in levels:
+            alive = np.ones(total, dtype=bool)
+            alive[order[:n_removed(frac, total)]] = False
+            distance = retriever.evaluate(queries, edge_alive=alive, compute_dist=True).d_ppi.to_numpy()
+            attached = set(entity[alive[retriever.terminal_ids]].tolist())
+            drug = np.array([q["drug_nid"] in attached for q in queries])
+            disease = np.array([q["disease_nid"] in attached for q in queries])
+            failed = ~np.isfinite(distance)
+            rows.append(dict(order=order_id, frac_removed=frac, R_L2=(distance == 0).mean(), R_L3=(distance <= 1).mean(),
+                             R_L4=(distance <= 2).mean(), R_Linf=(~failed).mean(), fail_terminal=(~(drug & disease)).mean(),
+                             fail_drug_only=(~drug & disease).mean(), fail_disconnected=(drug & disease & failed).mean()))
+    data = pd.DataFrame(rows).drop(columns="order")
+    grouped = data.groupby("frac_removed")
+    mean, se = grouped.mean(), grouped.sem()
+    mean.columns = [f"{c}_mean" for c in mean.columns]
+    se.columns = [f"{c}_se" for c in se.columns]
+    result = pd.concat([mean, se], axis=1).reset_index()
+    result.insert(1, "n_orders", n_orders)
+    return result
 
 
 def largest_component(n, uv):
@@ -95,7 +130,6 @@ def theory_table(gid, queries):
         values = {"R_L2": theory.R_edge(p, m), "R_L2_single": theory.R_edge(p, m[groups == "single"]),
                   "R_L2_multi": theory.R_edge(p, m[groups == "multi"]),
                   "R_Linf": theory.R_inf_edge(p, gid, queries),
-                  "R_Linf_union": theory.R_inf_edge_union(p, gid, queries),
                   "R_attachment_bound": theory.R_attachment_bound(p, gid, queries),
                   "gcc_frac": theory.gcc_bond(degree, p), "ppi_gcc_frac": theory.gcc_bond(ppi, p)}
         for metric, value in values.items():
@@ -111,10 +145,13 @@ def theory_table(gid, queries):
 
 
 def correlation_penalty(gid, queries):
-    """Delta(f) and its exact split into hub-endpoint and hub-path channels.
+    """Delta(f) and its split into hub-endpoint and hub-path channels.
 
     With phi^2 and C_th the formula's endpoint and path factors, and E and C the
-    measured ones: Delta = (phi^2 - E) C_th + E (C_th - C).
+    measured ones, R = endpoint factor x path factor. A sequential split depends
+    on which factor is changed first, so the reported split averages both orders:
+    Delta = (phi^2 - E)(C_th + C)/2 + (C_th - C)(phi^2 + E)/2.
+    The two sequential versions are stored as well, to show the range.
     """
     m = np.array([q["redundancy_m"] for q in queries])
     nodes = len(load_nodes(gid))
@@ -135,8 +172,12 @@ def correlation_penalty(gid, queries):
             given = measured / endpoint if endpoint else 0.0
             values = {"corr_penalty": formula - measured, "R_L2": measured, "R_L2_formula": formula,
                       "endpoint_alive": endpoint, "path_given_endpoints": given,
-                      "penalty_endpoint": (phi ** 2 - endpoint) * path_formula,
-                      "penalty_path": endpoint * (path_formula - given)}
+                      "penalty_endpoint": (phi ** 2 - endpoint) * (path_formula + given) / 2,
+                      "penalty_path": (path_formula - given) * (phi ** 2 + endpoint) / 2,
+                      "penalty_endpoint_if_first": (phi ** 2 - endpoint) * path_formula,
+                      "penalty_endpoint_if_last": (phi ** 2 - endpoint) * given,
+                      "penalty_path_if_first": (path_formula - given) * phi ** 2,
+                      "penalty_path_if_last": (path_formula - given) * endpoint}
             for metric, value in values.items():
                 rows.append(long_row(gid, strategy, -1, frac, removed, metric, value))
     return frame(rows)
@@ -150,8 +191,9 @@ def hub_exposure(gid, queries):
     inter = np.array(sorted({x for q in queries for x in q["intermediates"]}))
     paths = np.array([x for q in queries for x in q["intermediates"]])
     rows = {"median_degree_all_proteins": float(np.median(degree[proteins])),
-            "median_degree_query_intermediate_proteins": float(np.median(degree[inter])),
-            "median_degree_query_path_weighted": float(np.median(degree[paths]))}
+            "median_degree_unique_query_proteins": float(np.median(degree[inter])),
+            "median_degree_per_query_path": float(np.median(degree[paths])),
+            "n_query_paths": len(paths), "n_unique_query_proteins": len(inter)}
     count = n_removed(.05, len(degree))
     for strategy in ATTACKS:
         top = set(load_order(gid, strategy)[:count].tolist())
@@ -213,12 +255,12 @@ def attack_overlay(gid, table):
     return pd.concat([frame(rows), theory_rows], ignore_index=True)
 
 
-def hop_boundary(scan):
-    """First official f at which each hop limit falls BOUNDARY_GAP below L = infinity."""
-    mean = scan.groupby(["metric", "frac_removed"]).value.mean().unstack("metric")
+def hop_boundary(fresh):
+    """First damage level at which each hop limit falls BOUNDARY_GAP below L = infinity."""
+    mean = fresh.set_index("frac_removed")
     rows = []
     for metric in ("R_L2", "R_L3", "R_L4"):
-        gap = mean["R_Linf"] - mean[metric]
+        gap = mean["R_Linf_mean"] - mean[f"{metric}_mean"]
         rows.append(dict(metric=metric, gap=BOUNDARY_GAP, first_f=float(gap[gap >= BOUNDARY_GAP].index.min())))
     return pd.DataFrame(rows)
 
@@ -309,7 +351,9 @@ def run(gid):
         table.to_csv(out / f"{gid}__{name}.csv", index=False, lineterminator="\n")
     scan = hop_scan(gid, queries)
     save(scan, "hop_scan_10seeds")
-    save(hop_boundary(scan), "hop_boundary")
+    fresh = fresh_hop_check(gid, queries)
+    save(fresh, "hop_fresh_orders")
+    save(hop_boundary(fresh), "hop_boundary")
     save(failure_channels(gid, queries), "failure_channels")
     table = theory_table(gid, queries)
     save(table, "theory")
