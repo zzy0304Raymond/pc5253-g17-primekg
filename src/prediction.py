@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import brier_score_loss, roc_auc_score
-from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import RepeatedStratifiedKFold, StratifiedGroupKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -90,6 +90,7 @@ def targeted_attack(gid):
     queries = load_queries(gid)
     features = query_features(gid, queries)
     m = np.array([q["redundancy_m"] for q in queries])
+    drugs = np.array([q["drug_nid"] for q in queries])
     total = len(load_nodes(gid))
     detail = []
     splitter = RepeatedStratifiedKFold(n_splits=5, n_repeats=20, random_state=42)
@@ -106,12 +107,21 @@ def targeted_attack(gid):
                                roc_auc_score(outcome[test], predicted),
                                brier_score_loss(outcome[test], predicted)))
             mean = np.mean(scores, axis=0)
+            grouped = []
+            # The 2,000-node graph has only three query drugs, too few for five folds.
+            for repeat in range(20 if len(set(drugs.tolist())) >= 5 else 0):
+                folds = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=repeat)
+                for train, test in folds.split(features, outcome, drugs):
+                    if 0 < outcome[test].sum() < len(test):
+                        predicted = _model().fit(features[train], outcome[train]).predict_proba(features[test])[:, 1]
+                        grouped.append(roc_auc_score(outcome[test], predicted))
             detail.append(dict(strategy=strategy, damage_frac=frac, evaluation="5-fold CV x 20 over queries",
                                n_rows=len(outcome), base_rate=float(outcome.mean()),
                                brier_base_rate=float(outcome.mean() * (1 - outcome.mean())),
                                auc_ceiling_if_formula_true=np.nan,
                                theory_auc=mean[0], theory_brier=mean[1],
-                               logistic_auc=mean[2], logistic_brier=mean[3]))
+                               logistic_auc=mean[2], logistic_brier=mean[3],
+                               logistic_auc_folds_split_by_drug=float(np.mean(grouped)) if grouped else np.nan))
     return detail
 
 

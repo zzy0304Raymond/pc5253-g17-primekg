@@ -7,8 +7,7 @@ Every function evaluates an idealised ensemble, never a fit:
 * ``gcc_*`` assume an uncorrelated, locally tree-like configuration model with
   the empirical degree sequence. Differences on a real graph are findings.
 * ``R_inf_edge`` is the L -> infinity approximation of the review document,
-  section 5.2. ``R_inf_edge_union`` adds the two-hop route, which survives even
-  when neither endpoint reaches the PPI giant component.
+  section 5.2. ``R_attachment_bound`` is its upper limit at any hop count.
 
 ``keep`` arguments are surviving fractions. Callers should pass the realised
 value ``1 - n_removed / total``, as agreed in docs/DATA_CONTRACT.md.
@@ -192,10 +191,3 @@ def R_attachment_bound(p, gid, queries):
     data, p = _attachment(gid), _fraction(p, "p")
     miss = {a: (1 - p) ** len(b) for a, b in data.partners.items()}
     return float(np.mean([(1 - miss[q["drug_nid"]]) * (1 - miss[q["disease_nid"]]) for q in queries]))
-
-
-def R_inf_edge_union(p, gid, queries):
-    """L -> infinity including the two-hop route, treated as independent."""
-    giant = _giant_attachment(p, gid, queries)
-    two_hop = 1 - (1 - p * p) ** np.array([q["redundancy_m"] for q in queries])
-    return float(np.mean(1 - (1 - giant) * (1 - two_hop)))

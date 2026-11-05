@@ -8,8 +8,10 @@
   "pairs_with_multiple_relations": 0,
   "hub_exposure": {
     "median_degree_all_proteins": 15.0,
-    "median_degree_query_intermediate_proteins": 59.0,
-    "median_degree_query_path_weighted": 69.5,
+    "median_degree_unique_query_proteins": 59.0,
+    "median_degree_per_query_path": 69.5,
+    "n_query_paths": 376,
+    "n_unique_query_proteins": 34,
     "node_degree_top5pct_all_intermediates_single": 0.8913043478260869,
     "node_degree_top5pct_all_intermediates_multi": 0.19696969696969696,
     "node_degree_top5pct_disease_endpoint": 0.375,
@@ -21,9 +23,9 @@
   },
   "hop_scan_note": "Ten official seeds through C's Retriever; slide 8 uses seeds 0-2.",
   "source_sha256": {
-    "theory.py": "286d400c481099bbf17d97ff3f3f34c0a9372e7ed3920ebc73269ff4298b3439",
-    "prediction.py": "97e6d8fc6b4d14be9fece39f6c82e130cbe9bfb32794361f325dda5a14b192bc",
-    "run_ws4.py": "f32770706639c4ad708e1dc4c8748427ce8c79dbcb2e2806ec4811ca83d64fc0",
+    "theory.py": "d66a4ba2d5c50c9bb54f62c58ae276596ea9fc3845cf196946114e4a1f43fa31",
+    "prediction.py": "fcae35d75f43df28199dc3697a414422dc42b3248a8a58b6c31b6007eb9a19e7",
+    "run_ws4.py": "34b9f181850e1b261076576f0b10539390f1e4a5e261f4c46387fb174b4b98c8",
     "retrieval.py": "64d7aab809e459ecd0ad207bd2332186256f5f0f3341b790710a864c6b93db06"
   }
 }
