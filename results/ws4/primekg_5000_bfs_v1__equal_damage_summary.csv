@@ -1,0 +1,12 @@
+frac_removed,rank_by_S,rank_by_R,same_order,S_gap_random_minus_degree,R_gap_random_minus_degree,S_gap_degree_minus_betweenness,R_gap_degree_minus_betweenness
+0.0,node_random < node_degree < node_betweenness,node_random < node_degree < node_betweenness,True,0.0,0.0,0.0,0.0
+0.05,node_degree < node_betweenness < node_random,node_betweenness < node_degree < node_random,False,0.06635999999999986,0.5645,-0.0026000000000000467,0.065
+0.1,node_betweenness < node_degree < node_random,node_betweenness < node_degree < node_random,True,0.08235999999999999,0.5675,0.0014000000000000679,0.025000000000000022
+0.2,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.10753999999999997,0.488,0.0040000000000000036,-0.009999999999999995
+0.3,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.15003999999999995,0.355,0.0026000000000000467,-0.010000000000000002
+0.4,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.19845999999999997,0.2395,0.0015999999999999903,-0.005
+0.5,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.26052,0.1555,0.0262,-0.005
+0.6,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.34256000000000003,0.096,0.0422,0.0
+0.7,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.28731999999999996,0.049,0.0006000000000000001,0.0
+0.8,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.18586,0.019,0.0006000000000000001,0.0
+0.9,node_betweenness < node_degree < node_random,node_degree < node_betweenness < node_random,False,0.08434000000000001,0.0015,0.0002,0.0
