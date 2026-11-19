@@ -1,56 +1,53 @@
 \section{Introduction and Motivation}
 \label{sec:introduction}
 
-Knowledge graphs organize entities and their relationships into a
-network that can support queries across several connected facts. In
-biomedicine, a question connecting a drug with a disease may involve
-proteins associated with both endpoints. PrimeKG provides a multimodal
-graph linking biomedical entities for precision-medicine analyses
-(\href{https://doi.org/10.1038/s41597-023-01960-3}{Chandak et al.,
-2023}). Such a graph makes it possible to study how losing entities or
-relations changes access to particular association paths.
+Knowledge graphs organize entities and typed relations into networks that
+support multi-hop queries. In biomedicine, resources such as PrimeKG link
+drugs, diseases, and proteins so that associations can be traced across
+connected biological facts \cite{chandak2023primekg}. When links or entities
+are lost, however, a graph can remain almost fully connected while failing
+the queries it is meant to answer. On our 5,000-node PrimeKG subgraph,
+randomly removing 50\% of the edges leaves 98.2\% of the original nodes in
+the largest connected component, yet only 43.3\% of 200 benchmark queries
+retain a valid two-hop path---a 54.9-percentage-point gap measured on the
+same damage states and averaged over ten seeds (Section~\ref{sec:functional}).
 
-Complex-network research examines robustness by removing nodes or edges
-and measuring the surviving connected structure. Random failures and
-targeted attacks can produce different connectivity trajectories
-(\href{https://doi.org/10.1038/35019019}{Albert et al., 2000}). For a
-knowledge graph, however, a retrieval task imposes additional conditions
-on the paths that count as useful. The largest connected component may
-contain most of the original vertices while the specific relation
-pattern required by a query has disappeared. A structural measure and a
-semantic query therefore need not respond in the same way to the same
-damage.
+This divergence arises because global connectivity and typed retrieval
+impose different structural requirements. Classical network-robustness
+studies evaluate damage by tracking the largest connected component under
+random failures and targeted removals \cite{albert2000error,callaway2000network}.
+That statistic treats all edges as interchangeable and permits paths of
+arbitrary length. A structured query, by contrast, requires specific
+relation types within a bounded hop limit. In our benchmark, a two-hop
+drug--disease query succeeds only if a shared protein retains both its
+drug--protein and disease--protein links. Even after those links disappear,
+dense protein--protein interactions can still keep both endpoints inside
+the giant component through longer routes. Global connectivity can
+therefore remain high after short, typed association paths have largely
+collapsed.
 
-We study this relationship on a shared PrimeKG-derived graph containing
-drugs, diseases and proteins. A two-hop query succeeds when at least one
-protein retains both its drug and disease relations. Extending the
-horizon to three hops allows one protein--protein interaction between
-the terminal proteins. This controlled definition connects the
-functional metric directly to the available relations. It also provides
-a way to ask whether the importance of an edge changes when a task can
-use a longer route.
+Distinguishing structural connectivity from retrieval usability matters for
+both evaluation and repair. Because the largest connected component is a
+coarse network-level statistic, a system that relies on typed paths can
+lose more than half of its usable query support while connectivity barely
+changes. Measuring retrieval directly is therefore necessary to assess
+functional degradation. The same distinction reshapes network restoration:
+when only a limited budget of lost edges can be repaired, the links that
+best rebuild global connectivity need not be the links that best recover
+failed queries, and edge priorities may shift when a task can use longer
+paths.
 
-Our experiments combine random failure, targeted removal, retrieval
-evaluation and limited-budget restoration. All workstreams use fixed
-graph IDs, query definitions and removal orders so that structural and
-functional measurements can be compared on matching damaged states. The
-principal graph contains 5,000 nodes and 117,891 semantic edges. Its 200
-selected queries all have an intact two-hop path. The smaller 2,000-node
-graph supports development, while the filtered full graph provides
-structural context for the sampled network.
+Motivated by this gap, we investigate how random failures and targeted
+removals affect global connectivity compared with typed-path retrieval on
+the same damaged graphs. We then examine how path redundancy---multiple
+shared intermediate proteins---and the allowed number of hops buffer
+retrieval against edge loss. Finally, under a fixed repair budget, we ask
+which deleted edges best recover global connectivity versus held-out query
+success, and how those priorities change with the query horizon and budget.
 
-The restoration experiment asks which deleted relations should receive a
-limited repair budget. We compare random selection, original edge
-betweenness, a relation-type control and a static score based on
-unsuccessful training queries. The relation-type control separates gains
-from restoring terminal relations from gains due to selecting particular
-task-relevant edges. We evaluate restored connectivity and held-out
-query success at two query horizons. Together, these measurements test
-how repair performance depends on the network structure, the query
-definition and the available budget.
-
-The functional outcome is the availability of typed association paths in
-a selected positive-query benchmark. Its interpretation is bounded by
-the BFS sampling procedure and the query construction. Query-level
-training and test splits can share entities. These experiments address
-graph retrieval reliability and do not establish therapeutic efficacy.
+Using a biomedical benchmark derived from PrimeKG \cite{chandak2023primekg},
+we pair structural robustness analysis with direct evaluation of typed
+drug--disease retrieval across matched damage states, quantify the roles of
+path redundancy and hop limits (Section~\ref{sec:functional}), and compare
+limited-budget restoration strategies on both connectivity and held-out
+query recovery (Section~\ref{sec:restoration}).
