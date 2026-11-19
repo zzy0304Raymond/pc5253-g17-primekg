@@ -6,7 +6,7 @@ reference}\label{simulation-and-theoretical-reference}
 
 We compute all removal states by reversing each fixed removal order and
 adding edges or nodes with a union-find structure, following the
-reverse-addition approach of Newman--Ziff \cite{newman2000efficient}. Each returned array
+reverse-addition approach of Newman--Ziff {[}2{]}. Each returned array
 is indexed by the number removed. For semantic duplicates on one
 endpoint pair, connectivity changes only when the first surviving
 relation is added. This implementation yields largest-component size,
@@ -14,14 +14,14 @@ component count and isolated-node count, together with surviving
 structural and semantic edge counts.
 
 We compare the curves with a generating-function prediction based on the
-original empirical structural degree distribution. Define
-$g_0(z)=\sum_k p_k z^k$ and $g_1(z)=g_0'(z)/g_0'(1)$. For edge retention
-$q$, the reference solves $u=1-q+qg_1(u)$, taking the nontrivial solution
-where it exists. Bond robustness is $1-g_0(u)$; site robustness under node
-retention $q$ is $q[1-g_0(u)]$. We use the actual retained fraction after
-integer rounding. These are configuration-model approximations, not exact
-identities for a finite, typed biological network. Fixed-count deletion
-also differs slightly from independent Bernoulli retention at finite size.
+original empirical structural degree distribution. With g0(z)=$\sum$k p\_k
+z\^{}k and g1(z)=g0'(z)/g0'(1), the reference solves u=1-q+qg1(u), using
+the nontrivial solution where it exists. Bond robustness is 1-g0(u),
+while site robustness is q{[}1-g0(u){]}. Here q is the actual retained
+fraction after integer rounding. These equations describe a
+configuration-model approximation; they are not an exact identity for a
+finite, typed biological network. The fixed-count deletion simulation
+also differs from independent Bernoulli retention at finite size.
 
 \subsubsection{Standard-graph results}\label{standard-graph-results}
 
@@ -34,7 +34,6 @@ sampled damage range but loses most original nodes at extreme edge
 removal.
 
 \begin{longtable}[]{@{}lrrrr@{}}
-\caption{Random-failure robustness on the 5,000-node graph.}\label{tab:a-random}\\
 \toprule\noalign{}
 Removal & f & Mean S & Sample SD & GF reference \\
 \midrule\noalign{}
@@ -47,24 +46,6 @@ Edge & 0.99 & 0.11222 & 0.01592 & 0.12578 \\
 Node & 0.50 & 0.49252 & 0.00345 & 0.49106 \\
 Node & 0.90 & 0.08474 & 0.00351 & 0.08143 \\
 \end{longtable}
-
-Figure~\ref{fig:a-random} shows the random edge and node curves with their configuration-model references.
-
-\begin{figure}[htbp]
-\centering
-\begin{subfigure}[t]{0.49\linewidth}
-\centering
-\includegraphics[width=\linewidth]{a_random_edge.pdf}
-\caption{Edge removal.}
-\end{subfigure}\hfill
-\begin{subfigure}[t]{0.49\linewidth}
-\centering
-\includegraphics[width=\linewidth]{a_random_node.pdf}
-\caption{Node removal.}
-\end{subfigure}
-\caption{Random-failure simulations on the 5,000-node graph; shading is the sample SD across ten seeds and dashed curves are configuration-model references.}
-\label{fig:a-random}
-\end{figure}
 
 Under random node removal, S declines almost proportionally to the
 surviving fraction over much of the range. At f=0.50, S$\approx$0.49252 means
@@ -101,14 +82,7 @@ parts of the full network are plausible contributors, but this
 experiment alone does not isolate their separate effects. We therefore
 present the 5,000-node curves as results for the agreed standard
 subgraph and use the full graph to constrain claims about PrimeKG more
-broadly. Figure~\ref{fig:a-sampling} displays this comparison.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.82\linewidth]{a_sampling_comparison.pdf}
-\caption{Random-edge robustness in the BFS samples and filtered full graph. The different graph constructions limit generalization from the 5,000-node sample.}
-\label{fig:a-sampling}
-\end{figure}
+broadly.
 
 \subsubsection{Validation and connection to subsequent
 workstreams}\label{validation-and-connection-to-subsequent-workstreams}
@@ -126,8 +100,8 @@ For downstream retrieval and restoration, reference fixtures contain
 endpoint survival, surviving two-hop path counts and PPI distances at
 the same seed-0 damage states. They are computed independently with
 NetworkX and can be used to validate C's retriever and E's zero-budget
-baseline. The independent fixtures are distinct from the later C and E
-integration checks documented elsewhere in the repository. This foundation allows the
+baseline. Formal integration with the other members' actual modules
+remains separate from these reference checks. This foundation allows the
 subsequent sections to ask whether a structurally large component still
 supports the fixed semantic tasks, and whether attacks or restoration
 alter that relationship.

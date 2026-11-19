@@ -86,8 +86,8 @@ B-owned centrality files and should not be rewritten to register them.
   states per gid, six counts per state.
 \item
   results/validation/\{gid\}\_\_retrieval\_reference.csv: independent
-  semantic-path/distance reference for downstream consumers; formal C integration is
-  documented separately.
+  semantic-path/distance reference for downstream consumers; not a claim
+  that C's module has been tested.
 \item
   slides/A\_slides\_3\_4.pptx: two editable slides with native charts
   and an editable table; the scientific PNG/PDF plots retain shaded SD
@@ -103,8 +103,8 @@ dataset. The 2,000-node graph contains 112 queries and only three drugs.
 Report functions must handle actual group sizes. Query splits allow
 entity overlap.
 
-A's original GF reference has now been compared with D's final theory
-module; the WS4 handoff reports agreement to within $10^{-12}$. The
-optional \texttt{--theory-module src.theory} switch selects D's implementation
-without changing the frozen scientific data. These scripts do not perform
-institutional submission or peer grading.
+The GF reference is A's isolated implementation pending D's final
+module. Use \texttt{-\/-theory-module\ src.theory} when it arrives. E
+can supply plotting.py without changing scientific data. Full group
+integration, rehearsal, institutional submission and peer grading are
+not performed by these scripts.
