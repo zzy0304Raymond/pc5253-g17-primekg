@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs,longtable,enumitem,xcolor,graphicx,float,subcaption,hyperref,setspace,microtype}
+\setstretch{1.10}
+\setlength{\emergencystretch}{2em}
+% Expected location: repository_root/report/main.tex
+% Figures may live in repository_root/figures or report/figures.
+\graphicspath{{../figures/}{figures/}}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,citecolor=black}
+
+\providecommand{\tightlist}{}
+\newcommand{\course}{PC5253: Complex Systems Analysis and Modelling}
+\newcommand{\semester}{Semester 1, AY2026/2027}
+\newcommand{\projecttitle}{Robustness of Knowledge-Graph Retrieval under Network Damage}
+\newcommand{\groupid}{G17}
+
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Group Project Final Report}\\[0.4em]
+{\large\bfseries \projecttitle}\\[0.9em]
+Group ID: \groupid\\[0.5em]
+\course\\
+\semester
+\end{center}
+
+% INTERNAL NOTE: delete before final submission.
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\textbf{Internal writing guide --- delete before submission}
+\begin{itemize}[leftmargin=*,itemsep=0.2em,topsep=0.3em]
+\item Main report content should be at least \textbf{10 pages}; code, data, and references are excluded.
+\item Each member edits only the assigned section file. Avoid editing \texttt{main.tex} unless coordinating the report.
+\item Use consistent symbols: damage fraction $f$, structural robustness $S(f)$, and retrieval success $R(f)$ where applicable.
+\item Do not hard-code figure/table numbers; use \texttt{\\label} and \texttt{\\ref}.
+\item B performs final consistency editing; all members provide key findings, limitations, and takeaways for Section 8.
+\end{itemize}}}
+
+\section*{Administrative Information}
+\begin{tabular}{@{}>{\bfseries\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.70\linewidth}@{}}
+Group members & Add names and student IDs. \\[0.7em]
+Project area & Complex networks, knowledge graphs, percolation, and retrieval robustness. \\[0.7em]
+Repository & \url{https://github.com/zzy0304Raymond/pc5253-g17-primekg} \\
+\end{tabular}
+
+\tableofcontents
+\clearpage
+
+\input{sections/01_introduction}
+\input{sections/02_data_protocol}
+\input{sections/03_theory}
+
+\section{Structural Robustness}
+\label{sec:structural}
+\input{sections/04_1_random_failures}
+\input{sections/04_2_targeted_attacks}
+
+\input{sections/05_functional_robustness}
+\input{sections/06_prediction}
+\input{sections/07_restoration}
+\input{sections/08_discussion_conclusion}
+
+\clearpage
+\begin{thebibliography}{9}
+\bibitem{chandak2023primekg} P. Chandak, K. Huang, and M. Zitnik, ``Building a knowledge graph to enable precision medicine,'' \textit{Scientific Data}, vol. 10, 67, 2023.
+\bibitem{albert2000error} R. Albert, H. Jeong, and A.-L. Barabasi, ``Error and attack tolerance of complex networks,'' \textit{Nature}, vol. 406, pp. 378--382, 2000.
+\bibitem{newman2000efficient} M. E. J. Newman and R. M. Ziff, ``Efficient Monte Carlo algorithm and high-precision results for percolation,'' \textit{Physical Review Letters}, vol. 85, pp. 4104--4107, 2000.
+\bibitem{callaway2000network} D. S. Callaway, M. E. J. Newman, S. H. Strogatz, and D. J. Watts, ``Network robustness and fragility: Percolation on random graphs,'' \textit{Physical Review Letters}, vol. 85, pp. 5468--5471, 2000.
+\end{thebibliography}
+
+\appendix
+\input{sections/appendix_reproducibility}
+\end{document}
