@@ -5,10 +5,10 @@
 representation}\label{source-and-graph-representation}
 
 We use the fixed PrimeKG \texttt{kg.csv} distributed as Harvard
-Dataverse file 6180620, associated with DOI 10.7910/DVN/IXA7BM {[}1{]}.
+Dataverse file 6180620, associated with DOI 10.7910/DVN/IXA7BM \cite{chandak2023primekg}.
 The downloaded file contains 8,100,498 stored rows and occupies
 981,751,236 bytes. Its MD5 matches the repository metadata
-(\texttt{aac8191d4fbc5bf09cdf8c3c78b4e75f}); the SHA-256 is recorded in
+(\texttt{aac8191d4fbc5bf0\allowbreak9cdf8c3c78b4e75f}); the SHA-256 is recorded in
 the reproducibility appendix. Thus the analysis is tied to a specific
 dataset file rather than an unspecified current version of the
 repository.
@@ -51,6 +51,7 @@ Local IDs are therefore graph-specific even where original entities
 overlap.
 
 \begin{longtable}[]{@{}lrrrrr@{}}
+\caption{Graph sizes and entity counts after filtering and sampling.}\label{tab:a-graphs}\\
 \toprule\noalign{}
 Graph & Nodes & Relations & Drugs & Diseases & Proteins \\
 \midrule\noalign{}
@@ -65,10 +66,17 @@ Filtered full graph & 30,968 & 426,954 & 6,282 & 5,593 & 19,093 \\
 The 5,000-node graph contains 90,187 protein--protein, 27,228
 disease--protein and 476 drug--protein relations. Its mean degree
 differs by node type: approximately 44.82 for proteins, 96.21 for
-diseases and 6.43 for drugs. These distributions are shown as empirical
-degree CCDFs sampled at logarithmically spaced thresholds. A long tail
+diseases and 6.43 for drugs. Figure~\ref{fig:a-degree} shows empirical degree CCDFs sampled at
+logarithmically spaced thresholds. A long tail
 in such a plot is descriptive evidence and does not by itself establish
 a power-law distribution.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\linewidth]{a_degree_dist.pdf}
+\caption{Empirical degree CCDF by entity type in the 5,000-node graph.}
+\label{fig:a-degree}
+\end{figure}
 
 The BFS sample is dominated by proteins and nearby high-connectivity
 structure. We therefore retain the filtered full graph for a direct
@@ -82,7 +90,7 @@ benchmark}\label{fixed-functional-benchmark}
 Queries ask whether a drug and disease share at least one protein
 through the required drug\_protein and disease\_protein relations. The
 redundancy m is the number of distinct intermediate proteins. We
-enumerate valid pairs in the intact graph, separate m=1 from m$\geq$2, sort
+enumerate valid pairs in the intact graph, separate $m=1$ from $m\geq 2$, sort
 pairs by original IDs, and sample up to 100 queries from each group
 using seed 42. The standard graph has 3,175 single-path and 1,264
 multi-path candidates and supplies exactly 100 queries from each group.
@@ -120,7 +128,7 @@ workstreams can reconstruct exactly the same states from these files.
 Edge-removal fractions extend to 0.99 and node-removal fractions to 0.90
 according to the shared plan.
 
-Structural robustness is S(f)=\textbar C\_max(f)\textbar/N0, where N0 is
+Structural robustness is $S(f)=|C_{\max}(f)|/N_0$, where N0 is
 the original node count. The denominator stays fixed for node removal.
 Component and isolated-node counts include only surviving nodes; the
 isolated fraction uses N0, whereas average degree is twice the number of
