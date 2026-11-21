@@ -1,11 +1,27 @@
 \section{Discussion, Limitations, and Conclusion}
 \label{sec:discussion}
-% Final editor: B. All members provide key finding + limitation + takeaway.
+
 \subsection{Discussion}
-\textit{[B: synthesize the cross-section findings. Suggested story: random robustness does not imply targeted robustness; structural connectivity does not imply retrieval usability; theory is informative but imperfect; restoration should be task-aware.]}
+Our results show that network robustness depends on what we want the network to preserve. Random edge removal left a large connected core in the 5,000-node BFS graph: at $f=0.50$, the largest connected component still contained 98.2\% of the original nodes, close to the configuration-model reference. However, only 43.3\% of the fixed queries retained a valid two-hop path on the same ten damage states (Section~\ref{sec:functional}). Protein--protein interactions can preserve global connectivity even when a drug and disease lose their last shared-protein route. Thus, connectivity alone is not a sufficient measure of functional robustness.
+
+The type and location of damage also matter. In Section~\ref{sec:structural}, targeted removal of high-degree or high-betweenness nodes reduced the giant component more rapidly than random node removal. At $f=0.50$, the remaining giant-component fractions were approximately 0.232 and 0.206 under these fixed targeted rankings, versus 0.493 under random removal. The two centrality rankings overlapped substantially, but the observed patterns apply to the fixed rankings used here rather than adaptive attacks.
+
+Functional performance also depends on the permitted query horizon. At 50\% random edge removal, the matched three-seed comparison increased retrieval success from 40.3\% at $L=2$ to 84.5\% at $L=3$. Queries with multiple original shared-protein paths were more likely to retain a two-hop route than single-path queries (60.7\% versus 25.9\% at the same damage level). Both path redundancy and allowing additional hops can therefore buffer query failure, although they describe different mechanisms.
+
+Restoration results extend this distinction from robustness to recovery. No single policy performed best for all targets and budgets (Section~7). Edge-betweenness repair quickly restored global connectivity and three-hop reachability; relation-type repair achieved the largest two-hop gain at a 20\% budget after 50\% edge removal (48.50 percentage points). Static task-aware repair was competitive at the smallest budget, but its fixed scores quickly saturated, leaving most of the remaining budget to zero-score ties. These differences show why repair priorities should follow the intended retrieval task and available budget rather than topology alone.
+
+% TODO(D): Integrate D's validated theory and retrieval-failure prediction findings here once supplied.
 
 \subsection{Limitations}
-\textit{[B: consolidate limitations supplied by A--E. Distinguish limitations of the 5k BFS subgraph, fixed query benchmark, fixed centrality rankings, simplified path-based retrieval, theoretical assumptions, and restoration evaluation.]}
+The standard 5,000-node graph is a deterministic BFS sample, not a representative random sample of the filtered PrimeKG network. At 90\% random edge removal, its giant-component fraction was 81.5\%, compared with 55.4\% for the filtered full graph. This comparison shows a substantial sampling sensitivity, but does not isolate the individual effects of graph size, composition, and degree distribution.
+
+Our functional benchmark consists of 200 initially retrievable drug--disease pairs, balanced between single-path and multi-path cases. It therefore measures survival under a controlled task distribution, not the prevalence of retrievable relations among arbitrary pairs. The hop-limit scan uses only three random edge-removal seeds, while several other comparisons use ten; results should be interpreted with their stated seed counts. A surviving typed association path also does not establish a clinically meaningful treatment relationship.
+
+The targeted attacks use centrality rankings computed on the intact graph, without recomputation after removal. The retrieval model tests path availability under specified relation and hop constraints rather than a complete biomedical reasoning system. Restoration is evaluated on the BFS subgraph, and the task-aware policy uses a one-time two-hop score based on training paths missing one edge; it does not update scores during repair or consider paths missing both edges. The 140/60 training/test split separates query IDs, not entities, so endpoints may overlap across splits. These choices support controlled comparisons but limit generalization.
+
+% TODO(D): Add any specific limitations of D's theoretical approximation and prediction model once verified.
 
 \subsection{Conclusion}
-\textit{[B: concise final takeaway. Avoid repeating every number.]}
+A knowledge graph can remain largely connected while losing many of the short, typed paths needed by its queries. Our PrimeKG experiments show that structural robustness, functional retrieval, and recovery under repair budgets are related but distinct outcomes. Redundant paths and longer query horizons improve retrieval survival, while the most effective repair strategy changes with the objective and budget. A practical robustness assessment should therefore report both network connectivity and task-specific retrieval success, with explicit graph, query, and damage definitions.
+
+% TODO(D): Revisit the final synthesis after Sections 3 and 6 are completed.
