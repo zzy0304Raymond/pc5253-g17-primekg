@@ -35,6 +35,22 @@ python scripts/download_data.py
 python scripts/run_a_pipeline.py
 \end{verbatim}
 
+The theory, prediction and null-model results (Sections~\ref{sec:theory}
+and~\ref{sec:prediction}) are regenerated from the frozen graphs and the stored
+WS2, WS3 and WS5 results with:
+
+\begin{verbatim}
+python -m src.run_ws4 primekg_5000_bfs_v1 primekg_2000_bfs_v1
+python -m src.run_ws4_report primekg_5000_bfs_v1
+python -m src.run_null_model primekg_5000_bfs_v1
+python -m src.plot_ws4 primekg_5000_bfs_v1
+python -m src.plot_null_model primekg_5000_bfs_v1
+\end{verbatim}
+
+All outputs are written to \texttt{results/ws4/} and \texttt{figures/act1/} or
+\texttt{figures/act2/}; random seeds are fixed in the scripts. The null-model
+run takes a few minutes on a laptop.
+
 The downloader requires data/raw/dataverse\_metadata.json; README gives
 the exact metadata download command. It supports resume and verifies
 each range response plus the official checksum. Pipeline stages refuse
@@ -89,6 +105,15 @@ B-owned centrality files and should not be rewritten to register them.
   semantic-path/distance reference for downstream consumers; not a claim
   that C's module has been tested.
 \item
+  tests/test\_theory\_d.py and tests/test\_null\_model.py: analytic cases of
+  the retrieval and GF formulas; degree, typed-degree and joint-degree
+  preservation of the three rewirings.
+\item
+  results/ws4/\{gid\}\_\_configuration\_model\_check.csv,
+  \_\_monte\_carlo\_check.csv, \_\_uncertainty.csv,
+  \_\_mincut\_Linf.csv and \_\_restoration\_prediction.csv: the
+  agreement figures quoted in Sections~\ref{sec:theory} and~\ref{sec:prediction}.
+\item
   slides/A\_slides\_3\_4.pptx: two editable slides with native charts
   and an editable table; the scientific PNG/PDF plots retain shaded SD
   bands, while the native slides show SD bounds.
@@ -103,8 +128,9 @@ dataset. The 2,000-node graph contains 112 queries and only three drugs.
 Report functions must handle actual group sizes. Query splits allow
 entity overlap.
 
-The GF reference is A's isolated implementation pending D's final
-module. Use \texttt{-\/-theory-module\ src.theory} when it arrives. E
+A's isolated GF reference and D's final module \texttt{src/theory.py} agree
+to within $2\times10^{-13}$ on a 201-point grid for both bond and site
+percolation. E
 can supply plotting.py without changing scientific data. Full group
 integration, rehearsal, institutional submission and peer grading are
 not performed by these scripts.

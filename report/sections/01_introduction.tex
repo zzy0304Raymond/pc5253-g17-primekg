@@ -46,8 +46,34 @@ which deleted edges best recover global connectivity versus held-out query
 success, and how those priorities change with the query horizon and budget.
 
 Using a biomedical benchmark derived from PrimeKG \cite{chandak2023primekg},
-we pair structural robustness analysis with direct evaluation of typed
-drug--disease retrieval across matched damage states, quantify the roles of
-path redundancy and hop limits (Section~\ref{sec:functional}), and compare
-limited-budget restoration strategies on both connectivity and held-out
-query recovery (Section~\ref{sec:restoration}).
+we combine measurement with theory. We pair structural robustness analysis
+with direct evaluation of typed drug--disease retrieval on matched damage
+states (Sections~\ref{sec:structural} and~\ref{sec:functional}). We derive
+zero-parameter predictions for both kinds of robustness and test where they
+hold and where they fail (Sections~\ref{sec:theory} and~\ref{sec:prediction}).
+Finally, we compare limited-budget restoration strategies on connectivity and
+on held-out query recovery (Section~\ref{sec:restoration}). Our main findings
+are the following.
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Connectivity and retrieval are different kinds of quantity.}
+The giant component is a collective property whose percolation threshold, for
+this graph, lies beyond 99\% edge loss. Two-hop retrieval is a local
+reliability problem. Its success rate is a polynomial,
+$R_2=1-G_m(1-p^2)$, determined by the number $m$ of independent routes per
+query. This formula has no fitted parameter and matches the long-run
+simulations within 0.001.
+\item \textbf{The query horizon decides which redundancy counts.} Allowing
+longer paths moves the bottleneck from shared proteins to the drugs' own target
+links. For every query, the drug--disease minimum cut equals the smaller
+endpoint degree, and the expected long-range percolation collapse does not
+appear.
+\item \textbf{Targeted attacks break the independence that makes retrieval
+predictable.} Query routes pass through the same hubs. Removing the top 5\% of
+nodes by degree lowers the giant component only 6.6 percentage points more
+than random removal, but lowers retrieval 56.5 points more. Degree-preserving
+null models trace the excess fragility to PrimeKG's habit of hanging
+low-degree entities on hubs.
+\item \textbf{Repair priorities follow the task.} At two hops, restoring only
+drug and disease links is best, as the formula predicts within one seed SD.
+At three hops, structural repair becomes competitive.
+\end{enumerate}

@@ -51,6 +51,21 @@ In `slides/G17_working_draft_with_D.pptx` only:
 - Slide 5: attack figure replaced by `fig_attack_theory`, which adds the theory line, and the speaker note updated.
 - Slide 14: speaker note no longer says D's pages are pending.
 
-## Still to do for the report
+## Report stage (22 Nov)
 
-Section 3 (theory), section 6 (prediction), the degree-attack null-model test with B, and the individual report.
+Done: report Sections 3 and 6, the abstract, the findings list in Section 1, the D parts of Section 8 and the appendix, and `report/D_individual_contribution_draft.md`.
+
+New code and results:
+
+| Content | Location |
+|---|---|
+| Degree-attack null models (full, typed and 2K rewiring) | `src/run_null_model.py`, `src/plot_null_model.py`, `tests/test_null_model.py` |
+| Null-model results | `results/ws4/{gid}__null_model_{attack,stats,summary,provenance}.*`, `figures/act1/{gid}/fig_attack_null_model.*` |
+| Minimum cut, uncertainty, restoration prediction | `src/run_ws4_report.py`, `results/ws4/{gid}__{mincut_per_query,mincut_Linf,uncertainty,restoration_prediction}.csv` |
+
+Main new results on `primekg_5000_bfs_v1`:
+
+- Edge connectivity between drug and disease equals the smaller endpoint degree for all 200 queries. The L = infinity "min-cut form" 1 - G_lambda(1 - p) is within 0.005 of 600 fresh orders up to f = 0.80.
+- The seed SD of R_2 (0.047 at f = 0.5) is 2.2 times the variance expected for 200 independent queries, because queries share drug edges. That makes about 90 effective queries.
+- The formula predicts all 12 of E's random and relation-type L = 2 repair gains within one seed SD.
+- Degree attack gap to GF theory at f = 0.30 (0.102): about 10% comes from the simple-graph constraint, 39% from degree correlations (2K) and 51% from structure beyond 2K.
