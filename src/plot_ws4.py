@@ -53,7 +53,7 @@ def corr_penalty(gid):
     ax.bar(x, endpoint, width=.62, color=NODE_COLORS["disease"], edgecolor="white", linewidth=1.5,
            label="Lost endpoint (mostly hub diseases)")
     ax.bar(x, path, width=.62, bottom=endpoint, color=NODE_COLORS["gene/protein"], edgecolor="white",
-           linewidth=1.5, label="Lost paths (hub proteins)")
+           linewidth=1.5, label="Lost routes (through hub proteins)")
     for i, (a, b) in enumerate(zip(endpoint, path)):
         ax.text(i, a / 2, f"{a:.1f}", ha="center", va="center", fontsize=9, color="#333333")
         ax.text(i, a + b / 2, f"{b:.1f}", ha="center", va="center", fontsize=9, color="#333333")

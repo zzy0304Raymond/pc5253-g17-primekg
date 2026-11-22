@@ -1,0 +1,162 @@
+\section{Targeted Damage: Where Uniform Survival Fails}
+\label{sec:targeted}
+
+\subsection{Connectivity under attack}
+\label{sec:targeted-structure}
+
+Removing nodes in order of degree or betweenness fragments the graph much faster
+than random removal (Figure~\ref{fig:attack}). At $f=0.2$ the giant component
+holds 0.797 of nodes under random removal, 0.690 under the degree attack and
+0.686 under the betweenness attack. At $f=0.5$ these become 0.493, 0.232 and
+0.206. The two attacks behave alike because they target largely the same nodes:
+41 of the top 50 nodes are shared, a Jaccard similarity of 0.695. Diseases are
+5.7\% of all nodes but 14--16\% of the top 1\% under either ranking
+(Appendix~\ref{app:figures}).
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.56\linewidth]{act1/primekg_5000_bfs_v1/fig_attack_theory.pdf}
+  \caption{Giant component under random node removal (mean of ten orders) and
+  under fixed degree and betweenness rankings, with the Callaway prediction for
+  the degree attack (dashed).}
+  \label{fig:attack}
+\end{figure}
+
+The Callaway prediction captures the collapse near $f\approx0.6$. Below that,
+however, it lies up to 0.11 above the measured curve. For example, at $f=0.3$ it
+gives 0.648 where the graph has 0.546. The theory is accurate to 0.0012 for
+stub-matched multigraphs with the same degrees
+(Section~\ref{sec:blind-connectivity}). The excess fragility must therefore come
+from the requirement that the real graph be simple, or from structure that the
+degree sequence does not record.
+
+\subsection{Attributing the excess fragility with null models}
+\label{sec:targeted-null}
+
+We rewired the standard graph in three ways. Each keeps every node's degree, so
+the same fixed ranking applies to all of them, and each removes a different
+part of the remaining structure.
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \textbf{Full rewiring} \cite{maslov2002specificity}: double-edge swaps that
+ignore relation type. Only the degree sequence is kept.
+\item \textbf{Typed rewiring}: swaps only within one relation. For drug--protein
+and disease--protein edges, the protein ends are exchanged. Every node keeps its
+degree in each relation.
+\item \textbf{2K rewiring}: swaps only between edge ends whose endpoints have the
+same degree. This keeps the joint degree distribution, and hence all
+degree--degree correlations.
+\end{itemize}
+Each model was realized five times, with ten attempted swaps per edge. Every
+rewired graph is simple and has the original degree sequence. The rewiring is
+thorough. After full, typed and 2K rewiring, only 9\%, 13\% and 14\% of the
+original edges remain, and the top 1\% of hubs keep 20\%, 27\% and 29\% of their
+original neighbors. Global clustering (transitivity) is 0.069 in the real graph
+and 0.051--0.070 in the null models. The standard deviation of $S$ across realizations
+is at most 0.007 for 2K rewiring and 0.015 for typed rewiring, and reaches 0.046
+for full rewiring only near the collapse at $f\approx0.55$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\linewidth]{act1/primekg_5000_bfs_v1/fig_attack_null_model.pdf}
+  \caption{Degree attack on the standard graph and on three degree-preserving
+  null models. (a) Giant component. (b) Difference from the Callaway prediction.
+  Null models are means over five realizations. Shading shows one standard
+  deviation.}
+  \label{fig:null}
+\end{figure}
+
+For $f\le0.5$, Figure~\ref{fig:null} orders the models as expected. Full
+rewiring is closest to the theory, typed rewiring is lower, 2K rewiring is lower
+still, and the real graph is lowest. We split the gap between theory and the real graph into three
+steps. The step from theory to full rewiring is the cost of requiring a simple
+graph with a heavy-tailed degree sequence. The step from full to 2K rewiring is
+the effect of degree correlations beyond those that the simple-graph constraint
+already forces (fully rewired graphs have $r=-0.108$). The step from 2K rewiring to the real graph
+is everything else. For $0.1\le f\le0.4$, these steps account for 6--18\%,
+32--49\% and 44--53\% of the gap. As $f$ grows, the share of degree correlations
+falls and the share of the simple-graph constraint rises.
+
+The mechanism behind the degree-correlation step is visible directly. In the
+sample, low-degree nodes hang from hubs (Table~\ref{tab:graphs}), so removing
+the hubs strands them. A 5\% attack isolates 6.7\% of all nodes in the real
+graph, 4.3\% in the 2K graphs and 1.1\% after full rewiring. Drugs are the
+extreme case. After the attack, 77\% of the surviving drugs have no neighbor
+left in the real graph and 78\% in the 2K graphs, but only 26\% after full
+rewiring. The real graph is more clustered than
+the 2K graphs (transitivity 0.069 against 0.051). Clustering is therefore one
+candidate for the residual half, together with mesoscale structure such as
+disease modules and the BFS sampling itself. We did not separate these.
+
+To separate PrimeKG from its sample, we repeated the degree attack on the full
+filtered graph. It also falls below its Callaway prediction, by up to 0.06 near
+$f=0.25$ (0.352 against 0.415), before both collapse near $f\approx0.35$. At equal
+$f$, the sample's absolute gap is only 1.3--1.4 times larger (0.081 against
+0.062 at $f=0.2$). Relative to the predicted value, the full graph is as fragile
+or more so (a 12\% shortfall against 10.5\% at $f=0.2$). The excess fragility
+under attack is therefore a property of PrimeKG, not an artefact of the sample,
+even though the two graphs differ in their degree correlations.
+
+\subsection{Retrieval under attack}
+\label{sec:targeted-retrieval}
+
+The node formula, Eq.~\eqref{eq:r2-node}, predicts that 87.9\% of queries
+survive the blind removal of 5\% of nodes. After the
+degree attack, 30.5\% survive, and after the betweenness attack 24.0\%. The
+attack penalties are therefore 57.4 and 63.9 percentage points relative to the
+formula, or 56.5 and 63.0 points relative to measured random removal. Random removal of
+the same number of nodes leaves 87.0\% (ten-order mean), consistent with the
+formula within sampling error.
+
+Equation~\eqref{eq:r2-node} is a product of an endpoint factor $\phi^2$ and a
+route factor. The penalty therefore splits into two channels
+(Figure~\ref{fig:channels}). A sequential split depends on which factor is
+changed first, so we average both orders. For the 5\% degree attack, lost
+endpoints account for 17.4 points and lost routes for 40.0. Depending on the
+order, these ranges are 11--24 and 34--46.
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \textbf{Endpoints.} Hub diseases are removed early. The disease of 27.5\%
+of queries is in the top 5\% by degree, against 7.5\% for drugs.
+\item \textbf{Routes.} A shared protein must link both a drug and a disease, so
+the benchmark's routes run through high-degree proteins. Their median degree
+is 188 per route, against 25 for all proteins. Of the 462 routes, 61\% pass
+through a protein in the top 5\% by degree (degree at least 153). The 5\%
+attack removes the only shared protein of 84\% of single-path queries. It also fails 53\% of multi-path
+queries: 36\% lose an endpoint, and 17\% keep both endpoints but lose every
+route.
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.62\linewidth]{act2/primekg_5000_bfs_v1/fig_corr_channels.pdf}
+  \caption{Attack penalty, the blind-damage prediction minus measured two-hop
+  success, split into lost endpoints and lost routes. Each split averages the
+  two orders of decomposition.}
+  \label{fig:channels}
+\end{figure}
+
+Path count is therefore not effective redundancy. The routes of a query pass
+through different proteins, so they remain independent. Under an attack,
+however, a route survives only if its protein's degree is below the cut-off, and
+most routes fail that test. Equation~\eqref{eq:r2-attack}, which replaces the
+uniform survival probability by the degree-dependent $\sigma_k$, reproduces the
+measured success exactly at 5\% and 10\% damage (0.305 and 0.170). At 20\%, where
+ties at the cut-off matter, it gives 0.034 against a measured 0.035. Nothing
+beyond the degrees of the endpoints and the route proteins is needed to explain
+the penalty. The structural result of Section~\ref{sec:targeted-null} is
+analogous: the units that protect a low-degree node, its edges, lead to hubs.
+For the same reason, degree features predict which queries fail under attack. A
+logistic regression on degrees reaches an AUC of 0.88 in cross-validation over
+queries, against 0.66 for the degree-blind formula.
+
+\subsection{What the giant component misses}
+\label{sec:targeted-proxy}
+
+At equal damage, the giant component registers that attacks are worse, but it
+understates by how much (Figure~\ref{fig:summary}b). After 5\% node removal, the
+degree attack lowers $S$ by 6.6 points more than random removal, and lowers
+$R_2$ by 56.5 points more. The two metrics also rank the attacks differently. By
+$S$ the degree attack is marginally worse (0.883 against 0.886). By $R_2$ the
+betweenness attack is worse by 6.5 points (24.0\% against 30.5\%). Beyond 10\%
+damage the two attacks differ by at most two of the 200 queries. For a retrieval
+task, the useful diagnostic is the redundancy of the task's own routes and the
+degrees of the nodes they pass through, not the size of the giant component.

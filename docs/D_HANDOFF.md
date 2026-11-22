@@ -69,3 +69,16 @@ Main new results on `primekg_5000_bfs_v1`:
 - The seed SD of R_2 (0.047 at f = 0.5) is 2.2 times the variance expected for 200 independent queries, because queries share drug edges. That makes about 90 effective queries.
 - The formula predicts all 12 of E's random and relation-type L = 2 repair gains within one seed SD.
 - Degree attack gap to GF theory at f = 0.30 (0.102): about 10% comes from the simple-graph constraint, 39% from degree correlations (2K) and 51% from structure beyond 2K.
+
+## Final restructure (22 Nov, evening)
+
+An independent review graded the integrated report B+ and identified: a headline built on an exact identity, no single storyline, leftover workstream language, mixed seed sets for the same quantity, and BFS-sample artefacts presented as PrimeKG properties. The report was rewritten as one argument (23 pages instead of 36; see `report/README_LATEX.md`).
+
+New analyses (`src/run_ws4_v2.py`, `src/plot_summary.py`):
+
+- Connectivity far from threshold is local: for f <= 0.8, S matches 1 - g0(1 - p), the fraction of nodes keeping an edge, within 0.001. Collective behaviour appears only beyond f = 0.95.
+- One principle: S, R_inf and R_2 are each 1 - PGF of a redundancy distribution (degree, min cut, shared proteins), with P(=1) = 2.0%, 21.5% and 50%.
+- Full filtered graph: assortativity -0.053 (sample -0.153); neighbours of degree <= 3 nodes have mean degree 209 (sample 486; uncorrelated 190); 53% of drugs single-target (sample 69%); degree attack falls up to 0.06 below Callaway (sample 0.11).
+- Null-model mixing: 9-14% of edges unchanged, hubs keep 20-29% of neighbours; transitivity 0.069 real vs 0.051-0.070 rewired. Gap shares stable for f = 0.1-0.4.
+- Paired t-tests for repair: relation type beats edge betweenness at a 20% budget for L = 2 (p = 0.006 and 0.002); not at 5%; edge betweenness best at L = 3.
+- Restoration predictions exceed measurements in 11 of 12 cases by at most 1.5 SE, consistent with the ten damage orders' test-set baseline (42.3%) exceeding the expected 40.2%.

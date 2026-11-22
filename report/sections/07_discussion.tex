@@ -1,0 +1,85 @@
+\section{Discussion and Conclusion}
+\label{sec:discussion}
+
+\subsection{What generalizes and what does not}
+\label{sec:discussion-general}
+
+Some of our results follow from the mathematics of redundancy and should hold
+for any knowledge graph and any path-based task.
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item Under blind damage, the survival of a bounded-hop query is a reliability
+polynomial in the retention probability, Eq.~\eqref{eq:r2}. It is set by the
+query's independent routes and has no threshold. A giant component that is far
+from its threshold therefore says little about such queries.
+\item Connectivity, reachability and bounded-hop retrieval are instances of one
+expression, Eq.~\eqref{eq:principle}. They differ in the unit and in the low end
+of the redundancy distribution. The quantity with the most single-unit objects
+fails first.
+\item Damage aimed at hubs removes the redundant units that sit on hubs.
+Counting units then overstates protection, and weighting each unit by its
+degree restores the prediction. The attack penalty measures how much a task
+depends on hubs.
+\item The best repair depends on the horizon. Layer-aware repair is best for
+short typed paths at large budgets, and structural repair is best when longer
+paths are allowed or when the budget is small.
+\end{itemize}
+
+Other results are specific to our sample and benchmark.
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item The magnitudes: 98\% connectivity at 50\% edge loss and the 57-point gap.
+The full filtered graph is less robust under random damage. For all of its
+connected drug--disease pairs, Eq.~\eqref{eq:r2} gives $R_2=0.30$ at $f=0.5$,
+rather than the benchmark's 0.41. Relative to theory, its excess fragility
+under attack is similar to that of the sample.
+\item The drug-side bottleneck at long horizons. It depends on how many drugs
+have a single target, which is 69\% in the sample and 53\% in the full graph.
+\item The hub-heavy routes, which follow partly from how the benchmark was
+built: a shared protein must link both a drug and a disease.
+\end{itemize}
+
+\subsection{Limitations}
+\label{sec:discussion-limits}
+
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \textbf{Sample.} The standard graph is a BFS sample around one disease.
+It is 93\% proteins and contains 74 of the 6,282 drugs. We checked structural
+claims on the full filtered graph. Simulated retrieval exists only on the sample,
+although for $L=2$ the exact formula extends to all pairs of the full graph.
+\item \textbf{Benchmark.} A query succeeds if a typed path exists. This is a
+self-referential criterion with no external ground truth: PrimeKG's
+drug--indication edges were not used. The queries were also selected to
+succeed initially and to balance redundancy.
+\item \textbf{Damage model.} Independent random deletion is a clean null model,
+not a realistic failure process. Real knowledge graphs lose or miss facts
+through study bias and curation choices, which are correlated with degree. Each
+attack is a single deterministic order computed once on the intact graph.
+Betweenness is estimated from 100 sampled sources.
+\item \textbf{Theory.} Equations~\eqref{eq:gf-bond}, \eqref{eq:rinf}
+and~\eqref{eq:mincut} assume a locally tree-like, uncorrelated graph. The null
+models identify degree correlations as one cause of failure under attack, but
+they do not resolve the remaining half. The Molloy--Reed threshold is an
+estimate that our damage grid does not reach.
+\item \textbf{Repair.} The task-aware score is static and saturates. Only 60
+test queries are evaluated, which behave like about 27 independent ones, and 19
+of the 21 test drugs also appear in training queries. Of 24 paired comparisons,
+only a few survive a correction for multiple testing.
+\end{itemize}
+
+\subsection{Conclusion}
+\label{sec:discussion-conclusion}
+
+A knowledge graph can stay almost fully connected while losing most of the
+short paths that its queries use. On a PrimeKG sample, half of the edges can be
+removed with 98\% of nodes still connected, while only 41\% of two-hop queries
+survive. The reason is that each quantity is protected by its own redundant
+units. Nodes have many independent edges, but many queries have a single
+shared protein. One expression, one minus the generating function of the
+redundancy distribution, describes all three observables. It is exact for
+two-hop retrieval under blind damage and approximate but accurate for
+long-range reachability. Under targeted damage, counting units is no longer
+enough, because the units sit on hubs. Weighting each unit by its degree
+restores the prediction. For anyone who maintains or evaluates a
+knowledge graph, the practical advice is to measure robustness on the task
+itself, to count independent routes rather than paths, to ask how many of those
+routes pass through hubs, and to report the graph, queries, horizon and
+damage model together.
