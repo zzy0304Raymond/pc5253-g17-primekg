@@ -1,0 +1,9 @@
+{
+  "gid": "primekg_5000_bfs_v1",
+  "python": "3.13.18",
+  "swaps_per_edge": 10,
+  "realisations": 5,
+  "manifest_sha256": "43ac58dc15f9bb423fb21f4e7c6b5c80b1fdebcb7b1fa09134fa7b9eae3bfbef",
+  "source_sha256": "0769cf1fb471b3a4ee521b0276baf20b5c785f4bd4095bbb4033f44a048f230c",
+  "note": "Same degree sequence and the same fixed degree ranking (B's node_degree order) in every model."
+}

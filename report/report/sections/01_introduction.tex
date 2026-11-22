@@ -1,0 +1,79 @@
+\section{Introduction and Motivation}
+\label{sec:introduction}
+
+Knowledge graphs organize entities and typed relations into networks that
+support multi-hop queries. In biomedicine, resources such as PrimeKG link
+drugs, diseases, and proteins so that associations can be traced across
+connected biological facts \cite{chandak2023primekg}. When links or entities
+are lost, however, a graph can remain almost fully connected while failing
+the queries it is meant to answer. On our 5,000-node PrimeKG subgraph,
+randomly removing 50\% of the edges leaves 98.2\% of the original nodes in
+the largest connected component, yet only 43.3\% of 200 benchmark queries
+retain a valid two-hop path---a 54.9-percentage-point gap measured on the
+same damage states and averaged over ten seeds (Section~\ref{sec:functional}).
+
+This divergence arises because global connectivity and typed retrieval
+impose different structural requirements. Classical network-robustness
+studies evaluate damage by tracking the largest connected component under
+random failures and targeted removals \cite{albert2000error,callaway2000network}.
+That statistic treats all edges as interchangeable and permits paths of
+arbitrary length. A structured query, by contrast, requires specific
+relation types within a bounded hop limit. In our benchmark, a two-hop
+drug--disease query succeeds only if a shared protein retains both its
+drug--protein and disease--protein links. Even after those links disappear,
+dense protein--protein interactions can still keep both endpoints inside
+the giant component through longer routes. Global connectivity can
+therefore remain high after short, typed association paths have largely
+collapsed.
+
+Distinguishing structural connectivity from retrieval usability matters for
+both evaluation and repair. Because the largest connected component is a
+coarse network-level statistic, a system that relies on typed paths can
+lose more than half of its usable query support while connectivity barely
+changes. Measuring retrieval directly is therefore necessary to assess
+functional degradation. The same distinction reshapes network restoration:
+when only a limited budget of lost edges can be repaired, the links that
+best rebuild global connectivity need not be the links that best recover
+failed queries, and edge priorities may shift when a task can use longer
+paths.
+
+Motivated by this gap, we investigate how random failures and targeted
+removals affect global connectivity compared with typed-path retrieval on
+the same damaged graphs. We then examine how path redundancy---multiple
+shared intermediate proteins---and the allowed number of hops buffer
+retrieval against edge loss. Finally, under a fixed repair budget, we ask
+which deleted edges best recover global connectivity versus held-out query
+success, and how those priorities change with the query horizon and budget.
+
+Using a biomedical benchmark derived from PrimeKG \cite{chandak2023primekg},
+we combine measurement with theory. We pair structural robustness analysis
+with direct evaluation of typed drug--disease retrieval on matched damage
+states (Sections~\ref{sec:structural} and~\ref{sec:functional}). We derive
+zero-parameter predictions for both kinds of robustness and test where they
+hold and where they fail (Sections~\ref{sec:theory} and~\ref{sec:prediction}).
+Finally, we compare limited-budget restoration strategies on connectivity and
+on held-out query recovery (Section~\ref{sec:restoration}). Our main findings
+are the following.
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Connectivity and retrieval are different kinds of quantity.}
+The giant component is a collective property whose percolation threshold, for
+this graph, lies beyond 99\% edge loss. Two-hop retrieval is a local
+reliability problem. Its success rate is a polynomial,
+$R_2=1-G_m(1-p^2)$, determined by the number $m$ of independent routes per
+query. This formula has no fitted parameter and matches the long-run
+simulations within 0.001.
+\item \textbf{The query horizon decides which redundancy counts.} Allowing
+longer paths moves the bottleneck from shared proteins to the drugs' own target
+links. For every query, the drug--disease minimum cut equals the smaller
+endpoint degree, and the expected long-range percolation collapse does not
+appear.
+\item \textbf{Targeted attacks break the independence that makes retrieval
+predictable.} Query routes pass through the same hubs. Removing the top 5\% of
+nodes by degree lowers the giant component only 6.6 percentage points more
+than random removal, but lowers retrieval 56.5 points more. Degree-preserving
+null models trace the excess fragility to PrimeKG's habit of hanging
+low-degree entities on hubs.
+\item \textbf{Repair priorities follow the task.} At two hops, restoring only
+drug and disease links is best, as the formula predicts within one seed SD.
+At three hops, structural repair becomes competitive.
+\end{enumerate}

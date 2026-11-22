@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs,longtable,enumitem,xcolor,graphicx,float,subcaption,hyperref,setspace,microtype}
+\setstretch{1.10}
+\setlength{\emergencystretch}{2em}
+% Expected location: repository_root/report/main.tex
+% Figures may live in repository_root/figures or report/figures.
+\graphicspath{{../figures/}{figures/}}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,citecolor=black}
+
+\providecommand{\tightlist}{}
+\newcommand{\course}{PC5253: Complex Systems Analysis and Modelling}
+\newcommand{\semester}{Semester 1, AY2026/2027}
+\newcommand{\projecttitle}{Robustness of Knowledge-Graph Retrieval under Network Damage}
+\newcommand{\groupid}{G17}
+
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Group Project Final Report}\\[0.4em]
+{\large\bfseries \projecttitle}\\[0.9em]
+Group ID: \groupid\\[0.5em]
+\course\\
+\semester
+\end{center}
+
+\section*{Administrative Information}
+\begin{tabular}{@{}>{\bfseries\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.70\linewidth}@{}}
+Group members & ZHAO ZIYI, ZHENG FANGWEN, XIANG XINHE, CHEN MENGJIE, HU JIARUI \\[0.7em]
+Project area & Complex networks, knowledge graphs, percolation, and retrieval robustness. \\[0.7em]
+Repository & \url{https://github.com/zzy0304Raymond/pc5253-g17-primekg} \\
+\end{tabular}
+
+\begin{abstract}
+\noindent
+A knowledge graph can stay connected while the facts it is meant to deliver
+become unreachable. We study this gap on a 5,000-node subgraph of the
+biomedical knowledge graph PrimeKG, using 200 drug--disease queries that must
+be answered through shared proteins within $L$ hops. Removing half of the edges
+at random leaves 98.2\% of nodes in the giant component but only 43.3\% of
+queries answerable. We explain this with two kinds of theory. Global
+connectivity is a collective percolation property, predicted by
+generating-function equations whose threshold lies beyond 99\% edge loss.
+Bounded-hop retrieval is a local reliability problem, and its success rate is
+$R_2=1-G_m(1-p^2)$, where $G_m$ is the generating function of the number of
+independent routes per query. Without fitted parameters, this formula matches
+5,000 fresh damage orders within 0.001, reaches the AUC ceiling for predicting
+which query fails, and predicts restoration gains within one seed standard
+deviation. Longer horizons move the bottleneck from shared proteins to drug
+target links. Targeted attacks break the formula's independence assumption,
+because query routes share hubs. A 5\% degree attack costs the giant component
+6.6 percentage points more than random removal, but costs retrieval 56.5 points
+more. Degree-preserving null models trace the extra structural fragility to
+disassortative mixing and higher-order structure. Robustness is therefore a
+property of the network together with its task, set by how many independent
+routes protect each fact, how far queries may reach, and whether damage is blind
+or aimed at shared hubs.
+\end{abstract}
+
+\clearpage
+\setcounter{tocdepth}{2}
+{\setstretch{1.0}\tableofcontents}
+\clearpage
+
+\input{sections/01_introduction}
+\input{sections/02_data_protocol}
+\input{sections/03_theory}
+
+\section{Structural Robustness}
+\label{sec:structural}
+\input{sections/04_1_random_failures}
+\input{sections/04_2_targeted_attacks}
+
+\input{sections/05_functional_robustness}
+\input{sections/06_prediction}
+\input{sections/07_restoration}
+\input{sections/08_discussion_conclusion}
+
+\clearpage
+\begin{thebibliography}{99}
+\bibitem{chandak2023primekg} P. Chandak, K. Huang, and M. Zitnik, ``Building a knowledge graph to enable precision medicine,'' \textit{Scientific Data}, vol. 10, 67, 2023.
+\bibitem{albert2000error} R. Albert, H. Jeong, and A.-L. Barabasi, ``Error and attack tolerance of complex networks,'' \textit{Nature}, vol. 406, pp. 378--382, 2000.
+\bibitem{newman2000efficient} M. E. J. Newman and R. M. Ziff, ``Efficient Monte Carlo algorithm and high-precision results for percolation,'' \textit{Physical Review Letters}, vol. 85, pp. 4104--4107, 2000.
+\bibitem{callaway2000network} D. S. Callaway, M. E. J. Newman, S. H. Strogatz, and D. J. Watts, ``Network robustness and fragility: Percolation on random graphs,'' \textit{Physical Review Letters}, vol. 85, pp. 5468--5471, 2000.
+\bibitem{molloy1995critical} M. Molloy and B. Reed, ``A critical point for random graphs with a given degree sequence,'' \textit{Random Structures \& Algorithms}, vol. 6, pp. 161--179, 1995.
+\bibitem{newman2001random} M. E. J. Newman, S. H. Strogatz, and D. J. Watts, ``Random graphs with arbitrary degree distributions and their applications,'' \textit{Physical Review E}, vol. 64, 026118, 2001.
+\bibitem{moore1956reliable} E. F. Moore and C. E. Shannon, ``Reliable circuits using less reliable relays,'' \textit{Journal of the Franklin Institute}, vol. 262, pp. 191--208 and 281--297, 1956.
+\bibitem{lopez2007limited} E. L\'opez, R. Parshani, R. Cohen, S. Carmi, and S. Havlin, ``Limited path percolation in complex networks,'' \textit{Physical Review Letters}, vol. 99, 188701, 2007.
+\bibitem{maslov2002specificity} S. Maslov and K. Sneppen, ``Specificity and stability in topology of protein networks,'' \textit{Science}, vol. 296, pp. 910--913, 2002.
+\bibitem{newman2002assortative} M. E. J. Newman, ``Assortative mixing in networks,'' \textit{Physical Review Letters}, vol. 89, 208701, 2002.
+\bibitem{stace2009thresholds} T. M. Stace, S. D. Barrett, and A. C. Doherty, ``Thresholds for topological codes in the presence of loss,'' \textit{Physical Review Letters}, vol. 102, 200501, 2009.
+\end{thebibliography}
+
+\appendix
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\input{sections/appendix_reproducibility}
+\end{document}

@@ -1,0 +1,131 @@
+\section{Data and Experimental Protocol}
+\label{sec:data}
+
+\subsection{Source and graph
+representation}\label{source-and-graph-representation}
+
+We use the fixed PrimeKG \texttt{kg.csv} distributed as Harvard
+Dataverse file 6180620, associated with DOI 10.7910/DVN/IXA7BM \cite{chandak2023primekg}.
+The downloaded file contains 8,100,498 stored rows and occupies
+981,751,236 bytes. Its MD5 matches the repository metadata
+(\texttt{aac8191d4fbc5bf09cdf8c3c78b4e75f}); the SHA-256 is recorded in
+the reproducibility appendix. Thus the analysis is tied to a specific
+dataset file rather than an unspecified current version of the
+repository.
+
+The experimental network retains drug, disease and gene/protein entities
+and the drug\_protein, disease\_protein and protein\_protein relations.
+Entity identity is determined by the original numerical node index, not
+by its display name. We collect nodes from both endpoint columns, check
+endpoint types against the relation, normalize the endpoint pair of
+every undirected relation, and remove duplicate or reverse storage
+records and self-loops. The raw filter selects 854,278 rows; 427,324
+duplicate or reverse records are collapsed, leaving 426,954 semantic
+relations. No selected self-loop rows or conflicting entity names were
+observed. The filtered network contains 30,968 nodes. These counts
+describe the filtered network, not the complete unfiltered PrimeKG.
+
+Two representations serve distinct measurements. The semantic
+representation retains each normalized relation label and is used for
+constrained retrieval. The structural representation is a simple
+undirected projection used for degree, connected components and
+percolation. We explicitly check whether any endpoint pair has multiple
+semantic relation types; the count is zero in all supplied graphs.
+Consequently, the structural and semantic edge counts coincide in this
+dataset. The implementation nevertheless retains the correct projection
+semantics if later datasets contain parallel relations.
+
+\subsection{Deterministic induced
+subgraphs}\label{deterministic-induced-subgraphs}
+
+The standard graph is obtained by breadth-first traversal of the
+filtered network, starting from the disease with the highest structural
+degree. Ties and neighbor visits are ordered by numerical original ID.
+The selected start node has original index 32617 and degree 1,156. We
+retain the first 5,000 visited nodes and every eligible relation between
+them, producing an induced subgraph rather than the BFS tree. The first
+2,000 nodes of the same traversal provide a smaller validation graph.
+Within each graph, nodes are sorted by original ID before assigning
+contiguous local IDs; edges are sorted by relation and endpoint pair.
+Local IDs are therefore graph-specific even where original entities
+overlap.
+
+\begin{longtable}[]{@{}lrrrrr@{}}
+\toprule\noalign{}
+Graph & Nodes & Relations & Drugs & Diseases & Proteins \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+BFS validation & 2,000 & 32,468 & 3 & 46 & 1,951 \\
+BFS standard & 5,000 & 117,891 & 74 & 283 & 4,643 \\
+Filtered full graph & 30,968 & 426,954 & 6,282 & 5,593 & 19,093 \\
+\end{longtable}
+
+The 5,000-node graph contains 90,187 protein--protein, 27,228
+disease--protein and 476 drug--protein relations. Its mean degree
+differs by node type: approximately 44.82 for proteins, 96.21 for
+diseases and 6.43 for drugs. These distributions are shown as empirical
+degree CCDFs sampled at logarithmically spaced thresholds. A long tail
+in such a plot is descriptive evidence and does not by itself establish
+a power-law distribution.
+
+The BFS sample is dominated by proteins and nearby high-connectivity
+structure. We therefore retain the filtered full graph for a direct
+robustness comparison. A connected BFS sample is not evidence that the
+full filtered network is connected: the latter has 23 components, with
+30,921 of 30,968 nodes in its largest component.
+
+\subsection{Fixed functional
+benchmark}\label{fixed-functional-benchmark}
+
+Queries ask whether a drug and disease share at least one protein
+through the required drug\_protein and disease\_protein relations. The
+redundancy m is the number of distinct intermediate proteins. We
+enumerate valid pairs in the intact graph, separate m=1 from m$\geq$2, sort
+pairs by original IDs, and sample up to 100 queries from each group
+using seed 42. The standard graph has 3,175 single-path and 1,264
+multi-path candidates and supplies exactly 100 queries from each group.
+The selected queries involve 39 drugs and 127 diseases, with no disease
+appearing in more than four selected queries. The multi-path group's
+redundancy ranges from 2 to 17.
+
+The small graph supplies only 46 single-path and 66 multi-path queries,
+all of which are retained. Its three drugs make it useful for
+correctness checks but limit its representativeness as a functional
+benchmark. No queries or relations are duplicated to fill the target
+size. The full graph is released for structural comparison only; its
+empty query file is explicitly marked as an undefined functional
+benchmark, not a zero-success experiment.
+
+Queries retain both original and local endpoint IDs, the complete
+intermediate-protein list and the relation pattern. For restoration, a
+seed-42 permutation of query IDs determines a 70\% training / 30\% test
+split. The standard benchmark has 140 training and 60 test queries. This
+split is over queries and permits shared entities; it is distinct from
+WS4's training/testing split over failure seeds. The benchmark is
+conditioned on intact-graph success and deliberately balances redundancy
+groups. Its aggregate retrieval rate must not be interpreted as a
+prevalence estimate over all drug--disease pairs. A semantic association
+path also does not establish a therapeutic effect.
+
+\subsection{Damage states and
+measurement}\label{damage-states-and-measurement}
+
+For random edge and node failure, seeds 0--9 generate permutations of
+the original semantic edge or node IDs. At fraction f, the first round(f
+$\times$ total) entries are removed, making damage states nested within a seed.
+Node removal also removes all incident relations. All downstream
+workstreams can reconstruct exactly the same states from these files.
+Edge-removal fractions extend to 0.99 and node-removal fractions to 0.90
+according to the shared plan.
+
+Structural robustness is S(f)=\textbar C\_max(f)\textbar/N0, where N0 is
+the original node count. The denominator stays fixed for node removal.
+Component and isolated-node counts include only surviving nodes; the
+isolated fraction uses N0, whereas average degree is twice the number of
+surviving structural edges divided by surviving nodes. The empty
+surviving graph is assigned zero for these metrics. Results include
+actual surviving node and relation counts so that losses caused by
+different strategies can be compared transparently. Random results are
+summarized by the mean and sample standard deviation across ten seeds.
