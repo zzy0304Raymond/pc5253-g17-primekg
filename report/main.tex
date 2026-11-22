@@ -12,14 +12,14 @@
 \providecommand{\tightlist}{}
 \newcommand{\course}{PC5253: Complex Systems Analysis and Modelling}
 \newcommand{\semester}{Semester 1, AY2026/2027}
-\newcommand{\projecttitle}{Connected but Unreachable: Percolation versus Bounded-Hop Reliability in a Biomedical Knowledge Graph}
-\newcommand{\groupid}{G17}
+\newcommand{\projecttitle}{Connected but Out of Reach: Robustness, Specificity and the Hop Limit in a Biomedical Knowledge Graph}
+\newcommand{\groupid}{17}
 
 \begin{document}
 \begin{center}
 {\LARGE\bfseries Group Project Final Report}\\[0.6em]
 {\large\bfseries \projecttitle}\\[0.9em]
-Group ID: \groupid\\[0.5em]
+Group \groupid\\[0.5em]
 \course\\
 \semester
 \end{center}
@@ -33,52 +33,38 @@ Repository & \url{https://github.com/zzy0304Raymond/pc5253-g17-primekg} \\
 
 \begin{abstract}
 \noindent
-A knowledge graph can stay connected while the facts it is meant to deliver
-become unreachable. We measure this on a 5,000-node breadth-first sample of the
-biomedical knowledge graph PrimeKG. Our benchmark is 200 drug--disease queries,
-each answered through a shared protein within $L$ hops. When half of the edges
-are removed at random, 98\% of nodes stay in the giant component and 86\% of
-queries remain reachable by some path, but only 41\% keep a two-hop answer. One
-principle explains all three numbers. Each is one minus the generating function
-of a redundancy distribution, evaluated at the failure probability of a single
-redundant unit. Node degree protects connectivity. The drug--disease minimum cut
-protects unlimited-hop reachability. The number of shared proteins protects
-two-hop retrieval. The three distributions differ mainly at their low end: 2\% of
-nodes and 22\% and 50\% of queries have redundancy one. For two-hop retrieval the expression
-is exact under blind damage, so we treat it as a baseline rather than a finding.
-The long-range prediction, in which both endpoints must attach to the protein
-giant component, is a genuine approximation that neglects correlations and
-loops. It agrees with simulation to within 0.009. Because the two-hop formula
-needs only the redundancy distribution, it extends to all 406,600 connected
-drug--disease pairs of the full filtered graph: only 30\% of them keep a two-hop
-link when half of the edges are lost. Removing the top 5\% of nodes by degree costs connectivity 7
-percentage points more than random removal of the same number of nodes, but
-costs two-hop retrieval 57 points more. The routes of a query remain independent, but
-most of them pass through high-degree proteins, which the attack removes.
-Replacing the uniform survival probability by a degree-dependent one makes the
-same formula reproduce the attacked retrieval rate. Degree-preserving null models
-attribute between a third and a half of the excess structural fragility to
-degree correlations, and about half to higher-order structure. The full filtered graph
-shows a comparable excess, so it is not an artefact of sampling. The two-hop
-formula also predicts, without fitting, the gains from random repair and from
-restoring only drug and disease links. The latter is the best of the policies
-we tested for two-hop retrieval at large budgets. Robustness is therefore a property of a network
-and its task together. It depends on how many independent routes protect each
-fact, how far a query may reach, and whether the damage is blind or aimed at the
-hubs those routes pass through.
+The health of a knowledge graph is usually judged by its giant component. We ask
+whether that statistic says anything about the short typed paths that
+drug-repurposing methods and retrieval-augmented models follow. On the
+drug--protein--disease graph of PrimeKG (30,968 nodes) we use 6,233 approved
+indications, which the graph itself does not contain, as ground truth against
+degree-preserving decoys. Removing half of the edges at random leaves 86\% of
+nodes in the giant component and 91\% of two-hop indications connected by some
+path, but only 40\% keep their two-hop link. Those short paths carry most of the
+evidence: a shared protein links 31\% of indications but 14\% of decoys, while at
+four hops the two sets are nearly indistinguishable, as a parameter-free model
+of chance paths predicts to within one percentage point. The excess of real
+over chance paths falls three- to five-fold per hop, because chance paths
+multiply about four times faster than the real signal. Two-hop survival is an
+exact reliability polynomial, which is why theory and simulation agree to Monte
+Carlo precision. Removing the 5\% of nodes with the highest degree costs
+connectivity 13 percentage points more than random removal, but costs the
+indications 83\% of their two-hop links against 12\%, lost half through hub
+diseases and half through routes, which are size-biased towards hub proteins; real
+indications avoid those proteins, and removing them lowers recall but raises
+specificity. A controlled 5,000-node sample tests each approximation. The hop
+limit thus acts as a resolution: short horizons see specific but fragile
+structure, long ones robust but generic structure. As an avalanche exponent is
+incomplete without its bin width, a robustness claim is incomplete without its
+horizon, null model and sampling.
 \end{abstract}
-
-\clearpage
-\setcounter{tocdepth}{2}
-{\setstretch{1.0}\tableofcontents}
-\clearpage
 
 \input{sections/01_introduction}
 \input{sections/02_data_protocol}
 \input{sections/03_theory}
-\input{sections/04_blind_damage}
-\input{sections/05_targeted_damage}
-\input{sections/06_repair}
+\input{sections/04_specificity}
+\input{sections/05_hubs_attack}
+\input{sections/06_sample_tests}
 \input{sections/07_discussion}
 
 \clearpage
@@ -87,11 +73,34 @@ hubs those routes pass through.
 \bibitem{guney2016network} E. Guney, J. Menche, M. Vidal, and A.-L. Barab\'asi, ``Network-based in silico drug efficacy screening,'' \textit{Nature Communications}, vol. 7, 10331, 2016.
 \bibitem{edge2024graphrag} D. Edge \textit{et al.}, ``From local to global: A graph RAG approach to query-focused summarization,'' arXiv:2404.16130, 2024.
 \bibitem{albert2000error} R. Albert, H. Jeong, and A.-L. Barab\'asi, ``Error and attack tolerance of complex networks,'' \textit{Nature}, vol. 406, pp. 378--382, 2000.
+\bibitem{beggs2003neuronal}
+J. M. Beggs and D. Plenz, ``Neuronal avalanches in neocortical circuits,''
+\textit{Journal of Neuroscience}, vol. 23, pp. 11167--11177, 2003.
+
+\bibitem{priesemann2009subsampling}
+V. Priesemann, M. H. J. Munk, and M. Wibral, ``Subsampling effects in neuronal
+avalanche distributions recorded in vivo,'' \textit{BMC Neuroscience}, vol. 10,
+40, 2009.
+
+\bibitem{dickman2000paths}
+R. Dickman, M. A. Mu\~noz, A. Vespignani, and S. Zapperi, ``Paths to
+self-organized criticality,'' \textit{Brazilian Journal of Physics}, vol. 30,
+pp. 27--41, 2000.
+
 \bibitem{callaway2000network} D. S. Callaway, M. E. J. Newman, S. H. Strogatz, and D. J. Watts, ``Network robustness and fragility: Percolation on random graphs,'' \textit{Physical Review Letters}, vol. 85, pp. 5468--5471, 2000.
 \bibitem{molloy1995critical} M. Molloy and B. Reed, ``A critical point for random graphs with a given degree sequence,'' \textit{Random Structures \& Algorithms}, vol. 6, pp. 161--179, 1995.
 \bibitem{newman2001random} M. E. J. Newman, S. H. Strogatz, and D. J. Watts, ``Random graphs with arbitrary degree distributions and their applications,'' \textit{Physical Review E}, vol. 64, 026118, 2001.
 \bibitem{newman2000efficient} M. E. J. Newman and R. M. Ziff, ``Efficient Monte Carlo algorithm and high-precision results for percolation,'' \textit{Physical Review Letters}, vol. 85, pp. 4104--4107, 2000.
 \bibitem{moore1956reliable} E. F. Moore and C. E. Shannon, ``Reliable circuits using less reliable relays,'' \textit{Journal of the Franklin Institute}, vol. 262, pp. 191--208 and 281--297, 1956.
+\bibitem{canale2014diameter}
+E. Canale and P. Romero, ``Diameter constrained reliability: computational
+complexity in terms of the diameter and number of terminals,''
+arXiv:1404.3684, 2014.
+
+\bibitem{kovacs2019network}
+I. A. Kov\'acs \textit{et al.}, ``Network-based prediction of protein
+interactions,'' \textit{Nature Communications}, vol. 10, 1240, 2019.
+
 \bibitem{lopez2007limited} E. L\'opez, R. Parshani, R. Cohen, S. Carmi, and S. Havlin, ``Limited path percolation in complex networks,'' \textit{Physical Review Letters}, vol. 99, 188701, 2007.
 \bibitem{maslov2002specificity} S. Maslov and K. Sneppen, ``Specificity and stability in topology of protein networks,'' \textit{Science}, vol. 296, pp. 910--913, 2002.
 \bibitem{newman2002assortative} M. E. J. Newman, ``Assortative mixing in networks,'' \textit{Physical Review Letters}, vol. 89, 208701, 2002.
@@ -99,5 +108,6 @@ hubs those routes pass through.
 
 \appendix
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\input{sections/appendix_repair}
 \input{sections/appendix_reproducibility}
 \end{document}

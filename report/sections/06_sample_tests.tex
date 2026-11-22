@@ -1,0 +1,184 @@
+\section{Controlled Tests on the Sample}
+\label{sec:sample}
+
+This section tests the theory where it can be checked most precisely: on the
+5,000-node sample and its 200-query benchmark (Section~\ref{sec:data-sample}),
+with thousands of independent damage orders (Figure~\ref{fig:sample}).
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.72\linewidth]{act0/fig_sample_curves.pdf}
+  \caption{The controlled benchmark on the sample under random edge removal:
+  giant component $S$ (mean of ten damage orders) and retrieval success $R_L$
+  (mean of 600 independent damage orders). Shading shows the spread of a single
+  damage state (one standard deviation). Dashed lines are the formulas of
+  Section~\ref{sec:theory}, which contain no fitted parameters.}
+  \label{fig:sample}
+\end{figure}
+
+\subsection{Connectivity and two-hop retrieval}
+\label{sec:blind-connectivity}
+
+Under random edge removal the giant component barely shrinks until most edges
+are gone: the ten-order means of $S$ are 0.982 at $f=0.5$, 0.815 at $f=0.9$ and
+0.112 at $f=0.99$. The generating-function predictions,
+Eqs.~\eqref{eq:gf-bond}--\eqref{eq:gf-site}, stay within 0.0011 (edges) and
+0.0033 (nodes) of these means for $f\le0.9$, which mainly confirms the local
+limit, Eq.~\eqref{eq:s-local}: a node drops out when it loses its last edge.
+The full graph, with lower mean degree, holds 0.858 and 0.554 of its nodes at
+$f=0.5$ and $0.9$, for the same reason.
+
+Two-hop retrieval follows Eq.~\eqref{eq:r2} to Monte Carlo precision: over
+5,000 independent orders, the largest difference at any damage level is 0.0008
+for edge removal and 0.0010 for node removal, at most 2.4 standard errors. This
+confirms the code and the independence of routes. The shaded bands are much
+wider than this agreement because they show a single damage state, which
+scatters by 0.047 at $f=0.5$: 2.2 times the variance expected for independent
+queries, because the 200 queries share 39 drugs and behave like about 90
+independent ones. Fixed damage orders are nested prefixes of one permutation,
+so their deviations at different $f$ are correlated (0.58) and are not
+independent evidence. Redundancy matters a
+great deal at moderate damage and little at heavy damage: at $f=0.3$ a second
+shared protein raises survival from 0.49 to 0.74, but at $f=0.7$ only from 0.09
+to 0.17. Because Eq.~\eqref{eq:r2} needs only the redundancy distribution, it
+also extends beyond the benchmark: among the 406,600 drug--disease pairs of the
+full graph that share a protein, 81\% have $m=1$, and only 30\% keep a two-hop
+link at $f=0.5$.
+
+\subsection{The horizon}
+\label{sec:blind-horizon}
+
+At $f=0.5$ the long-run means are $S=0.982$, $R_\infty=0.862$, $R_4=0.861$,
+$R_3=0.792$ and $R_2=0.414$. The 57-point gap between connectivity and two-hop
+retrieval therefore has two parts. About 12 points come from the step between
+counting nodes and counting queries: a query needs both endpoints attached, and
+its drug often has few links. The remaining 45 points come from the hop limit.
+On the full graph the first part vanishes (91\% of two-hop indications remain
+reachable at $f=0.5$, more than the 86\% of nodes in the giant component), so the
+gap there is entirely due to the hop limit.
+
+For unlimited hops, the attachment approximation of Section~\ref{sec:theory-rinf} agrees with the long-run means to within
+0.009 at every damage level from $f=0.05$ to $0.99$ (Figure~\ref{fig:sample}).
+The simpler endpoint-degree form, Eq.~\eqref{eq:mincut}, agrees to within 0.005 for
+$f\le0.8$. Beyond that it overestimates success, by 0.021 at $f=0.9$, because
+the PPI giant component begins to shrink. Even so, the PPI layer outlasts the
+query endpoints. Its giant component still holds 75\% of proteins at $f=0.9$
+(generating-function value 0.751), and its percolation threshold, Eq.~\eqref{eq:pc}, lies beyond
+99\% edge loss. Up to $f=0.9$, more than 90\% of the queries that fail at
+$L=\infty$ have lost every link of their drug while the disease side is still
+attached. Longer horizons therefore move the bottleneck from shared proteins to
+drug target links.
+
+This bottleneck depends on the drug degree distribution. In the sample, 69\% of
+drugs have one target. In the full filtered graph the figure is 53\%, so drug
+links are a weak point of PrimeKG as a whole, but the size of the effect here
+is specific to the sample.
+
+
+Limited-path percolation, Eq.~\eqref{eq:lpp}, is a negative result here
+(Table~\ref{tab:lpp}). Its threshold assumes that the number of paths grows by
+$\kappa_0-1\approx188$ per extra step. On the sample it matches the damage at
+which $R_L/R_\infty=1/2$ to within 0.016, but the sample's queries have a median
+ratio $n_3/n_2$ of 25, not 188, as the chance-path calculation of
+Section~\ref{sec:theory-chance} also suggests for the first step (24 on the
+full graph), so this agreement is most likely a coincidence. On the full graph the threshold fails: the
+crossings for two-hop indications come at $f=0.63$ and $0.85$ against 0.83 and
+0.93, and two-hop decoys behave the same way (0.61 and 0.84). The local estimate,
+Eq.~\eqref{eq:paths}, which uses each pair's actual path counts, follows the
+full graph's $R_3$ to within 0.06 at the four damage levels we tested, and
+overestimates the sample's by up to 0.13, because there many three-hop paths
+share the drug's only edge. Pairs in the full graph have few longer paths (a
+median of 5 three-hop paths per two-hop indication, against 37.5 per benchmark
+query), so longer horizons protect them less than a mean-field threshold
+suggests.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Limited-path percolation. Predicted and measured damage $f$ at which
+$R_L/R_\infty=1/2$, and the median numbers of two- and three-hop paths per query
+in the intact graph. Sample: 600 orders. Full graph: five orders.}
+\label{tab:lpp}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Query set & $L$ & Predicted, Eq.~\eqref{eq:lpp} & Measured & Median $n_2$ & Median $n_3$ \\
+\midrule
+Sample benchmark          & 3 & 0.825 & 0.810 & 1.5 & 37.5 \\
+                          & 4 & 0.927 & 0.921 &     &      \\
+Full graph, two-hop indications & 3 & 0.826 & 0.629 & 1   & 5    \\
+                          & 4 & 0.927 & 0.846 &     &      \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Null models for the excess fragility}
+\label{sec:targeted-null}
+
+The degree attack fragments the sample faster than Callaway's theory predicts:
+at $f=0.3$ the theory gives $S=0.648$ where the graph has 0.546, while the
+theory is accurate to 0.0012 for stub-matched multigraphs with the same degrees.
+The excess must come from the requirement that the real graph be simple, or
+from structure that the degree sequence does not record. To attribute it, we
+rewired the sample in three ways, each keeping every node's degree so that the
+same ranking applies: full rewiring \cite{maslov2002specificity} keeps only the
+degree sequence; typed rewiring swaps edges within one relation, so every node
+keeps its degree in each relation; and 2K rewiring swaps only edge ends of equal
+degree, keeping the joint degree distribution and hence all degree--degree
+correlations. Each model was realized five times with ten attempted swaps per
+edge; afterwards only 9\%, 13\% and 14\% of the original edges remain, and the
+standard deviation of $S$ across realizations is at most 0.015 except near the
+collapse.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{act1/primekg_5000_bfs_v1/fig_attack_null_model.pdf}
+  \caption{Degree attack on the sample and on three degree-preserving
+  null models. (a) Giant component. (b) Difference from the Callaway prediction.
+  Null models are means over five realizations. Shading shows one standard
+  deviation.}
+  \label{fig:null}
+\end{figure}
+
+For $f\le0.5$, Figure~\ref{fig:null} orders the models as expected. Full
+rewiring is closest to the theory, typed rewiring is lower, 2K rewiring is lower
+still, and the real graph is lowest. We split the gap between theory and the real graph into three
+steps. The step from theory to full rewiring is the cost of requiring a simple
+graph with a heavy-tailed degree sequence. The step from full to 2K rewiring is
+the effect of degree correlations beyond those that the simple-graph constraint
+already forces (fully rewired graphs have $r=-0.108$). The step from 2K rewiring to the real graph
+is everything else. For $0.1\le f\le0.4$, these steps account for 6--18\%,
+32--50\% and 44--53\% of the gap. As $f$ grows, the share of degree correlations
+falls and the share of the simple-graph constraint rises.
+
+The mechanism behind the degree-correlation step is visible directly. In the
+sample, low-degree nodes hang from hubs (Table~\ref{tab:graphs}), so removing
+the hubs strands them. A 5\% attack isolates 6.7\% of all nodes in the real
+graph, 4.3\% in the 2K graphs and 1.1\% after full rewiring. Drugs are the
+extreme case. After the attack, 77\% of the surviving drugs have no neighbor
+left in the real graph and 78\% in the 2K graphs, but only 26\% after full
+rewiring. The real graph is more clustered than
+the 2K graphs (transitivity 0.069 against 0.051). Clustering is therefore one
+candidate for the residual half, together with mesoscale structure such as
+disease modules and the BFS sampling itself. We did not separate these.
+
+To separate PrimeKG from its sample, we repeated the degree attack on the full
+filtered graph. It also falls below its Callaway prediction, by up to 0.06 near
+$f=0.25$ (0.352 against 0.415), before both collapse near $f\approx0.35$. At equal
+$f$, the sample's absolute gap is only 1.3--1.4 times larger (0.081 against
+0.062 at $f=0.2$). Relative to the predicted value, the full graph is as fragile
+or more so (a 12\% shortfall against 10.5\% at $f=0.2$). The excess fragility
+under attack is therefore a property of PrimeKG, not an artefact of the sample,
+even though the two graphs differ in their degree correlations.
+
+\subsection{The benchmark under attack}
+\label{sec:hubs-sample}
+
+Removing 5\% of nodes leaves 87.9\% of the benchmark queries according to
+Eq.~\eqref{eq:r2-node} and 87.0\% after random removal, but 30.5\% after the
+degree attack and 24.0\% after the betweenness attack. As on the full graph,
+the 69.5 points lost to the degree attack split almost evenly between lost
+endpoints, mostly hub diseases (34.0), and lost routes (35.5). The giant
+component again understates the damage, by a factor of about 8.5, and it even
+ranks the two attacks the wrong way round: by $S$ the degree attack is
+marginally worse (0.883 against 0.886), by $R_2$ the betweenness attack is worse
+by 6.5 points.

@@ -1,0 +1,137 @@
+\section{Which Paths Carry Evidence}
+\label{sec:specificity}
+
+\subsection{Only short paths are specific}
+\label{sec:specificity-intact}
+
+Table~\ref{tab:indications} and Figure~\ref{fig:summary}b show the intact full
+graph. A shared protein links 31.0\% of the 6,233 approved indications and
+14.2\% of their decoys, so a two-hop answer is 2.2 times more common among
+indications. The contrast fades quickly with the horizon. At $L=3$ the ratio is
+1.26, at $L=4$ it is 1.01, and without a limit both sets are connected in
+99.97\% of cases. Near saturation the ratio of rates hides a residual difference: as odds
+ratios, the separations are 2.71, 1.68 and 1.35 at $L=2$, 3 and 4. Mutual
+information, which weighs both, falls from 29.6 to 11.9 and 0.7 millibits. Even
+the two-hop signal is weak, 29.6 of a possible 1,000 millibits, or an AUROC of
+0.59, which is what one should expect from a single shared protein. These ratios
+are stable: over five further decoy draws the
+two-hop ratio lies between 2.09 and 2.18, and a bootstrap over the 1,375
+indicated drugs, which accounts for indications that share a drug, gives 95\%
+intervals of 1.92--2.47 at $L=2$, 1.20--1.32 at $L=3$ and 1.00--1.02 at $L=4$.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Typed retrieval of 6,233 approved indications and 6,233
+degree-preserving decoys on the intact full graph, with the chance rates of
+Section~\ref{sec:theory-chance}: the configuration model with a Poisson
+approximation (Eq.~\eqref{eq:cm}) and the bundled null model
+(Eq.~\eqref{eq:ball}), evaluated for the decoy and the indication pairs.
+Information is per pair, for a balanced mixture.}
+\label{tab:indications}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+& \multicolumn{3}{c}{Observed} & \multicolumn{3}{c}{Chance rate} & \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+$L$ & Indications & Decoys & Ratio & CM, decoys & Null, decoys & Null, indications & Info (mbit) \\
+\midrule
+$L=2$      & 31.0\% & 14.2\% & 2.18 & 13.1\% & 13.4\% & 15.8\% & 29.6 \\
+$L=3$      & 61.1\% & 48.3\% & 1.26 & 58.1\% & 49.1\% & 51.8\% & 11.9 \\
+$L=4$      & 96.2\% & 94.9\% & 1.01 & 99.7\% & 95.3\% & 95.5\% & 0.7 \\
+Unlimited  & 99.97\% & 99.97\% & 1.00 & -- & -- & -- & 0.0 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+The chance models explain the decoys. The bundled null model,
+Eq.~\eqref{eq:ball}, predicts the decoy rates at all three horizons to within
+one percentage point, with no free parameter. Because decoys keep a real drug,
+as the null model does, this confirms that a disease's protein links look random
+with respect to the drug's neighborhood. The configuration model gets the
+two-hop rate right (13.1\% against 14.2\%) and overestimates the three-hop rate
+(58\% against 48\%). Its mean number of chance paths is roughly right (5.1
+against 4.5 paths of length at most three per decoy), but the Poisson step is
+not: chance paths come in bundles through the same drug target. Measured
+against the same null model, indications exceed chance by a factor of 1.96 at
+$L=2$, 1.18 at $L=3$ and 1.01 at $L=4$. The excess is an association present
+in the curated data, and each extra hop buries it under chance paths, whose number
+grows by a factor of order $\kappa_{\mathrm{PPI}}$ per step.
+
+Equation~\eqref{eq:excess} condenses this into one number per horizon. The
+observed rates give $r_L=2.42$, $1.43$ and $1.10$ at $L=2$, 3 and 4, so the
+excess of real over chance paths, $r_L-1$, falls from 1.42 to 0.43 and 0.10: it
+shrinks by a factor of 3.3 and then 4.5 (Figure~\ref{fig:frontier}b;
+the four-hop value, $0.10\pm0.03$, is near the noise floor). The rate of this
+decay can be read off the path counts. With one protein--protein step, the mean
+number of chance paths per decoy grows from 0.26 to 4.25, a factor of 17, while
+the excess of indications over decoys grows only from 0.50 to 1.97 paths, a
+factor of 4. The specific signal does propagate, so indications carry excess
+three-hop paths as network-proximity studies find \cite{guney2016network}, but
+it propagates about four times more slowly than chance, consistent with
+Section~\ref{sec:hubs}: real indications avoid the hub proteins through which
+chance paths multiply. The ratio of the mean numbers of paths of length at most
+$L$ then falls from 2.98 to 1.55, so its excess shrinks by a factor of 3.6,
+close to the 3.3 of the effective excess. For the next hop the mean counts no longer predict it (a
+factor of 1.9 against 4.5): almost every pair is connected at $L=4$, and the
+counts are overdispersed (the variance of three-hop counts is 35--48 times
+their mean), so path existence no longer tracks the mean. Up to $f=0.5$
+damage changes $r_2$ and $r_3$ little (2.48 and 1.49), while the four-hop excess
+halves ($r_4=1.05$); over this range the ratio of success rates rises mainly
+because thinning lowers the chance rate. Beyond it $r_2$ itself grows (2.97 at
+$f=0.8$) towards the ratio of mean path counts, 2.98, as heavy thinning makes
+surviving paths rare, so that success follows the mean count rather than the
+overdispersed distribution.
+
+Could path counts at longer horizons recover what path existence loses? Among
+pairs with no shared protein, the number of three-hop paths normalized by
+$k_dk_y$ separates indications from decoys with an AUROC of only 0.53, and the
+number of four-hop paths with 0.54, against 0.59 for the number of shared
+proteins over all pairs. Our claims concern retrieval by path existence, the
+rule that hop-limited retrieval uses, but counting longer paths does not change
+the picture much. Contraindications sit between the two sets: a shared protein
+links 20.2\% of the 21,835 contraindicated pairs, so a two-hop path signals a
+mechanistic relation between a drug and a disease, not necessarily a
+therapeutic one.
+
+\subsection{The specific paths are the fragile ones}
+\label{sec:specificity-damage}
+
+The information sits in exactly the observable that Section~\ref{sec:theory}
+identifies as fragile. Under random edge removal
+(Figure~\ref{fig:summary}a), the giant component
+still holds 86\% of nodes at $f=0.5$, and 85\% of all indications remain
+connected without a hop limit. Two-hop recall falls from 31.0\% to 12.0\% (five orders). Of
+the 1,931 two-hop indications, 40.3\% keep their link (mean of 500 orders), as
+Eq.~\eqref{eq:r2} gives from their shared-protein counts (0.403). A single
+damage state scatters around this mean with a standard deviation of 0.020,
+twice the value for independent queries, because indications share drugs.
+
+The separation between indications and decoys follows from the same formula.
+Indications with a shared protein have more of them than decoys (2.45 against
+1.80 on average; over all pairs, 0.76 against 0.26), so the ratio of the two success rates rises with damage, from
+2.18 at $f=0$ towards $\langle m\rangle_{\mathrm{ind}}/\langle m\rangle_{\mathrm{dec}}=2.98$
+as $f\to1$ (Section~\ref{sec:theory-r2}). Equation~\eqref{eq:r2} gives 2.44 at
+$f=0.5$, against 2.39 measured. Fewer pairs have any answer, however, so the
+information carried by a two-hop answer falls to 40\% of its intact value by
+$f=0.5$ (Figure~\ref{fig:indications}). Applying Eq.~\eqref{eq:r2} to both sets
+accounts for this decay to within 1 millibit at every damage level, inside the
+spread of a single damage state. For $L=3$, the
+independent-path estimate, Eq.~\eqref{eq:paths}, is a genuine
+approximation and does almost as well (within 1.4 millibits); it underestimates the information at $f\ge0.7$, where a
+three-hop answer carries about as much information as a two-hop one (3.9 against
+3.5 millibits at $f=0.8$, within one standard deviation). The advantage of short
+answers therefore holds over most of the damage range and disappears only when
+the graph has lost most of its facts.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.66\linewidth]{act6/fig_information.pdf}
+  \caption{Mutual information between the label (indication or decoy) and the
+  retrieval outcome on the full graph under random edge removal, in millibits
+  per pair, for each hop limit. Shading shows one standard deviation over five
+  damage orders. Black lines follow from Eq.~\eqref{eq:r2} for $L=2$ (exact in
+  expectation) and from the independent-path estimate, Eq.~\eqref{eq:paths}, for
+  $L=3$.}
+  \label{fig:indications}
+\end{figure}

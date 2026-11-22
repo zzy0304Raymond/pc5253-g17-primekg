@@ -117,8 +117,9 @@ order, these ranges are 11--24 and 34--46.
 \item \textbf{Endpoints.} Hub diseases are removed early. The disease of 27.5\%
 of queries is in the top 5\% by degree, against 7.5\% for drugs.
 \item \textbf{Routes.} A shared protein must link both a drug and a disease, so
-the benchmark's routes run through high-degree proteins. Their median degree
-is 188 per route, against 25 for all proteins. Of the 462 routes, 61\% pass
+the benchmark's routes run through high-degree proteins. The median degree of a
+route protein
+is 188, against 25 for all proteins. Of the 462 routes, 61\% pass
 through a protein in the top 5\% by degree (degree at least 153). The 5\%
 attack removes the only shared protein of 84\% of single-path queries. It also fails 53\% of multi-path
 queries: 36\% lose an endpoint, and 17\% keep both endpoints but lose every
@@ -134,25 +135,35 @@ route.
   \label{fig:channels}
 \end{figure}
 
-Path count is therefore not effective redundancy. The routes of a query pass
-through different proteins, so they remain independent. Under an attack,
-however, a route survives only if its protein's degree is below the cut-off, and
-most routes fail that test. Equation~\eqref{eq:r2-attack}, which replaces the
-uniform survival probability by the degree-dependent $\sigma_k$, reproduces the
-measured success exactly at 5\% and 10\% damage (0.305 and 0.170). At 20\%, where
-ties at the cut-off matter, it gives 0.034 against a measured 0.035. Nothing
-beyond the degrees of the endpoints and the route proteins is needed to explain
-the penalty. The structural result of Section~\ref{sec:targeted-null} is
-analogous: the units that protect a low-degree node, its edges, lead to hubs.
-For the same reason, degree features predict which queries fail under attack. A
-logistic regression on degrees reaches an AUC of 0.88 in cross-validation over
-queries, against 0.66 for the degree-blind formula.
+The number of routes is therefore not the effective redundancy. The routes of a
+query pass through different proteins, so they remain independent, but under an
+attack a route survives only if its protein's degree is below the cut-off, and
+most routes fail that test.
+
+Why are routes so hub-heavy, and can we predict the damage without looking at
+the route proteins of each query? The size-biased mean field, Eq.~\eqref{eq:mf},
+answers both. A protein lies on $k_D k_Y$ routes, so the typical route passes
+through a protein of much higher degree than the typical protein: the median
+route protein has degree 188, equal to the mean excess degree
+$\langle k^2\rangle/\langle k\rangle-1$ of the sample. Computed from the whole
+graph, the share of routes that the 5\% degree attack cuts is $h=0.671$. Among
+the benchmark's 462 routes it is 0.615, and 0.665 among the routes of queries
+whose endpoints survive. For those queries Eq.~\eqref{eq:mf} predicts that
+47.7\% keep a route, against 46.2\% measured, and 35.1\% against 37.0\% after
+the 10\% attack. It is less accurate for small attacks (76\% against 63\% at
+1\%) and for the betweenness attack (45\% against 37\% at 5\%). In both cases it
+overestimates survival, because the routes of one query are not independent
+draws: a drug that targets one hub tends to reach its disease only through
+hubs. The mean field thus captures the
+route loss of moderate attacks from one graph-wide number $h$ and the
+redundancy of the surviving queries, and its errors measure how strongly the
+routes of a query are correlated.
 
 \subsection{What the giant component misses}
 \label{sec:targeted-proxy}
 
 At equal damage, the giant component registers that attacks are worse, but it
-understates by how much (Figure~\ref{fig:summary}b). After 5\% node removal, the
+understates by how much (Figure~\ref{fig:sample}b). After 5\% node removal, the
 degree attack lowers $S$ by 6.6 points more than random removal, and lowers
 $R_2$ by 56.5 points more. The two metrics also rank the attacks differently. By
 $S$ the degree attack is marginally worse (0.883 against 0.886). By $R_2$ the

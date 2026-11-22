@@ -1,57 +1,34 @@
 \section{Repair under a Budget}
 \label{sec:repair}
 
-\subsection{Design}
-\label{sec:repair-design}
+If only some lost links can be restored, which should come first? On the
+sample, we removed 30\% or 50\% of the edges at random, using ten damage
+orders, and allowed each policy to restore 5\%, 10\% or 20\% of the deleted
+edges (2,947, 5,895 and 11,789 edges at 50\% damage). Every policy starts from
+the same damaged graphs and restores a prefix of its own ranking. \textbf{Random}
+repair is the baseline. \textbf{Edge betweenness} restores edges in order of
+their betweenness in the intact graph, estimated from 100 sampled sources; it is
+structural and uses no labels. \textbf{Relation type} restores deleted
+drug--protein and disease--protein edges only, in random order; it is
+layer-aware, because a two-hop route needs exactly these two layers.
+\textbf{Task-aware} repair scores each deleted edge by the number of broken
+two-hop routes of training queries it alone would complete. This score
+saturates almost at once: only 31--87 deleted edges have a positive score, less
+than 3\% of the smallest budget, and the rest is spent on random ties. Its
+results therefore show what a few well-chosen edges can do, not the limit of
+task-aware repair. Gains are measured on 60 held-out queries and reported as
+paired differences from the unrepaired state of the same damage order.
 
-If only some lost links can be restored, which should come first? We removed
-30\% or 50\% of the edges at random, using ten damage orders, and allowed each
-policy to restore 5\%, 10\% or 20\% of the deleted edges. At 50\% damage these
-budgets are 2,947, 5,895 and 11,789 edges. Every policy starts from the same
-damaged graphs and restores a prefix of its own ranking of the deleted edges.
-\begin{itemize}[leftmargin=*,itemsep=2pt]
-\item \textbf{Random}: uniform order; the baseline.
-\item \textbf{Edge betweenness}: deleted edges in order of their betweenness in
-the intact graph, estimated from 100 sampled sources. This is structural repair and uses no labels.
-\item \textbf{Relation type}: deleted drug--protein and disease--protein edges
-only, in random order. This is layer-aware repair: it restores the two relation
-layers that a two-hop route needs.
-\item \textbf{Static task-aware} (labeled task-aware in the figures): each deleted edge scores one point for every
-broken two-hop route of a training query that it alone would complete. Edges
-are ranked by score, with ties broken at random.
-\end{itemize}
-Gains are measured on 60 held-out queries, split from the 140 training queries
-by query identifier, and reported as paired differences from the unrepaired
-state of the same damage order.
-
-Two limitations of this design shape the results. First, the task-aware score
-is static and saturates almost immediately. Only 31--46 deleted edges have a
-positive score at 30\% damage, and 62--87 at 50\%, which is less than 3\% of
-even the smallest budget. The rest of its budget is therefore spent on random
-ties, three quarters of them protein--protein edges. Second, training and test
-queries share drugs, so the held-out set is not independent of the training
-routes. The task-aware results therefore show what a small number of
-well-chosen edges can do, not the limit of task-aware repair.
-
-\subsection{What the theory predicts}
-\label{sec:repair-theory}
-
-Equation~\eqref{eq:r2} predicts two of the policies without fitting. Random
-repair of a share $b$ of the deleted edges raises the edge retention from $p$
-to $p+b(1-p)$. Relation-type repair leaves protein--protein edges unchanged, so
-it does not affect $R_2$ through them. It raises the retention of the 27,704
-drug--protein and disease--protein edges instead, and at a 20\% budget after
-50\% damage it restores 85\% of those that were deleted. Substituting these
-retentions into Eq.~\eqref{eq:r2} for the test queries gives the predictions in
-Table~\ref{tab:repair}.
-
-Eleven of the twelve predictions (two policies, two damage levels, three
-budgets) are slightly above the measured gains, by at most 1.5 standard errors
-of the ten-order mean, and all are within one standard deviation. The twelve
-comparisons share the same damage orders, so their common sign is not
-independent evidence. It has a simple cause. Their unrepaired test-set success is 42.3\% at
-$f=0.5$, against 40.2\% expected from Eq.~\eqref{eq:r2}, so these orders left
-fewer failed queries to repair (Section~\ref{sec:blind-uncertainty}).
+Equation~\eqref{eq:r2} gives the expected gain of two policies by changing the
+edge retention. Random repair of a share $b$ of the deleted edges raises it from
+$p$ to $p+b(1-p)$. Relation-type repair leaves protein--protein edges
+unchanged and raises the retention of the 27,704 drug and disease edges; at a
+20\% budget after 50\% damage it restores 85\% of those that were deleted. These
+predictions follow from the exact formula, so they check consistency rather
+than test a model (Table~\ref{tab:repair}). Eleven of the twelve lie slightly
+above the measured gains, by at most 1.5 standard errors, because the ten damage
+orders left fewer failed test queries than average (42.3\% unrepaired success,
+against 40.2\% expected).
 
 \begin{table}[!htbp]
 \centering
@@ -59,7 +36,7 @@ fewer failed queries to repair (Section~\ref{sec:blind-uncertainty}).
 \caption{Gains in percentage points after restoring 20\% of the edges deleted at
 $f=0.5$ (mean $\pm$ SD over ten damage orders). Unrepaired values are 42.3\%
 ($R_2$), 83.5\% ($R_3$) and 98.2\% ($S$). The predicted column uses
-Eq.~\eqref{eq:r2}, and $S$ gains are in percentage points of nodes.}
+Eq.~\eqref{eq:r2}.}
 \label{tab:repair}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
@@ -68,40 +45,32 @@ Policy & $R_2$ predicted & $R_2$ measured & $R_3$ measured & $S$ measured \\
 Random            & 12.3 & $13.2 \pm 2.8$ & $8.3 \pm 5.8$  & $0.58 \pm 0.11$ \\
 Edge betweenness  & --   & $42.0 \pm 4.0$ & $16.5 \pm 7.1$ & $1.78 \pm 0.13$ \\
 Relation type     & 51.6 & $48.5 \pm 6.7$ & $15.7 \pm 7.3$ & $0.61 \pm 0.13$ \\
-Static task-aware & --   & $24.8 \pm 6.3$ & $12.3 \pm 6.6$ & $0.67 \pm 0.09$ \\
+Task-aware        & --   & $24.8 \pm 6.3$ & $12.3 \pm 6.6$ & $0.67 \pm 0.09$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Which repair works for which task}
-\label{sec:repair-results}
-
-Figure~\ref{fig:repair} shows the gains for all budgets. We compare policies
-with paired $t$-tests over the ten damage orders.
+The one non-obvious result is that the best policy changes with the horizon
+(Figure~\ref{fig:repair}). We compare policies with paired $t$-tests over the
+ten damage orders and a Bonferroni correction for the 24 comparisons.
 \begin{itemize}[leftmargin=*,itemsep=2pt]
 \item \textbf{Two hops, large budget.} Relation-type repair is best. At a 20\%
-budget it beats edge betweenness by 3.8 points at $f=0.3$ ($P=0.006$, 8 of 10
-orders) and by 6.5 points at $f=0.5$ ($P=0.002$, 9 of 10). Only the second
-survives a Bonferroni correction for the 24 comparisons we ran. Edge betweenness
-spends 68\% of its budget on protein--protein edges, which cannot help a
-two-hop route (Figure~\ref{fig:repair-types}).
-\item \textbf{Two hops, small budget.} The advantage disappears. At a 5\%
-budget, edge betweenness is ahead by 4.0 points at $f=0.3$ ($P=0.04$, not
-significant after correction), and the two are indistinguishable at $f=0.5$. Drug links
-are often bridges, so edge betweenness picks them early: they make up 1.3\% of
-its first repairs, three times their share under random repair. The task-aware
-score is also competitive here, because its few positive-score edges come
-first.
-\item \textbf{Three hops.} Edge betweenness is best or tied. At a 5\% budget it
-beats relation-type repair by 4.0 points at $f=0.3$ ($P=0.003$) and by 11.0 points
-at $f=0.5$ ($P=0.001$, which survives the correction). At a 20\% budget after 50\% damage it restores $R_3$ to 100\% in
-every order, so the remaining differences are capped. Once one PPI step is allowed,
-protein--protein bridges become useful.
-\item \textbf{Connectivity.} The giant component has only 1.8 points of headroom
-at $f=0.5$. Edge
-betweenness recovers all of it by a 10\% budget. The other policies recover
-18--25\% of it at a 10\% budget and 33--38\% at 20\%.
+budget after 50\% damage it beats edge betweenness by 6.5 points ($P=0.002$,
+9 of 10 orders, significant after correction), because edge betweenness spends
+68\% of its budget on protein--protein edges, which cannot help a two-hop route.
+\item \textbf{Three hops, or a small budget.} Edge betweenness is best or tied.
+At a 5\% budget after 50\% damage it beats relation-type repair at $L=3$ by
+11.0 points ($P=0.001$, significant after correction). Once a protein--protein
+step is allowed, or when only bridges can be restored, structural importance is
+the better guide.
+\item \textbf{Connectivity.} The giant component has only 1.8 points of
+headroom at $f=0.5$. Edge betweenness recovers all of it by a 10\% budget; the
+other policies recover 18--25\% of it at that budget and 33--38\% at 20\%.
 \end{itemize}
+These tests capture only the variation between damage orders. All of them use
+the same 60 test queries, which behave like about 27 independent ones, and 19
+of the 21 test drugs also appear in training queries, so a 4-point difference
+corresponds to two or three queries.
 
 \begin{figure}[!htbp]
   \centering
@@ -112,22 +81,3 @@ betweenness recovers all of it by a 10\% budget. The other policies recover
   standard deviation.}
   \label{fig:repair}
 \end{figure}
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.95\linewidth]{act3/final/primekg_5000_bfs_v1/fig_restored_edge_types.pdf}
-  \caption{Relation types among the restored edges at a 20\% budget. Bars show the
-  mean share and error bars one standard deviation over ten damage orders.}
-  \label{fig:repair-types}
-\end{figure}
-
-These tests capture only the variation between damage orders. All of them use
-the same 60 test queries, which behave like about 27 independent ones
-(Section~\ref{sec:blind-uncertainty}), and 19 of the 21 test drugs also appear in
-training queries. A 4-point difference corresponds to two or three queries.
-
-The best repair therefore depends on the task, in a way the theory explains. A
-two-hop query is a two-layer object, so at large budgets the right policy
-restores the two layers it uses, and Eq.~\eqref{eq:r2} gives the size of the
-gain. When the horizon allows a PPI step, or when the budget is small enough
-that only bridges matter, structural importance becomes the better guide.

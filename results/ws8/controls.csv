@@ -1,0 +1,11 @@
+control,set,frac_removed,value
+own route hub share under degree attack,indication,0.01,0.2722812755519215
+own route hub share under degree attack,decoy,0.01,0.5110851808634772
+own route hub share under degree attack,indication,0.05,0.7358008934269304
+own route hub share under degree attack,decoy,0.05,0.8666666666666667
+random removal of 619 proteins: ratio,both,,2.1681739170129766
+random removal of 619 proteins: mbit,both,,28.51738277356386
+AUROC of sum of 1/k over shared proteins,both,,0.5910953069100722
+odds ratio R2,both,,2.7124390967806336
+odds ratio R3,both,,1.6781931219013138
+odds ratio R4,both,,1.3452337162683252

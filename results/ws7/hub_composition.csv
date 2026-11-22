@@ -1,0 +1,9 @@
+ranking,subset,gene/protein,disease,drug
+node_degree,Top 1%,0.84,0.16,0.0
+node_degree,Top 5%,0.872,0.124,0.004
+node_degree,Top 10%,0.842,0.156,0.002
+node_degree,All nodes,0.9286,0.0566,0.0148
+node_betweenness,Top 1%,0.86,0.14,0.0
+node_betweenness,Top 5%,0.868,0.128,0.004
+node_betweenness,Top 10%,0.882,0.116,0.002
+node_betweenness,All nodes,0.9286,0.0566,0.0148

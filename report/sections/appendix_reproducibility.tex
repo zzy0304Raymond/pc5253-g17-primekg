@@ -10,27 +10,15 @@ rows. MD5: \texttt{aac8191d4fbc5bf09cdf8c3c78b4e75f}. SHA-256:
 \texttt{requirements-lock.txt}. A clean rebuild under this environment reproduced
 all 68 graph, query and damage-order files byte for byte.
 
-\paragraph{Commands.} From the repository root, in order:
-{\small
-\begin{verbatim}
-python scripts/download_data.py
-python scripts/run_a_pipeline.py               # graphs, queries, orders, S curves
-python -m src.run_ws2 --gid primekg_5000_bfs_v1  # targeted attacks
-python -m src.run_ws3 primekg_5000_bfs_v1      # retrieval under damage
-python -m src.run_ws5 primekg_5000_bfs_v1 \
-    --output-dir results/ws5/final/primekg_5000_bfs_v1   # repair
-python -m src.run_ws4 primekg_5000_bfs_v1      # theory, long-run checks, prediction
-python -m src.run_ws4_report primekg_5000_bfs_v1
-python -m src.run_null_model primekg_5000_bfs_v1
-python -m src.run_ws4_v2                        # full-graph attack, mixing, tests
-python -m src.plot_ws4 primekg_5000_bfs_v1
-python -m src.plot_null_model primekg_5000_bfs_v1
-python -m src.plot_summary primekg_5000_bfs_v1
-python -m unittest discover -s tests
-\end{verbatim}
-}
-All random seeds are fixed in the scripts. Results are written to
-\texttt{results/} and figures to \texttt{figures/}.
+\paragraph{Commands.} The repository's \texttt{report/README\_LATEX.md} and
+\texttt{docs/D\_HANDOFF.md} list the commands in order. The main steps are
+\texttt{scripts/download\_data.py} and \texttt{scripts/run\_a\_pipeline.py} (data,
+graphs, queries, damage orders), \texttt{src.run\_ws2}--\texttt{src.run\_ws5}
+(attacks, retrieval, theory, repair), \texttt{src.run\_null\_model},
+\texttt{src.run\_ws6\_indications}, \texttt{src.run\_ws7\_horizon\_attack} and
+\texttt{src.run\_ws8\_chance\_hubs} (theory and the analyses of
+Sections~\ref{sec:specificity}--\ref{sec:sample}), the plotting modules, and
+\texttt{python -m unittest discover -s tests}. All random seeds are fixed.
 
 \paragraph{Determinism.} The BFS starts at disease index 32617 and visits
 neighbors in increasing index order. Local identifiers follow the original
@@ -42,36 +30,7 @@ the train/test split uses its own seed-42 permutation.
 every damage state of 80 small graphs and at selected states of every real
 graph. The generating-function solver was checked against an analytic
 3-regular case, an independent implementation (agreement to $2\times10^{-13}$),
-and stub-matched random graphs with the standard graph's degree sequence. The
+and stub-matched random graphs with the sample's degree sequence. The
 retriever was checked against an independent NetworkX implementation. The three
 rewiring schemes have unit tests for preserving degree, typed degree and the
 joint degree distribution.
-
-\clearpage
-\section{Additional Figures}
-\label{app:figures}
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.62\linewidth]{act1/primekg_5000_bfs_v1/fig_degree_dist.pdf}
-  \caption{Degree distributions of the standard graph by entity type,
-  shown as complementary cumulative distributions on logarithmic axes.}
-  \label{fig:degree-dist}
-\end{figure}
-
-\begin{figure}[!htbp]
-  \centering
-  \begin{subfigure}{0.48\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{ws2_degree_hub_composition_primekg_5000_bfs_v1.png}
-    \caption{Degree ranking}
-  \end{subfigure}\hfill
-  \begin{subfigure}{0.48\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{ws2_betweenness_hub_composition_primekg_5000_bfs_v1.png}
-    \caption{Betweenness ranking}
-  \end{subfigure}
-  \caption{Entity types among the most central nodes. Diseases are 5.7\% of all
-  nodes but 14--16\% of the top 1\% under either ranking.}
-  \label{fig:hub-composition}
-\end{figure}

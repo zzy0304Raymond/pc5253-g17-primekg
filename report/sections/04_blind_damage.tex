@@ -1,11 +1,29 @@
-\section{Blind Damage: Theory against Data}
+\section{Blind Damage on the Controlled Benchmark}
 \label{sec:blind}
+
+This section and the next use the 5,000-node sample and its 200-query benchmark,
+where each prediction can be checked against thousands of independent damage
+orders. Figure~\ref{fig:sample} summarizes the results.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\linewidth]{act0/fig_sample_summary.pdf}
+  \caption{The controlled benchmark on the 5,000-node sample. (a) Random edge
+  removal: giant component $S$ (mean of ten damage orders) and retrieval success
+  $R_L$ (mean of 600 independent damage orders). Shading shows the spread of a
+  single damage state (one standard deviation). Dashed lines are the predictions
+  of Section~\ref{sec:theory}, which contain no fitted parameters. (b) Loss after
+  removing 5\% of nodes at random (mean of ten orders) or by a fixed degree or
+  betweenness ranking. The dashed line shows the two-hop loss expected if the
+  same number of nodes were removed blindly.}
+  \label{fig:sample}
+\end{figure}
 
 \subsection{Connectivity}
 \label{sec:blind-connectivity}
 
 Under random edge removal the giant component barely shrinks until most edges
-are gone (Figure~\ref{fig:summary}a). The ten-order means of $S$ are 0.982 at
+are gone (Figure~\ref{fig:sample}a). The ten-order means of $S$ are 0.982 at
 $f=0.5$, 0.815 at $f=0.9$ and 0.112 at $f=0.99$. Their sample standard
 deviations are 0.001--0.016. Random node removal gives $S=0.493$ at $f=0.5$,
 which is 98.5\% of the surviving nodes, so the removed nodes account for almost
@@ -83,9 +101,51 @@ take this point to be the first $f$ at which $R_L$ falls 5 points below
 $R_\infty$. It is $f\approx0.10$, 0.50 and 0.85 for $L=2$, 3 and 4, from the 600
 independent orders.
 
+Limited-path percolation, Eq.~\eqref{eq:lpp}, predicts where a longer horizon
+stops protecting a query. We compare it with the damage at which half of the
+reachable queries are lost to the hop limit, $R_L/R_\infty=1/2$
+(Table~\ref{tab:lpp}). On the sample the zero-parameter threshold is accurate
+to within 0.016 for both $L=3$ and $L=4$, although the sample, too, has fewer
+longer paths than the threshold assumes (a median ratio $n_3/n_2$ of 25 rather
+than $\kappa_0-1=188$), so the agreement may be partly fortuitous. On the full
+graph it fails. For the
+1,931 two-hop indications of Section~\ref{sec:indications} the crossings come
+at $f=0.63$ and $0.85$, against predicted values of $0.83$ and $0.93$, and the
+885 decoys with a two-hop link behave the same way (0.61 and 0.84), although both
+graphs have $\kappa_0\approx190$. The threshold assumes that the number of
+paths grows by $\kappa_0-1$ per extra step. In the sample, a query has a median
+of 37.5 three-hop paths. In the full graph an indication has 5, because the
+proteins next to a drug or a disease are much less interconnected than the
+graph-wide $\kappa_0$ suggests. A local estimate that treats each actual path as
+independent, $1-(1-p^2)^{n_2}(1-p^3)^{n_3}$ with the counts $n_2$ and $n_3$ of
+two- and three-hop paths, follows the full graph's $R_3$ to within 0.06 at the four
+damage levels we tested ($f=0.3$ to $0.85$). It overestimates the sample's $R_3$ by up to 0.13, because there
+many three-hop paths share the drug's only edge. The mean-field threshold
+is therefore unreliable when local path counts are small, which is the case for
+real indications.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Limited-path percolation. Predicted and measured damage $f$ at which
+$R_L/R_\infty=1/2$, and the median numbers of two- and three-hop paths per query
+in the intact graph. Sample: 600 orders. Full graph: five orders.}
+\label{tab:lpp}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Query set & $L$ & Predicted, Eq.~\eqref{eq:lpp} & Measured & Median $n_2$ & Median $n_3$ \\
+\midrule
+Sample benchmark          & 3 & 0.825 & 0.810 & 1.5 & 37.5 \\
+                          & 4 & 0.927 & 0.921 &     &      \\
+Full graph, two-hop indications & 3 & 0.826 & 0.629 & 1   & 5    \\
+                          & 4 & 0.927 & 0.846 &     &      \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 For unlimited hops, Eq.~\eqref{eq:rinf} agrees with the long-run means to within
-0.009 at every damage level from $f=0.05$ to $0.99$ (Figure~\ref{fig:summary}a).
-The simpler min-cut form, Eq.~\eqref{eq:mincut}, agrees to within 0.005 for
+0.009 at every damage level from $f=0.05$ to $0.99$ (Figure~\ref{fig:sample}a).
+The simpler endpoint-degree form, Eq.~\eqref{eq:mincut}, agrees to within 0.005 for
 $f\le0.8$. Beyond that it overestimates success, by 0.021 at $f=0.9$, because
 the PPI giant component begins to shrink. Even so, the PPI layer outlasts the
 query endpoints. Its giant component still holds 75\% of proteins at $f=0.9$
@@ -147,15 +207,9 @@ fluctuation, not six independent ones.
 standard error below 0.0007. It matches Eq.~\eqref{eq:r2} to within 0.001.
 \end{enumerate}
 
-\subsection{Which query fails?}
-\label{sec:blind-perquery}
-
-Given Eq.~\eqref{eq:r2}, the outcome of a query under blind damage depends only
-on $m$. No other property of
-the intact graph can predict which of two queries with the same $m$ will fail.
-We tested this on damage orders 7--9. The formula ranks failures with an AUC of
-0.713 at $f=0.3$ and 0.720 at $f=0.5$. A logistic regression on $m$ and four
-degree features, trained on orders 0--6, reaches 0.712 at both levels. The expected AUC if outcomes
-were drawn from the formula probabilities is 0.72. The redundancy count is thus
-a complete predictor under blind damage. Section~\ref{sec:targeted-retrieval}
-shows that this changes under attack.
+Because Eq.~\eqref{eq:r2} depends only on $m$, no other property of a query can
+predict which of two queries with the same $m$ fails under blind damage. On
+held-out damage orders, the formula ranks failures with an AUC of 0.71--0.72,
+the value expected if outcomes follow the formula probabilities, and adding
+degree features does not improve it. Section~\ref{sec:targeted-retrieval} shows
+that this changes under attack.

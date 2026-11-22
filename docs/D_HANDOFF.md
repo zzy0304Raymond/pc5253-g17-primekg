@@ -82,3 +82,33 @@ New analyses (`src/run_ws4_v2.py`, `src/plot_summary.py`):
 - Null-model mixing: 9-14% of edges unchanged, hubs keep 20-29% of neighbours; transitivity 0.069 real vs 0.051-0.070 rewired. Gap shares stable for f = 0.1-0.4.
 - Paired t-tests for repair: relation type beats edge betweenness at a 20% budget for L = 2 (p = 0.006 and 0.002); not at 5%; edge betweenness best at L = 3.
 - Restoration predictions exceed measurements in 11 of 12 cases by at most 1.5 SE, consistent with the ten damage orders' test-set baseline (42.3%) exceeding the expected 40.2%.
+
+## Third review and external validation (22 Nov, night)
+
+A third independent review (B+ as framed) found that the headline was close to obvious far from p_c, that several "predictions" were identities (Eq. 10 under a deterministic ranking, the repair predictions), that limited-path percolation does have a closed form, and that the benchmark had no ground truth. Changes:
+
+- `src/run_ws6_indications.py`: PrimeKG's 6,233 in-graph approved indications (never part of the filtered graph) against degree-preserving decoys on the full graph. Two-hop path: 31.0% vs 14.2% (ratio 2.18, drug-bootstrap 95% CI 1.92-2.47); L = 3: 1.26; L = 4: 1.01; unlimited: 1.00. Configuration-model decoy rate 13.1% at L = 2. Hub share of shared proteins: decoys 45%, indications 24%. Degree attack on 1% of nodes raises the ratio from 2.2 to 4.0.
+- `src/run_ws7_horizon_attack.py`: size-biased mean field h = sum_H kD kY / sum kD kY predicts route survival 0.477 vs 0.462 (5% degree attack, sample) and 0.351 vs 0.370 (10%); worse at 1-2% and for betweenness. Real indications avoid hubs (27% of routes cut vs 44% predicted at 1%). Limited-path threshold (Lopez et al. 2007) matches the sample (0.825/0.927 vs 0.810/0.921) but not the full graph (0.63/0.85), where pairs have median 5 three-hop paths instead of 37.5.
+- Figure 1 now shows the full graph with real indications; the sample summary moved to Section 4. Title: "Connected but Out of Reach".
+
+## Fourth review and restructure (22 Nov, late)
+
+A fourth independent review (A-, close to B+) asked for the real-data result to come first, fewer overclaims, and quantitative predictions. Changes:
+
+- Order is now: introduction, data, theory, specificity on the full graph, hubs and attacks, controlled tests on the sample, discussion; uncertainty and repair moved to appendices.
+- `src/run_ws8_chance_hubs.py`: a bundled chance-path null (drug's real targets and PPI ball, random disease links) predicts decoy rates 13.4/49.2/95.3% against 14.2/48.3/94.9% observed at L = 2/3/4. Count-based scores add little (AUROC 0.53-0.54 among pairs without a shared protein). Full-graph 5% degree attack: of 82.8 points of two-hop loss, 43.6 come from lost (mostly hub-disease) endpoints and 39.2 from routes. Two-factor mean-field test: with the indications' own route hub share the mean field is within 0.033; the graph-wide version fails because indications avoid hubs. Protein-only attack raises the indication/decoy ratio from 2.18 to 3.87 and information from 29.6 to 41.0 mbit while recall falls to 21.3%.
+- The information decay under random damage is predicted by Eq. (6) within 1 mbit (L = 2) and by the independent-path estimate within 1.4 mbit (L = 3).
+- Limited-path percolation is now reported as a negative result.
+
+## Perspective (22 Nov, final)
+
+Title changed to "Connected but Out of Reach: Robustness, Specificity and the Hop Limit in a Biomedical Knowledge Graph"; title page shows "Group 17". Section 7.1 now states the report's stance: the hop limit acts as a resolution (Figure 8, robustness-information frontier from `src/plot_ws6.py:frontier`), and Table 6 maps the measurement choices debated for neuronal avalanches and SOC (time bin, threshold, subsampling, time-scale separation) onto hop limit, null model, BFS sampling and independent deletion, each with its measured effect in this report.
+
+## Final tightening (22 Nov, last)
+
+After a fifth review the report was cut from 29 to 22 pages: no table of contents; Figure 2 (redundancy CCDF), the sample attack bar chart, the attack-penalty split and the appendix figures removed; uncertainty analysis folded into Section 6.1; repair and reproducibility appendices condensed. "Predicts" is now reserved for models that can fail (chance-path nulls, mean field, Callaway, limited-path threshold); Eqs. (6)-(7) "give" or "account for" results. New controls (`src/run_ws8_chance_hubs.py:controls`): two-hop decoys have 51% of routes cut by a 1% degree attack against 27% for indications; removing 619 random proteins leaves the ratio at 2.17; a 1/k-weighted score gives AUROC 0.591 against 0.586; odds ratios 2.71/1.68/1.35 at L = 2/3/4. Short first-person passages record what the team expected and got wrong (percolation collapse, the presentation question, the BFS artefact).
+
+## Last additions (22 Nov)
+
+- Effective excess r_L from 1 - R_real = (1 - R_chance)^{r_L} (Eq. excess; `src/run_ws8_chance_hubs.py:excess_by_horizon`): r_L - 1 = 1.42, 0.43, 0.10 (+-0.03) at L = 2, 3, 4 in the intact graph; framed as an analogy to an irrelevant perturbation under coarse-graining, explicitly not an RG calculation. Figure 7b.
+- Teammates' query schematic (figures/act0/fig_query_schematic) now appears as Figure 2.

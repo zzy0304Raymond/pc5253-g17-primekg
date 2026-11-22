@@ -1,0 +1,189 @@
+\section{What the Paths Mean: Real Indications on the Full Graph}
+\label{sec:indications}
+
+The benchmark of Sections~\ref{sec:blind}--\ref{sec:targeted} asks whether a
+typed path survives. It does not ask whether the path says anything true, and
+it lives on a BFS sample. This section removes both limitations. We use
+PrimeKG's own list of approved drug indications as ground truth and run the
+analysis on the full filtered graph.
+
+\subsection{Design}
+\label{sec:indications-design}
+
+PrimeKG lists 9,388 drug--disease indication pairs. For 6,233 of them, both the
+drug and the disease are in the filtered graph. These pairs were never part of
+the graph we analyze, because Section~\ref{sec:data-graphs} kept only
+drug--protein, disease--protein and protein--protein edges. They are therefore
+external evidence that the retrieval rule has not seen. For each indication we
+form a decoy by permuting the diseases among the indicated drugs and rejecting
+any pair that PrimeKG lists as an indication, a contraindication or an
+off-label use. Every decoy keeps the drug of one indication, and the decoy diseases
+are the indicated diseases in a new order, so the two sets have almost
+identical distributions of drug degree and disease degree. They differ in
+whether the pair is a recorded therapeutic relation. Retrieval at hop limit $L$ is defined as in
+Section~\ref{sec:data-benchmark}. We report the recall (the share of
+indications with a typed path), the decoy rate (the same share for decoys),
+their ratio, and the mutual information in bits between the label and the
+retrieval outcome for a balanced mixture of the two sets. Damage is random edge
+removal (five orders) or removal of nodes in decreasing order of degree, both on
+the full graph of 30,968 nodes.
+
+\subsection{Only short paths are specific}
+\label{sec:indications-specific}
+
+Table~\ref{tab:indications} and Figure~\ref{fig:summary}b show the intact
+graph. A shared protein links 31.0\% of indications and 14.2\% of decoys, so a
+two-hop answer is 2.2 times more common among indications than among decoys. The
+contrast fades quickly with the horizon. At $L=3$ the ratio is 1.26, at $L=4$
+it is 1.01, and without a limit both sets are connected in 99.97\% of cases. A
+path of unbounded length carries no information about indications at all. These
+ratios are stable. Over five further decoy draws the two-hop ratio lies between
+2.09 and 2.18, and a bootstrap over the 1,375 indicated drugs, which accounts for
+indications that share a drug, gives 95\% intervals of 1.92--2.47 at $L=2$,
+1.20--1.32 at $L=3$ and 1.00--1.02 at $L=4$.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Typed retrieval of 6,233 approved indications and 6,233
+degree-preserving decoys on the intact full graph. The configuration-model
+column is the expected decoy rate in a random graph with the same layer degrees
+(Eq.~\eqref{eq:cm}). Information is per pair, for a balanced mixture.}
+\label{tab:indications}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Hop limit & Indications & Decoys & Ratio & Configuration model & Information (mbit) \\
+\midrule
+$L=2$      & 31.0\% & 14.2\% & 2.18 & 13.1\% & 29.6 \\
+$L=3$      & 61.1\% & 48.3\% & 1.26 & 58.1\% & 11.9 \\
+$L=4$      & 96.2\% & 94.9\% & 1.01 & 99.7\% & 0.7 \\
+Unlimited  & 99.97\% & 99.97\% & 1.00 & -- & 0.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The loss of specificity is the small-world property, and the generating-function
+picture of Section~\ref{sec:theory-gf} predicts it. In a configuration model
+with the same layer degrees, a drug with $k_d$ targets and a disease with $k_y$
+proteins share on average
+\begin{equation}
+\Lambda_2 = k_d k_y\, c_2,\qquad c_2=\frac{\sum_x k_D(x)\,k_Y(x)}{K_D K_Y}
+\label{eq:cm}
+\end{equation}
+proteins, where $k_D(x)$ and $k_Y(x)$ are the drug and disease degrees of protein
+$x$, as in Eq.~\eqref{eq:mf}, and $K_D$ and $K_Y$ are the layer totals. Paths
+with one protein--protein step add $k_d k_y c_3$ with
+$c_3=\sum_x k_D(x)k_x\sum_x k_Y(x)k_x/(K_D K_Y \sum_x k_x)$, where $k_x$ is the
+PPI degree, and each further step multiplies the last term by $\kappa-1$, with
+$\kappa=\langle k^2\rangle/\langle k\rangle=187$ for the PPI layer, because a
+path enters a protein through one of its edges and can leave through any of the
+others (Section~\ref{sec:theory-gf}). Thus $c_3/c_2=24$ and the four-hop term is
+186 times the three-hop one. With $\Lambda_L$ the cumulative expected number of
+paths of length at most $L$, the probability that at least one exists is
+$1-e^{-\Lambda_L}$. This estimate,
+which has no free parameters, gives a decoy rate of 13.1\% at $L=2$ against the
+observed 14.2\%. It overestimates $L=3$ (58\% against 48\%), plausibly because it ignores
+degree correlations, and it gives near-certain connection at $L=4$. At $L=2$,
+decoys therefore behave like random pairs, while indications are 2.2 times more
+likely than chance to share a protein. The excess is real biology, but the chance
+paths of longer horizons swamp it.
+
+Contraindications sit in between. A shared protein links 20.2\% of the 21,835
+contraindicated pairs in the graph. A two-hop path therefore signals a
+mechanistic relation between a drug and a disease, not necessarily a
+therapeutic one.
+
+\subsection{The specific paths are the fragile ones}
+\label{sec:indications-fragile}
+
+The information sits in exactly the observable that Sections~\ref{sec:theory}
+and~\ref{sec:blind} found to be fragile. Under random edge removal
+(Figures~\ref{fig:summary}a and~\ref{fig:indications}a), the giant component of
+the full graph still holds 86\% of nodes at $f=0.5$, and 85\% of all
+indications remain connected without a hop limit. Two-hop recall falls from
+31.0\% to 12.0\%. Of the 1,931 indications that had a two-hop link, 40.3\% keep
+it (mean of 500 orders), as Eq.~\eqref{eq:r2} predicts from their
+shared-protein counts (0.403); on the sample benchmark the corresponding value
+was 0.41. A single damage state scatters around this mean with a standard
+deviation of 0.020, twice the independent-query value, because indications
+share drugs. The ratio of
+indication recall to decoy rate rises only slowly, from 2.2 to 2.4 at $f=0.5$,
+but fewer pairs have any answer, so the information carried by a two-hop answer
+falls to 40\% of its intact value (Figure~\ref{fig:indications}b). This decay
+is predicted without parameters. Applying Eq.~\eqref{eq:r2} separately to the
+shared-protein counts of indications and of decoys gives both rates, and hence
+the information, at every damage level; the prediction stays within 1 millibit
+of the simulation, inside the spread of a single damage state. For $L=3$ the
+independent-path estimate of Section~\ref{sec:blind-horizon}, applied to each
+pair's actual counts of two- and three-hop paths, does almost as well (within
+1.4 millibits). Longer
+horizons behave differently. The three-hop ratio rises from 1.26 to 2.0 at
+$f=0.8$, where a three-hop answer carries as much information as a two-hop one
+(3.9 against 3.5 millibits, within one standard deviation). Thinning reduces the
+number of chance paths below one per pair, and the presence of a path again
+reflects how many paths a pair has. The advantage of two-hop answers over
+three-hop answers therefore disappears by $f\approx0.8$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\linewidth]{act6/fig_indications.pdf}
+  \caption{All 6,233 approved indications and their decoys on the full filtered
+  graph under random edge removal. (a) Giant component, and recall of
+  indications (solid) and decoys (dotted) at $L=2$, 3 and unlimited; the dashed line is
+  Eq.~\eqref{eq:r2} for indications and for decoys. Means of five damage orders.
+  (b) Mutual information between the label and the retrieval outcome, in
+  millibits per pair. Shading shows one standard deviation over orders. Black
+  lines are predictions with no fitted parameters: Eq.~\eqref{eq:r2} for $L=2$
+  and the independent-path estimate for $L=3$.}
+  \label{fig:indications}
+\end{figure}
+
+\subsection{Hubs carry the non-specific paths}
+\label{sec:indications-hubs}
+
+Targeted damage tells the same story from the other side
+(Figure~\ref{fig:indications-attack}). Of the shared proteins that link decoys,
+45\% are among the 1\% of proteins with the highest degree (degree at least
+316). For indications the share is 24\%. Removing the top 1\% of nodes by degree
+cuts two-hop recall from 31.0\% to 20.0\%, but it cuts the decoy rate from
+14.2\% to 5.0\%. The likelihood ratio rises from 2.2 to 4.0, and the information
+per pair increases from 29.6 to 39.4 millibits. After removing 10\% of nodes,
+only 2.5\% of indications keep a two-hop answer, but the ratio reaches 9.8.
+Only 16 decoys keep a two-hop path at that point, so the ratio
+becomes noisy and we do not interpret larger attacks.
+The size-biased mean field of Eq.~\eqref{eq:mf} shows the same thing. After
+removing 5\% of nodes it predicts route survival for the two-hop indications
+about as well as for the sample (0.283 against 0.305 measured). After removing
+1\%, however, it errs in the opposite direction from the sample: 78\% of the
+two-hop indications whose endpoints survive keep a route, against 65\%
+predicted, because only 27\% of their routes pass through the removed nodes,
+against 44\% of all drug--disease routes in the graph. Real indications avoid
+hubs. Hubs therefore provide much of the redundancy that keeps short paths alive
+under blind damage, and many of the paths that connect unrelated pairs. Network
+medicine corrects for this by comparing a drug--disease proximity with
+degree-preserving random references \cite{guney2016network}. Our decoys play
+the same role here.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.86\linewidth]{act6/fig_indications_attack.pdf}
+  \caption{Degree attack on the full filtered graph. (a) Giant component, and
+  recall of indications (solid) and decoys (dotted) at $L=2,3,4$. (b) Ratio of
+  indication recall to decoy rate, on a logarithmic axis, up to 10\% of nodes
+  removed.}
+  \label{fig:indications-attack}
+\end{figure}
+
+\subsection{What this adds}
+\label{sec:indications-adds}
+
+The full graph and an external ground truth confirm the central finding. Global
+connectivity barely moves while the short paths that answer queries disappear,
+and Eq.~\eqref{eq:r2} predicts how fast they disappear. The experiment also
+explains why this matters. Unbounded reachability is robust because almost
+every pair is joined by many chance paths through hubs, and for the same reason
+it says nothing about which drug treats which disease. The specific quantity, a
+short typed path, is fragile because most two-hop indications are supported by
+one or two shared proteins. Robustness
+and specificity trade against each other in this graph, and a robustness
+statistic is only meaningful for the observable that carries the information.

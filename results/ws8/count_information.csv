@@ -1,0 +1,7 @@
+score,auroc,value,mean_m_given_ge1_ind,mean_m_given_ge1_dec
+n2 (all pairs),0.5859281896204169,,,
+"n3/(k_d k_y), pairs with n2 = 0",0.5339542852344338,,,
+"n4/(k_d k_y), pairs with n2 = 0",0.538332760466597,,,
+"R3 existence, pairs with n2 = 0",0.5192014672342828,,,
+"R4 existence, pairs with n2 = 0",0.5016497518852444,,,
+E[m|ind]/E[m|dec],,2.9786163522012576,2.45261522527188,1.7966101694915255

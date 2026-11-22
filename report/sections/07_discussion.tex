@@ -1,85 +1,128 @@
 \section{Discussion and Conclusion}
 \label{sec:discussion}
 
-\subsection{What generalizes and what does not}
+\subsection{The observable is part of the result}
 \label{sec:discussion-general}
 
-Some of our results follow from the mathematics of redundancy and should hold
-for any knowledge graph and any path-based task.
-\begin{itemize}[leftmargin=*,itemsep=2pt]
-\item Under blind damage, the survival of a bounded-hop query is a reliability
-polynomial in the retention probability, Eq.~\eqref{eq:r2}. It is set by the
-query's independent routes and has no threshold. A giant component that is far
-from its threshold therefore says little about such queries.
-\item Connectivity, reachability and bounded-hop retrieval are instances of one
-expression, Eq.~\eqref{eq:principle}. They differ in the unit and in the low end
-of the redundancy distribution. The quantity with the most single-unit objects
-fails first.
-\item Damage aimed at hubs removes the redundant units that sit on hubs.
-Counting units then overstates protection, and weighting each unit by its
-degree restores the prediction. The attack penalty measures how much a task
-depends on hubs.
-\item The best repair depends on the horizon. Layer-aware repair is best for
-short typed paths at large budgets, and structural repair is best when longer
-paths are allowed or when the budget is small.
-\end{itemize}
+Physicists like robust observables, and the giant component is the archetype.
+Its threshold depends on the degree distribution only through two moments, and
+generating functions predict it to three decimals on the sample for $f\le0.9$. The same
+property makes it blind. A quantity that is insensitive to which particular
+links exist cannot say which drug treats which disease. Our observables form a
+ladder (Figure~\ref{fig:frontier}). As the hop limit grows from two to
+unlimited, the share of reachable indications (of all 6,233) that stay
+reachable when half of the edges are removed rises from 0.39 to 0.85 (five
+orders), while the information that a path carries about
+indications falls from 29.6 millibits per pair to zero in the intact graph (and
+from 11.8 to 0.1 millibits at $f=0.5$). The hop limit acts as a resolution. A
+coarse time bin merges separate avalanches into one; a long horizon merges
+specific evidence into generic connectivity. At fine resolution the graph shows
+specific structure that is fragile; at coarse resolution it shows robust
+structure that is the same for a real indication and a random pair. Loosely, the excess behaves like an
+irrelevant perturbation under repeated coarse-graining: in the intact graph each
+hop multiplies $r_L-1$ by about 0.2--0.3 (Figure~\ref{fig:frontier}b), because
+chance paths multiply about four times faster than the real excess
+(Section~\ref{sec:specificity-intact}), and at
+$L=\infty$, where every pair is connected and where the giant component sits,
+nothing specific survives. This is an analogy, not a renormalization-group
+calculation: we define no transformation and derive no decay rate. No hop limit
+is both robust and informative; there is only a frontier along which an
+application chooses, and the schema itself sets a natural scale: one shared
+protein, two hops.
 
-Other results are specific to our sample and benchmark.
-\begin{itemize}[leftmargin=*,itemsep=2pt]
-\item The magnitudes: 98\% connectivity at 50\% edge loss and the 57-point gap.
-The full filtered graph is less robust under random damage. For all of its
-connected drug--disease pairs, Eq.~\eqref{eq:r2} gives $R_2=0.30$ at $f=0.5$,
-rather than the benchmark's 0.41. Relative to theory, its excess fragility
-under attack is similar to that of the sample.
-\item The drug-side bottleneck at long horizons. It depends on how many drugs
-have a single target, which is 69\% in the sample and 53\% in the full graph.
-\item The hub-heavy routes, which follow partly from how the benchmark was
-built: a shared protein must link both a drug and a disease.
-\end{itemize}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{act6/fig_frontier.pdf}
+  \caption{The hop limit as a resolution, on the full graph. (a) Each point is
+  one hop limit $L$. Horizontal axis: share of reachable indications that remain
+  reachable after half of the edges are removed at random. Vertical axis:
+  mutual information between the label (indication or decoy) and the retrieval
+  outcome, in the intact graph and at $f=0.5$ (means of five damage orders).
+  (b) Effective excess of real over chance paths, $r_L-1$ from
+  Eq.~\eqref{eq:excess}, on a logarithmic axis; error bars on the intact values
+  are binomial standard errors.}
+  \label{fig:frontier}
+\end{figure}
+
+Self-organized criticality met the same problem. Neural avalanches look
+scale-free \cite{beggs2003neuronal}, yet their measured exponents shift with the
+time bin, the detection threshold and subsampling
+\cite{priesemann2009subsampling}, and the theory itself rests on a separation of
+time scales, an infinitely slow drive and vanishing dissipation, that can be
+read as a tuning in disguise \cite{dickman2000paths}. None of this diminishes
+its central insight, which is also ours: ask which few quantities control a
+complex system, and when its details stop mattering. But each of these choices
+has a counterpart in our problem, and each changes our numbers
+(Table~\ref{tab:choices}). We fell into the subsampling trap ourselves: we first
+took ``low-degree nodes hang from hubs'' as a property of PrimeKG, and only the
+full graph (assortativity $-0.053$ against $-0.153$ in our sample) showed that
+our breadth-first sample had produced it.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Measurement choices and idealizations in avalanche analysis and their
+counterparts in the robustness analysis of a knowledge graph, with the effect
+each has in this report.}
+\label{tab:choices}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}p{0.2\linewidth}>{\raggedright\arraybackslash}p{0.55\linewidth}@{}}
+\toprule
+Avalanches & Knowledge graph & Effect in this report \\
+\midrule
+Time bin & Hop limit $L$ & Robustness at $f=0.5$ rises from 0.39 to 0.85, and information falls from 29.6 millibits to zero, between $L=2$ and $L=\infty$ (Section~\ref{sec:specificity}). \\
+Detection threshold & Null model for chance & At $L=3$, indications are 1.18 times chance against the bundled null, which matches the decoys, but only 1.05 times against the configuration model, which overestimates chance paths (Section~\ref{sec:specificity-intact}). \\
+Subsampling & BFS sampling & The sample has 2\% degree-one nodes against 22\%; a limited-path-percolation threshold that matches the sample fails on PrimeKG, and the mean field fails in opposite directions on the two (Sections~\ref{sec:hubs-mf}, \ref{sec:blind-horizon}). \\
+Idealization: separation of time scales & Idealization: independent failures & Makes Eq.~\eqref{eq:r2} exact. The opposite idealization, removal in order of degree, raises the two-hop loss after 5\% node removal from 12\% to 83\% on the full graph (Section~\ref{sec:hubs}). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We therefore keep generating functions, null models and mean fields for what
+they identify and for how they fail, and we report every robustness number with
+its horizon, null model and sampling. A robustness claim about a knowledge graph
+without its hop limit is as incomplete as an avalanche exponent without its bin
+width.
+
+Within that frame, some results should carry over to other heterogeneous
+knowledge graphs. Hop-limited queries are reliability polynomials without a
+threshold, controlled by the low end of a redundancy distribution. Chance
+paths multiply by a factor of order $\langle k^2\rangle/\langle k\rangle$ per
+step, so specificity lives at short horizons. Routes are size-biased towards
+hubs, and the ways a mean field built on that bias fails tell whether a task's
+routes are typical and whether they fail together. Other results are specific to
+PrimeKG or to our sample: the magnitudes (98\% connectivity and a 57-point gap
+at $f=0.5$ on the sample, 86\% and 46 points on the full graph), the drug-side
+bottleneck at long horizons, and the strength of the hub bias. An exploratory
+repair experiment (Appendix~\ref{sec:repair}) adds one more instance of the
+same lesson: the best repair policy depends on the horizon.
 
 \subsection{Limitations}
 \label{sec:discussion-limits}
 
-\begin{itemize}[leftmargin=*,itemsep=2pt]
-\item \textbf{Sample.} The standard graph is a BFS sample around one disease.
-It is 93\% proteins and contains 74 of the 6,282 drugs. We checked structural
-claims on the full filtered graph. Simulated retrieval exists only on the sample,
-although for $L=2$ the exact formula extends to all pairs of the full graph.
-\item \textbf{Benchmark.} A query succeeds if a typed path exists. This is a
-self-referential criterion with no external ground truth: PrimeKG's
-drug--indication edges were not used. The queries were also selected to
-succeed initially and to balance redundancy.
-\item \textbf{Damage model.} Independent random deletion is a clean null model,
-not a realistic failure process. Real knowledge graphs lose or miss facts
-through study bias and curation choices, which are correlated with degree. Each
-attack is a single deterministic order computed once on the intact graph.
-Betweenness is estimated from 100 sampled sources.
-\item \textbf{Theory.} Equations~\eqref{eq:gf-bond}, \eqref{eq:rinf}
-and~\eqref{eq:mincut} assume a locally tree-like, uncorrelated graph. The null
-models identify degree correlations as one cause of failure under attack, but
-they do not resolve the remaining half. The Molloy--Reed threshold is an
-estimate that our damage grid does not reach.
-\item \textbf{Repair.} The task-aware score is static and saturates. Only 60
-test queries are evaluated, which behave like about 27 independent ones, and 19
-of the 21 test drugs also appear in training queries. Of 24 paired comparisons,
-only a few survive a correction for multiple testing.
-\end{itemize}
+PrimeKG's indications are curated and incomplete; some decoys may be unrecorded
+indications, so the measured specificity is a lower bound, and indications,
+targets and disease genes may share literature sources. Our claims concern
+retrieval by path existence; counting paths changes little, but weighted scores
+were not explored systematically. Independent random deletion is a null model,
+not a realistic failure process: real knowledge graphs miss facts through study
+bias, which is correlated with degree. Each attack is one deterministic order,
+and betweenness is estimated from 100 sampled sources. The generating-function
+formulas assume a locally tree-like, uncorrelated graph; the null models leave
+about half of the excess fragility under attack unexplained, and the rewiring
+null models, like the repair experiment, were run on the sample only.
 
 \subsection{Conclusion}
 \label{sec:discussion-conclusion}
 
-A knowledge graph can stay almost fully connected while losing most of the
-short paths that its queries use. On a PrimeKG sample, half of the edges can be
-removed with 98\% of nodes still connected, while only 41\% of two-hop queries
-survive. The reason is that each quantity is protected by its own redundant
-units. Nodes have many independent edges, but many queries have a single
-shared protein. One expression, one minus the generating function of the
-redundancy distribution, describes all three observables. It is exact for
-two-hop retrieval under blind damage and approximate but accurate for
-long-range reachability. Under targeted damage, counting units is no longer
-enough, because the units sit on hubs. Weighting each unit by its degree
-restores the prediction. For anyone who maintains or evaluates a
-knowledge graph, the practical advice is to measure robustness on the task
-itself, to count independent routes rather than paths, to ask how many of those
-routes pass through hubs, and to report the graph, queries, horizon and
-damage model together.
+A knowledge graph can stay almost fully connected while the facts it is meant to
+deliver move out of reach. On PrimeKG, half of the edges can be removed with
+86\% of nodes still in the giant component, while only 40\% of the approved
+indications that had a two-hop link keep it, and the longer paths that remain
+say almost nothing about which drug treats which disease. Hubs supply much of
+the redundancy and many of the chance paths, so attacks on hubs hurt retrieval
+far more than connectivity, while removing hub proteins makes the surviving
+answers more specific. For anyone who maintains or evaluates a knowledge graph,
+the practical advice is to measure robustness on the observable that carries
+the information, at the horizon the application uses, against a
+degree-preserving chance baseline, and to report the horizon, null model and
+sampling with every number.

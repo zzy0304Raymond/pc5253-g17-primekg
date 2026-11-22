@@ -19,105 +19,81 @@ usually judged with global statistics, chief among them the size of the giant
 component. This is the quantity that network robustness studies track under
 random failure and targeted attack \cite{albert2000error,callaway2000network}.
 We ask whether that statistic tells us anything about the short paths that
-applications actually use.
+applications actually use, and whether the paths that disappear carried any
+real information in the first place. Throughout, damage removes a fraction $f$
+of edges or nodes, $S$ is the fraction of nodes in the giant component, and
+$R_L$ is the fraction of drug--disease queries that still have a typed path of
+at most $L$ hops through proteins.
 
 \subsection{The answer in one figure}
 
-Figure~\ref{fig:summary} answers the question on a 5,000-node sample of PrimeKG
-and a fixed benchmark of 200 drug--disease queries. Each query asks whether a
-drug and a disease are still linked through a shared protein within $L$ hops.
-Panel~(a) removes edges at random. With half of the edges gone, 98\% of nodes
-are still in the giant component and 86\% of queries can still be reached by a
-path of any length, but only 41\% keep a two-hop answer. Panel~(b) removes 5\%
-of nodes, either at random or by targeting the highest-degree or
-highest-betweenness nodes. The attacks cost the giant component 6--7
-percentage points more than random removal, but they cost two-hop retrieval
-57--63 points more. The giant component therefore misses most of the functional
-damage, and it understates the extra harm of targeted damage by nearly an order
-of magnitude.
+Figure~\ref{fig:summary} answers the question on the full filtered PrimeKG
+graph of 30,968 drugs, diseases and proteins (Section~\ref{sec:data}). The
+queries are PrimeKG's approved drug indications. They are not part of the graph
+we damage, so they test whether its paths say something true. Panel~(a) follows
+the 1,931 indications whose drug and disease share a protein, and removes edges
+at random. With half of the edges gone, 86\% of nodes are still in the giant
+component and 91\% of these indications are still connected by a path of some
+length, but only 40\% keep their two-hop link. The facts are not lost. They move
+out of reach of a short query.
+
+Panel~(b) shows why the short queries are the ones that matter. A shared protein
+links 31\% of all 6,233 indications but only 14\% of decoy pairs with the same
+distributions of drug and disease degrees. With three hops the ratio falls to
+1.26, with four hops to 1.01, and without a limit almost every pair is
+connected. Short paths carry most of the evidence, and they are the paths that
+damage removes first; even before any damage, 69\% of indications have no
+two-hop path at all. Panel~(c) removes 5\% of nodes. Taking the highest-degree nodes instead of random ones
+costs the giant component about 13 percentage points more, but it costs the
+indications about 70 points more of their two-hop links (83\% against 12\%), a
+loss that comes half through hub diseases and half through routes. The giant component misses most of the
+damage that matters for retrieval.
+
+We began this project expecting a percolation story, in which retrieval, like
+the giant component, would collapse at a critical level of damage. It never did.
+A two-hop query is a small series--parallel circuit, and small circuits have no
+phase transition. That surprise moved us from thresholds to redundancy, and then
+from whether a path survives to what it says.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\linewidth]{act0/fig_summary.pdf}
-  \caption{The main results. (a) Random edge removal: giant component $S$
-  (mean of ten damage orders) and retrieval success $R_L$ with hop limit $L$
-  (mean of 600 independent damage orders). Shading shows the spread of a single
-  damage state (one standard deviation). Dashed lines are the predictions of
-  Section~\ref{sec:theory}, which contain no fitted parameters. (b) Damage after
-  removing 5\% of nodes at random (mean of ten orders) or by a fixed degree or
-  betweenness ranking. The dashed line shows the two-hop loss expected if the
-  same number of nodes were removed blindly.}
+  \caption{The main results, on the full filtered graph with PrimeKG's approved
+  indications as queries. (a) Random edge removal: giant component $S$ (mean of
+  five damage orders) and the share of the 1,931 indications with a two-hop link
+  that remain reachable within $L$ hops (five orders; 500 orders for $L=2$, with
+  shading showing the spread of a single damage state). The dashed line is the
+  exact two-hop formula of Section~\ref{sec:theory}, which has no fitted
+  parameter. (b) Intact graph: share of all 6,233 indications and of
+  degree-preserving decoys with a typed path within $L$ hops. Numbers give the
+  ratio, and black marks the decoy rate expected by chance
+  (Eq.~\eqref{eq:ball}). (c) Loss after removing 5\% of nodes at random (mean of ten orders)
+  or in decreasing order of degree. The dashed line is the two-hop loss expected
+  under blind node removal.}
   \label{fig:summary}
 \end{figure}
 
 \subsection{What explains it}
 
-The course treated connectivity with generating functions and percolation. We
-show that one simple principle covers connectivity and retrieval together. A
-quantity survives damage if at least one of its redundant units survives, so
-its survival probability is one minus the generating function of its redundancy
-distribution, evaluated at the failure probability of one unit
-(Section~\ref{sec:theory}). The three curves in Figure~\ref{fig:summary}a
-differ because they use different units and different redundancy
-distributions:
-\begin{itemize}[leftmargin=*,itemsep=1pt]
-\item nodes have a median of 25 edges, and only 2\% have a single edge;
-\item the median query has a minimum cut of 6 edges between its drug and its
-disease, and 22\% have a cut of one;
-\item half of the queries have exactly one shared protein.
-\end{itemize}
-The principle is exact for two-hop retrieval under blind damage and
-approximate for the other two. It also makes clear where it must fail: when
-damage is aimed at hubs, because many of the redundant units of a query sit on
-hubs.
-Most of the gap between $S$ and $R_2$ is due to the hop limit, not to
-fragmentation of the graph.
-
-\subsection{Contributions}
-
-\begin{enumerate}[leftmargin=*,itemsep=2pt]
-\item \textbf{A common description.} We describe connectivity, unlimited-hop
-reachability and bounded-hop retrieval as the same expression with three
-different redundancy distributions. We separate what is exact from what is
-approximate, and we test every approximation against independent simulations.
-\item \textbf{An explanation of the gap.} At 50\% edge loss, needing both
-endpoints to stay attached costs 12 points, and the two-hop limit costs a
-further 45. Longer horizons move the bottleneck from shared proteins to drug
-target links.
-\item \textbf{An account of targeted damage.} Attacks violate the assumption
-that every unit survives with the same probability. A degree-resolved version of
-the formula reproduces the attacked retrieval rate, and we split the loss into
-lost endpoints and lost routes. We use degree-preserving null models to attribute the excess structural
-fragility, and we check the result on the full filtered graph.
-\item \textbf{A consequence for repair.} The two-hop formula predicts the gains
-of random and relation-type repair without fitting. Through the relation
-types that two-hop routes use, it also explains why restoring drug and disease
-links is the best policy we tested for two-hop retrieval at large budgets.
-\end{enumerate}
-
-\subsection{Beyond the course}
-
-Lectures 6--9 developed percolation on random graphs and on interdependent
-networks. Four ideas in this report go beyond that material.
-\begin{itemize}[leftmargin=*,itemsep=2pt]
-\item Bounded-hop observables are reliability polynomials, in the sense of
-Moore and Shannon \cite{moore1956reliable}. They have no threshold, unlike the
-giant component. Limited-path percolation \cite{lopez2007limited} describes
-the regime between the two.
-\item Degree-preserving null models at increasing levels of constraint
-\cite{maslov2002specificity} can attribute the failure of generating-function
-theory on a real network to specific structure.
-\item Path count is not effective redundancy. Under targeted damage what matters
-is the degree of the node each route passes through.
-\item Correlated test items reduce effective sample size. Because queries share
-drug links, 200 queries behave like about 90 independent ones.
-\end{itemize}
-A typed query needs an edge in each of two relation layers, drug--protein and
-disease--protein. It is therefore a small multiplex object, in the sense of
-Lecture~9, and the best repair policy turns out to be layer-aware.
-
-Section~\ref{sec:data} describes the data, benchmark and damage model, and
-Section~\ref{sec:theory} develops the theory. Sections~\ref{sec:blind}
-and~\ref{sec:targeted} test it under blind and targeted damage,
-Section~\ref{sec:repair} applies it to repair, and Section~\ref{sec:discussion}
-separates what generalizes from what is specific to our sample.
+A quantity survives damage if at least one of its redundant units survives, so
+its survival probability is one minus the generating function of its
+redundancy distribution (Section~\ref{sec:theory}). Far from the percolation
+threshold, where most of our random-damage levels lie, this is elementary: a
+node survives if it keeps an edge, and a two-hop query if one of its routes
+keeps both edges. For two hops the expression is exact, which is why theory and
+simulation agree to Monte Carlo precision; we treat that agreement as a check of
+our code, not as a finding. The physics lies where this counting stops working.
+Chance paths multiply with every step, by a factor of order
+$\langle k^2\rangle/\langle k\rangle$, so only short paths are specific
+(Section~\ref{sec:specificity}). Routes are size-biased towards hubs, so attacks
+on hubs cut far more of them than their number suggests, and the ways in which
+a mean field built on this bias fails reveal that real indications avoid hub
+proteins (Section~\ref{sec:hubs}). A controlled 5,000-node sample of PrimeKG with a
+balanced benchmark of 200 queries lets us test each approximation precisely
+(Section~\ref{sec:sample}). Section~\ref{sec:discussion-general} draws the
+lesson. The hop limit acts as a resolution:
+fine resolution sees specific but fragile structure, coarse resolution sees
+robust structure that says nothing about specific facts. As with the time bin,
+threshold and subsampling that shape measured avalanche exponents in
+self-organized criticality, the horizon, null model and sampling of a robustness
+analysis are part of its result.

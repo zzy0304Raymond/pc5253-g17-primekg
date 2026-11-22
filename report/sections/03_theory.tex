@@ -17,12 +17,18 @@ The low end of the distribution of $X$ controls this expression: objects with
 $X=1$ fail with probability $1-q$, while the tail contributes little.
 Equation~\eqref{eq:principle} applies to our three observables with different
 units, unit survival probabilities and redundancy distributions
-(Table~\ref{tab:principle}, Figure~\ref{fig:redundancy}).
+(Table~\ref{tab:principle}).
+
+Far from the percolation threshold this is elementary: a node survives if it
+keeps an edge, a query if it keeps one intact route. Its use is to identify the
+controlling quantity, the low end of each redundancy distribution, and to give an
+exact baseline; the physics lies where it fails
+(Sections~\ref{sec:theory-chance}--\ref{sec:theory-rinf}).
 
 \begin{table}[!htbp]
 \centering
 \small
-\caption{Three instances of Eq.~\eqref{eq:principle} on the standard graph.
+\caption{Three instances of Eq.~\eqref{eq:principle} on the sample.
 Agreement is the largest difference from the simulation mean over the stated range (ten damage orders for $S$; 5,000 or 600 orders for retrieval).}
 \label{tab:principle}
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth}>{\raggedright\arraybackslash}p{0.13\linewidth}c>{\raggedright\arraybackslash}p{0.11\linewidth}c>{\raggedright\arraybackslash}p{0.31\linewidth}@{}}
@@ -30,21 +36,11 @@ Agreement is the largest difference from the simulation mean over the stated ran
 Observable & Unit & $q$ & $X$ & $\Pr(X=1)$ & Status and agreement \\
 \midrule
 Giant component $S$ & edge of a node & $p$ & degree $k$ & 2.0\% & Approximation, Eq.~\eqref{eq:s-local}; within~0.001 for $f\le0.8$, fails near $p_c$ \\
-Reachability $R_\infty$ & edge of the min cut & $p$ & min cut $\lambda$ & 21.5\% & Approximation; within~0.009 for Eq.~\eqref{eq:rinf} at all $f$, and within~0.005 for Eq.~\eqref{eq:mincut} at $f\le0.8$ \\
+Reachability $R_\infty$ & edge of the weaker endpoint & $p$ & endpoint degree $\lambda$ & 21.5\% & Approximation; within~0.009 (attachment form) at all $f$, and within~0.005 for Eq.~\eqref{eq:mincut} at $f\le0.8$ \\
 Two-hop retrieval $R_2$ & two-edge route & $p^2$ & shared proteins $m$ & 50.0\% & Exact under blind damage, Eq.~\eqref{eq:r2} \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.66\linewidth]{act0/fig_redundancy.pdf}
-  \caption{The three redundancy distributions of Table~\ref{tab:principle}, shown
-  as the fraction of objects with redundancy at least $x$. Nodes almost never
-  depend on a single edge, a fifth of queries depend on a single cut edge, and
-  half of queries depend on a single shared protein.}
-  \label{fig:redundancy}
-\end{figure}
 
 \subsection{Connectivity: percolation and its local limit}
 \label{sec:theory-gf}
@@ -64,7 +60,7 @@ A giant component exists only for $p$ above the Molloy--Reed threshold
 p_c=\frac{\langle k\rangle}{\langle k^2\rangle-\langle k\rangle},
 \label{eq:pc}
 \end{equation}
-which is 0.0053 for the standard graph and 0.0062 for its PPI layer alone.
+which is 0.0053 for the sample (and for the full graph) and 0.0062 for the sample's PPI layer alone.
 
 The damage we study lies far from this threshold, and Eq.~\eqref{eq:gf-bond}
 then simplifies. An edge leads to a node that has, on average, $\langle k^2\rangle/\langle k\rangle-1\approx188$ further edges, so almost every surviving edge leads into the giant component. Then $g_1(u)\approx0$, $u\approx1-p$, and
@@ -72,14 +68,12 @@ then simplifies. An edge leads to a node that has, on average, $\langle k^2\rang
 S\approx1-g_0(1-p),
 \label{eq:s-local}
 \end{equation}
-which is the fraction of nodes that keep at least one edge. This is
-Eq.~\eqref{eq:principle} with the node as the object and its edges as the units.
-For $f\le0.8$, Eqs.~\eqref{eq:gf-bond} and~\eqref{eq:s-local} differ by at most
-0.0012, and Eq.~\eqref{eq:s-local} matches the simulation to within 0.001. Collective
-percolation behavior appears only beyond $f\approx0.95$: at $f=0.99$, the
-simulated $S$ is 0.112, the full equation gives 0.126, and Eq.~\eqref{eq:s-local}
-gives 0.291. Over most of the damage range, connectivity survives for a local
-reason: the typical node has many independent edges.
+the fraction of nodes that keep at least one edge, which is
+Eq.~\eqref{eq:principle} with edges as units. On the sample it matches the
+simulation to within 0.001 for $f\le0.8$; collective percolation behavior
+appears only beyond $f\approx0.95$ (at $f=0.99$ the simulated $S$ is 0.112, the
+full equation gives 0.126 and Eq.~\eqref{eq:s-local} 0.291). Over most of the
+damage range, connectivity survives for a local reason.
 
 \subsection{Two-hop retrieval: an exact reliability polynomial}
 \label{sec:theory-r2}
@@ -102,85 +96,160 @@ needs only its protein:
 R_2^{\mathrm{node}}(\phi)=\phi^2\bigl[1-G_m(1-\phi)\bigr].
 \label{eq:r2-node}
 \end{equation}
-In coding terms, a query is an $m$-fold repetition code whose symbols are
-two-edge routes. In graph terms, $m$ routes close $m-1$ independent cycles, and
-each additional cycle multiplies the failure probability by $1-p^2$. A
-single-path query has no cycle, so $R_2=p^2$.
+A single-path query survives with probability $p^2$, and each additional route
+multiplies the failure probability by $1-p^2$.
 
 Equation~\eqref{eq:r2} is a polynomial in $p$ of fixed degree $2m_{\max}$. It has
-no threshold and does not change as the graph grows. The giant component, by
+no threshold, and its form does not depend on the size of the graph, only on the
+distribution of $m$. The giant component, by
 contrast, depends on an unbounded number of edges and can become singular as
 $N\to\infty$. Our experiments remove a fixed number of edges rather than each
-edge independently. This changes Eq.~\eqref{eq:r2} only at order $1/E$, with
-$E=117{,}891$.
+edge independently. This changes Eq.~\eqref{eq:r2} only at order $1/E$.
 
-\subsection{Unlimited hops: attaching to the protein network}
+Equation~\eqref{eq:r2} is exact, and this is why theory and simulation agree to
+Monte Carlo precision. In reliability theory, $R_L$ for one query is the
+source--terminal diameter-constrained reliability. It can be computed in
+polynomial time for diameter two, which is Eq.~\eqref{eq:r2}, and it is NP-hard
+for diameter three or more \cite{canale2014diameter}, which is why longer
+horizons need approximations. The agreement confirms our code and assumptions;
+it is not evidence for a model of PrimeKG. We use Eq.~\eqref{eq:r2} as a
+baseline: whenever a measured $R_2$ departs from it, an assumption has failed.
+
+Applied to two sets of pairs, Eq.~\eqref{eq:r2} also fixes how well a two-hop
+answer separates them. The ratio of the two success rates runs from
+$\Pr(m\ge1)$ in one set over that in the other at $f=0$ to the ratio of the
+mean redundancies $\langle m\rangle$ as $f\to1$, because
+$1-(1-p^2)^m\approx mp^2$ for small $p$. A set whose pairs have more redundant
+routes therefore becomes relatively more visible as damage grows.
+
+At our presentation we were asked why theory and simulation agreed to the third
+decimal, and we could not say. The answer is that Eq.~\eqref{eq:r2} is exact, so
+the agreement tests our code, not PrimeKG. We made a similar mistake once more,
+presenting a degree-resolved attack formula as a prediction when, for a fixed
+ranking, it only restates which queries the attack hits. The size-biased mean
+field of Section~\ref{sec:theory-mf} is the version that can fail, and does.
+
+
+\subsection{Chance paths}
+\label{sec:theory-chance}
+
+How many typed paths would a drug and a disease have by chance? In a
+configuration model with the same layer degrees, a drug with $k_d$ targets and a
+disease with $k_y$ proteins share on average
+\begin{equation}
+\Lambda_2 = k_d k_y\, c_2,\qquad c_2=\frac{\sum_x k_D(x)\,k_Y(x)}{K_D K_Y}
+\label{eq:cm}
+\end{equation}
+proteins, where $k_D(x)$ and $k_Y(x)$ are the drug and disease degrees of
+protein $x$ and $K_D$ and $K_Y$ are the layer totals. Paths with one
+protein--protein step add $k_d k_y c_3$ with
+$c_3=\sum_x k_D(x)k_x\sum_x k_Y(x)k_x/(K_D K_Y \sum_x k_x)$, where $k_x$ is the
+PPI degree, and each further step multiplies the last term by
+$\kappa_{\mathrm{PPI}}-1$, where $\kappa_{\mathrm{PPI}}=187$ is
+$\langle k^2\rangle/\langle k\rangle$ of the full graph's PPI layer (189 and 190
+for all edges of the sample and of the full graph): a path
+enters a protein through one of its edges and can leave through any of the
+others. On the full graph $c_3/c_2=24$ and the four-hop term is 186 times the
+three-hop one. With $\Lambda_L$ the cumulative expected number of paths of
+length at most $L$, a Poisson approximation gives a chance rate of
+$1-e^{-\Lambda_L}$.
+
+The Poisson step fails when paths come in bundles, for example many three-hop
+paths through the same drug target. A null model that keeps this bundling
+holds fixed the drug's real targets and all proteins within $L-2$
+protein--protein steps of them, the set $B_{L-2}(d)$ (with $B_0(d)$ the targets), and
+gives the disease $k_y$ random protein links, drawn in proportion to the
+disease-layer degree. A typed path of length at most $L$ then exists with
+probability
+\begin{equation}
+1-\bigl(1-w_L\bigr)^{k_y},\qquad w_L=\frac{\sum_{x\in B_{L-2}(d)}k_Y(x)}{K_Y},
+\label{eq:ball}
+\end{equation}
+again with no free parameter. Both models predict the rate at which pairs with
+no real relation are connected, and the gap between them and real indications
+measures how much a path says. A compact measure of that gap follows from the
+Poisson picture. If path counts were Poisson and real pairs had $r_L$ times the
+chance mean, their success rates would obey
+\begin{equation}
+1-R_L^{\mathrm{real}}=\bigl(1-R_L^{\mathrm{chance}}\bigr)^{r_L}.
+\label{eq:excess}
+\end{equation}
+We use Eq.~\eqref{eq:excess} only to define an effective excess factor $r_L$
+from the observed rates, with the decoy rate as $R_L^{\mathrm{chance}}$; it
+equals the ratio of mean path counts only for Poisson counts, and we call
+$r_L-1$ the excess.
+
+\subsection{Targeted damage}
+\label{sec:theory-mf}
+
+In Callaway's treatment \cite{callaway2000network}, a degree attack makes the
+survival of a node depend on its degree: a node of degree $k$ survives with
+probability $\sigma_k$, which is 0 above the attack's cut-off, 1 below it, and
+fractional at the cut-off. For the giant component,
+$F_0(z)=\sum_k p_k\sigma_k z^k$, $F_1(z)=F_0'(z)/\langle k\rangle$,
+$u=1-F_1(1)+F_1(u)$ and $S=F_0(1)-F_0(u)$. For retrieval, we call the
+difference between the blind-damage formula, Eq.~\eqref{eq:r2-node}, and the
+measured success after an attack of the same size the attack penalty.
+
+To predict the penalty, note that a protein $x$ lies on $k_D(x)k_Y(x)$ of the
+graph's drug--protein--disease routes. A route therefore lands on a protein
+with probability proportional to that product, a second-order form of the
+friendship paradox, and routes are biased towards hubs. If the attack removes
+the set $H$, a route is cut with probability $h$, and a query whose endpoints
+survive keeps at least one route with probability $\rho$:
+\begin{equation}
+h=\frac{\sum_{x\in H}k_D(x)k_Y(x)}{\sum_x k_D(x)k_Y(x)},
+\qquad
+\rho\approx1-G_m(h),
+\label{eq:mf}
+\end{equation}
+where $G_m$ is the generating function of $m$ over the queries whose endpoints
+survive and $h$ is computed from the whole graph, not from the queries. This
+mean field makes two assumptions that can fail separately: that the routes of a
+task are typical routes of the graph (selection), and that the routes of one
+query are cut independently (correlation). Section~\ref{sec:hubs-mf}
+tests both, on the full graph and on the sample.
+
+\subsection{Longer horizons}
 \label{sec:theory-rinf}
 
 Without a hop limit, a query succeeds if its drug's surviving targets and its
 disease's surviving proteins are connected through surviving PPI edges. While
 the PPI layer has a giant component, this holds almost whenever both endpoints
-keep at least one link into it. Let $u$ solve Eq.~\eqref{eq:gf-bond} for the PPI
-layer. A protein $x$ of PPI degree $k_x$ is then in the PPI giant component with
-probability $\pi_x=1-u^{k_x}$. An endpoint $a$ with partner proteins
-$\mathcal{N}(a)$ attaches with probability
-$A_a=1-\prod_{x\in\mathcal{N}(a)}(1-p\,\pi_x)$, and
+keep a link into it. Weighting each link by the probability $\pi_x=1-u^{k_x}$
+that its protein of PPI degree $k_x$ lies in the PPI giant component, with $u$
+from Eq.~\eqref{eq:gf-bond}, and treating the two endpoints as independent gives
+an attachment approximation for $R_\infty$; on the sample it is within 0.009 of
+simulation at every damage level. A simpler form follows from the cut structure.
+In a dense core the minimum cut between a drug and a disease is the smaller
+endpoint degree $\lambda$ (true for all 200 queries of the sample, mostly the
+drug's), and while the PPI giant component is intact a query fails essentially
+when that endpoint loses every link:
 \begin{equation}
-R_\infty(p)\approx\frac{1}{|Q|}\sum_{(d,y)\in Q}A_d\,A_y ,
-\label{eq:rinf}
-\end{equation}
-where $Q$ is the set of queries. Equation~\eqref{eq:rinf} treats the two endpoints
-as independent and the PPI layer as tree-like, so it is a genuine approximation.
-
-A simpler form follows from the cut structure. By Menger's theorem, the number
-of edge-disjoint drug--disease paths equals the minimum edge cut $\lambda$. In
-a dense core, $\lambda$ is usually the smaller endpoint degree, and maximum-flow
-computation confirms this for all 200 queries. In 89.5\% of queries the drug's degree is smaller than or equal to the disease's.
-While the PPI giant component is intact, a query fails essentially when its
-weaker endpoint loses every link, so
-\begin{equation}
-R_\infty(p)\approx1-G_\lambda(1-p),
+R_\infty(p)\approx1-G_\lambda(1-p).
 \label{eq:mincut}
 \end{equation}
-which is Eq.~\eqref{eq:rinf} with $\pi_x=1$ and the stronger endpoint assumed
-attached. Menger's theorem only guarantees that $\lambda$ counts edge-disjoint
-paths, and each such path survives with probability well below $p$. The units of
-Eq.~\eqref{eq:principle} here are therefore the weaker endpoint's own edges, not
-the paths. Between $L=2$
-and $L=\infty$ lies limited-path percolation \cite{lopez2007limited}, which has
-no simple closed form. We measure it directly in Section~\ref{sec:blind-horizon}.
 
-\subsection{What is exact, and why agreement can be very close}
-\label{sec:theory-exact}
-
-The three predictions should be judged differently.
-\begin{itemize}[leftmargin=*,itemsep=2pt]
-\item \textbf{Equation~\eqref{eq:r2} is exact} for blind damage on a graph where
-routes share no edge. When it agrees with simulation to Monte Carlo precision,
-that confirms our code and our assumptions. It is not evidence for a model of
-PrimeKG, and a visible disagreement would have signaled a bug. We therefore use
-it as a baseline: whenever the measured $R_2$ departs from it, an assumption has
-failed.
-\item \textbf{Equations~\eqref{eq:gf-bond}, \eqref{eq:rinf}
-and~\eqref{eq:mincut} are approximations.} They neglect correlations, loops and
-the overlap between the two endpoints' neighborhoods. Their agreement with
-simulation is a real test, and so are the regimes where they fail.
-\item \textbf{The informative case is targeted damage.} In Callaway's
-treatment \cite{callaway2000network}, a degree attack does not make units fail
-jointly. It makes their survival depend on degree. A node of degree $k$
-survives with probability $\sigma_k$, which is 0 above the attack's cut-off
-degree, 1 below it, and fractional at the cut-off. For the giant component,
-$F_0(z)=\sum_k p_k\sigma_k z^k$, $F_1(z)=F_0'(z)/\langle k\rangle$,
-$u=1-F_1(1)+F_1(u)$ and $S=F_0(1)-F_0(u)$. For two-hop retrieval, the same
-substitution in Eq.~\eqref{eq:r2-node} gives
+Between $L=2$ and $L=\infty$ lies limited-path percolation
+\cite{lopez2007limited}. López \textit{et al.} ask whether two nodes at distance
+$\ell_0$ keep a path no longer than $a\ell_0$. In a random graph the number of
+paths grows by a factor $\kappa_0-1$ per extra step, with
+$\kappa_0=\langle k^2\rangle/\langle k\rangle$, so a path of length $a\ell_0$
+survives in expectation once $(\kappa_0-1)^{(a-1)\ell_0}p^{a\ell_0}\gtrsim1$. This
+gives the threshold
 \begin{equation}
-R_2^{\mathrm{att}}=\frac{1}{|Q|}\sum_{(d,y)\in Q}\sigma_{k_d}\,\sigma_{k_y}
-\Bigl[1-\prod_{i=1}^{m}\bigl(1-\sigma_{k_{x_i}}\bigr)\Bigr].
-\label{eq:r2-attack}
+\tilde p_c(a)=(\kappa_0-1)^{(1-a)/a}.
+\label{eq:lpp}
 \end{equation}
-For a fixed degree ranking this is almost an identity, because $\sigma_k$ is 0
-or 1 except at the cut-off. Its content is that the outcome depends on the
-degree of each unit, not on the number of units. We call the difference between
-Eq.~\eqref{eq:r2-node} and the measured success the attack penalty. It measures
-how badly the assumption of uniform unit survival fails.
-\end{itemize}
+Our queries have $\ell_0=2$, so $a=L/2$. With $\kappa_0=189$ the predicted
+thresholds are $f=1-\tilde p_c=0.825$ for $L=3$ and $0.927$ for $L=4$. A
+finite query set has no sharp transition, so we compare these values with the
+damage at which $R_L/R_\infty=1/2$, a convention. Equation~\eqref{eq:lpp}
+assumes many longer paths per pair. When the actual numbers $n_2$ and $n_3$ of
+two- and three-hop paths of a pair are known, a local alternative treats each
+path as independent:
+\begin{equation}
+R_3(p)\approx\Bigl\langle1-(1-p^2)^{n_2}(1-p^3)^{n_3}\Bigr\rangle.
+\label{eq:paths}
+\end{equation}
+It neglects that paths share edges, in particular the drug's own edges.

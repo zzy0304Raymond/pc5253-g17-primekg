@@ -1,0 +1,40 @@
+\section{Repair under a Budget (Exploratory)}
+\label{sec:repair}
+
+On the sample we removed 30\% or 50\% of the edges at random (ten orders) and let
+four policies restore 5\%, 10\% or 20\% of the deleted edges: random repair;
+edge betweenness in the intact graph (structural, no labels); relation type,
+which restores only drug--protein and disease--protein edges (layer-aware); and a
+task-aware score counting the broken two-hop routes of training queries that an
+edge alone would complete, which saturates after 31--87 edges. Gains were
+measured on 60 held-out queries (about 27 effective ones; 19 of their 21 drugs
+also appear in training). Random and relation-type gains follow from
+Eq.~\eqref{eq:r2} by changing the edge retention, so they check consistency
+rather than test a model; eleven of twelve lie slightly above the measured
+gains, by at most 1.5 standard errors. As expected from the layers each policy
+restores, relation-type repair is best for two-hop retrieval at a 20\% budget
+(it beats edge betweenness by 6.5 points at $f=0.5$, $P=0.002$, significant after
+a Bonferroni correction for 24 comparisons), while edge betweenness is best or
+tied at $L=3$ and at small budgets (11.0 points at $L=3$, 5\% budget,
+$P=0.001$) and recovers all of the giant component's 1.8 points of headroom by
+a 10\% budget.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption{Gains in percentage points after restoring 20\% of the edges deleted at
+$f=0.5$ (mean $\pm$ SD over ten damage orders). Unrepaired values are 42.3\%
+($R_2$), 83.5\% ($R_3$) and 98.2\% ($S$). The predicted column uses
+Eq.~\eqref{eq:r2}.}
+\label{tab:repair}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Policy & $R_2$ predicted & $R_2$ measured & $R_3$ measured & $S$ measured \\
+\midrule
+Random            & 12.3 & $13.2 \pm 2.8$ & $8.3 \pm 5.8$  & $0.58 \pm 0.11$ \\
+Edge betweenness  & --   & $42.0 \pm 4.0$ & $16.5 \pm 7.1$ & $1.78 \pm 0.13$ \\
+Relation type     & 51.6 & $48.5 \pm 6.7$ & $15.7 \pm 7.3$ & $0.61 \pm 0.13$ \\
+Task-aware        & --   & $24.8 \pm 6.3$ & $12.3 \pm 6.6$ & $0.67 \pm 0.09$ \\
+\bottomrule
+\end{tabular}
+\end{table}
